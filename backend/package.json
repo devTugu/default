@@ -1,0 +1,172 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Production-ready NestJS website template API — Clean Architecture, JWT, RBAC, Drizzle ORM, Redis, MySQL.",
+  "author": "devTugu (Tuguldur Unurtsetseg)",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devTugu/default.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devTugu/default/issues"
+  },
+  "homepage": "https://github.com/devTugu/default#readme",
+  "keywords": [
+    "nestjs",
+    "website",
+    "drizzle",
+    "clean-architecture",
+    "rbac",
+    "jwt",
+    "mysql",
+    "redis",
+    "rest-api",
+    "typescript",
+    "template",
+    "starter"
+  ],
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "dev": "nest start --watch",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "migration:run": "ts-node -r tsconfig-paths/register src/infrastructure/database/run-migrations.ts",
+    "migration:run:prod": "node dist/infrastructure/database/run-migrations.js",
+    "seed": "ts-node -r tsconfig-paths/register src/infrastructure/database/seed/run-seed.ts",
+    "seed:prod": "node dist/infrastructure/database/seed/run-seed.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1068.0",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.3",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/schedule": "^6.1.3",
+    "@nestjs/swagger": "^11.2.6",
+    "@nestjs/terminus": "^11.1.1",
+    "@nestjs/throttler": "^6.5.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.77.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.219.0",
+    "@opentelemetry/resources": "^2.0.1",
+    "@opentelemetry/sdk-node": "^0.219.0",
+    "@opentelemetry/semantic-conventions": "^1.34.0",
+    "@sentry/nestjs": "^10.58.0",
+    "@sentry/node": "^10.58.0",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "compression": "^1.8.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.45.3",
+    "helmet": "^8.1.0",
+    "ioredis": "^5.11.0",
+    "joi": "^18.0.2",
+    "mysql2": "^3.17.5",
+    "nest-winston": "^1.10.2",
+    "nodemailer": "^9.0.1",
+    "openid-client": "^6.6.2",
+    "otplib": "^12.0.1",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.18.0",
+    "@marp-team/marp-cli": "^4.4.0",
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/compression": "^1.8.1",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^22.10.7",
+    "@types/nodemailer": "^8.0.1",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/supertest": "^6.0.2",
+    "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^16.0.0",
+    "jest": "^30.0.0",
+    "prettier": "^3.4.2",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.20.0"
+  },
+  "overrides": {
+    "gaxios": {
+      "uuid": "^11.1.1"
+    },
+    "multer": "^2.2.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^@domain/(.*)$": "<rootDir>/domain/$1",
+      "^@application/(.*)$": "<rootDir>/application/$1",
+      "^@infrastructure/(.*)$": "<rootDir>/infrastructure/$1",
+      "^@presentation/(.*)$": "<rootDir>/presentation/$1",
+      "^@shared/(.*)$": "<rootDir>/shared/$1"
+    },
+    "collectCoverageFrom": [
+      "application/**/*.ts",
+      "domain/**/*.ts",
+      "!**/*.spec.ts",
+      "!domain/**/entities/**"
+    ],
+    "coverageThreshold": {
+      "./src/application/": {
+        "branches": 70,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      },
+      "./src/domain/": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
+  }
+}

@@ -1,0 +1,74 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/website-api:${{ github.ref_name }}
+
+      - name: Trivy scan API image
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/website-api:${{ github.ref_name }}
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+
+      - name: Build Frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/website-frontend:${{ github.ref_name }}
+
+      - name: Trivy scan Frontend image
+        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository }}/website-frontend:${{ github.ref_name }}
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Helm lint and template
+        run: |
+          helm lint backend/deploy/helm/website-stack
+          helm template website-test backend/deploy/helm/website-stack \
+            --set api.enabled=true \
+            --set frontend.enabled=true \
+            --set api.image.tag=${{ github.ref_name }} \
+            --set frontend.image.tag=${{ github.ref_name }} > /dev/null
+
+      - name: Deploy staging (dry-run)
+        if: startsWith(github.ref_name, 'v')
+        run: |
+          helm upgrade --install website-staging backend/deploy/helm/website-stack \
+            --namespace website-staging --create-namespace \
+            --set api.image.tag=${{ github.ref_name }} \
+            --set frontend.image.tag=${{ github.ref_name }} \
+            --dry-run

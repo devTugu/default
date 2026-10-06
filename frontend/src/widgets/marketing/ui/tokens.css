@@ -1,0 +1,91 @@
+:root {
+  --marketing-max-width: 67.5rem; /* 1080px at 16px root */
+  --marketing-indigo: oklch(0.45 0.2 264);
+  --marketing-violet: oklch(0.55 0.22 292);
+  --marketing-navy: oklch(0.22 0.04 264);
+  --marketing-stripe-purple: oklch(0.52 0.24 292);
+  --marketing-gradient-start: oklch(0.62 0.19 264);
+  --marketing-gradient-end: oklch(0.58 0.24 292);
+  /* Stripe mesh ? four wave colors (WebGL + CSS fallback bands) */
+  --marketing-mesh-color-1: #a960ee;
+  --marketing-mesh-color-2: #ff333d;
+  --marketing-mesh-color-3: #90e0ff;
+  --marketing-mesh-color-4: #ffcb57;
+  --marketing-hero-gradient: linear-gradient(
+    135deg,
+    oklch(0.62 0.19 264 / 0.35) 0%,
+    oklch(0.58 0.24 292 / 0.2) 50%,
+    oklch(0.72 0.15 320 / 0.1) 100%
+  );
+  --marketing-ribbon-gradient: linear-gradient(
+    90deg,
+    oklch(0.88 0.16 95) 0%,
+    oklch(0.75 0.2 55) 18%,
+    oklch(0.65 0.24 330) 45%,
+    oklch(0.55 0.22 292) 70%,
+    oklch(0.62 0.18 230) 100%
+  );
+  --marketing-grid-line: oklch(0.922 0 0 / 0.6);
+  --marketing-grid-edge-inset: 10px;
+  --marketing-text-muted: oklch(0.45 0.02 264);
+  --marketing-pill-bg: oklch(0.97 0.01 264);
+  --marketing-surface-muted: oklch(0.97 0.005 264);
+  --marketing-ribbon-stroke-1-start: oklch(0.75 0.2 55);
+  --marketing-ribbon-stroke-1-mid: oklch(0.65 0.24 330);
+  --marketing-ribbon-stroke-1-end: oklch(0.55 0.22 292);
+  --marketing-ribbon-stroke-2-start: oklch(0.78 0.18 70);
+  --marketing-ribbon-stroke-2-mid: oklch(0.68 0.22 350);
+  --marketing-ribbon-stroke-2-end: oklch(0.58 0.2 264);
+  --marketing-wave-warm-start: #ff9a8b;
+  --marketing-wave-warm-mid: #ff6b9d;
+  --marketing-wave-warm-end: #a872ff;
+  --marketing-wave-cool-start: #764ba2;
+  --marketing-wave-cool-mid: #6b7fd7;
+  --marketing-wave-cool-end: #667eea;
+  --marketing-wave-section-bg: #0d1838;
+}
+
+.marketing-stat-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--marketing-wave-warm-start) 0%,
+    var(--marketing-wave-warm-mid) 45%,
+    var(--marketing-wave-warm-end) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark {
+  --marketing-grid-line: oklch(1 0 0 / 8%);
+  --marketing-text-muted: oklch(0.72 0.02 264);
+  --marketing-pill-bg: oklch(0.25 0.02 264);
+  --marketing-surface-muted: oklch(0.18 0.02 264);
+  --marketing-navy: oklch(0.14 0.03 264);
+  --marketing-hero-gradient: linear-gradient(
+    135deg,
+    oklch(0.62 0.19 264 / 0.5) 0%,
+    oklch(0.58 0.24 292 / 0.38) 50%,
+    oklch(0.72 0.15 320 / 0.22) 100%
+  );
+  --marketing-ribbon-gradient: linear-gradient(
+    90deg,
+    oklch(0.82 0.14 95 / 0.8) 0%,
+    oklch(0.7 0.18 55 / 0.75) 18%,
+    oklch(0.6 0.22 330 / 0.7) 45%,
+    oklch(0.52 0.2 292 / 0.65) 70%,
+    oklch(0.58 0.16 230 / 0.6) 100%
+  );
+  --marketing-ribbon-stroke-1-start: oklch(0.65 0.18 55 / 0.7);
+  --marketing-ribbon-stroke-1-mid: oklch(0.55 0.22 330 / 0.6);
+  --marketing-ribbon-stroke-1-end: oklch(0.5 0.2 292 / 0.5);
+  --marketing-ribbon-stroke-2-start: oklch(0.6 0.16 70 / 0.6);
+  --marketing-ribbon-stroke-2-mid: oklch(0.55 0.2 350 / 0.5);
+  --marketing-ribbon-stroke-2-end: oklch(0.5 0.18 264 / 0.5);
+}
+
+@theme inline {
+  --color-marketing-indigo: var(--marketing-indigo);
+  --color-marketing-violet: var(--marketing-violet);
+}

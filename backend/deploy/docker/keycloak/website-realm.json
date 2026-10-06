@@ -1,0 +1,35 @@
+{
+  "realm": "website",
+  "enabled": true,
+  "users": [
+    {
+      "username": "oauth-user",
+      "email": "oauth-user@example.com",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "OAuth123!",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "website-admin",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "website-admin-secret",
+      "redirectUris": [
+        "http://localhost:3000/oauth/callback",
+        "http://127.0.0.1:3000/oauth/callback"
+      ],
+      "webOrigins": ["+"],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "protocol": "openid-connect"
+    }
+  ]
+}

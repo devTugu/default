@@ -1,0 +1,6 @@
+apiVersion: v2
+name: website-stack
+description: Website template API + frontend (NestJS + Next.js foundation)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

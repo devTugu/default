@@ -1,0 +1,62 @@
+global:
+  imagePullPolicy: IfNotPresent
+
+brand:
+  appDisplayName: Website Template
+  mfaIssuer: Website Template Admin
+  nextPublicAppName: Website Template Admin
+  nextPublicBrandName: Website Template
+  nextPublicSiteUrl: https://website.example.com
+
+api:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ghcr.io/devtugu/website-api
+    tag: latest
+  port: 3001
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+frontend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: ghcr.io/devtugu/website-frontend
+    tag: latest
+  port: 3000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+mysql:
+  enabled: true
+  host: mysql
+  port: 3306
+  auth:
+    database: app_db
+    username: app_user
+    password: changeme
+
+redis:
+  enabled: true
+  host: redis
+
+ingress:
+  enabled: true
+  className: nginx
+  host: website.example.com
+  tlsSecretName: website-tls
+
+observability:
+  otelEnabled: true
+  otelEndpoint: http://otel-collector:4318/v1/traces

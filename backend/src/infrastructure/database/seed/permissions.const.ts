@@ -1,0 +1,31 @@
+/** RBAC permission codes used by seed and PermissionsGuard. */
+export const PERMISSION_CODES = [
+  'USER_READ',
+  'USER_CREATE',
+  'USER_UPDATE',
+  'USER_DELETE',
+  'ROLE_READ',
+  'ROLE_CREATE',
+  'ROLE_UPDATE',
+  'ROLE_DELETE',
+  'PERMISSION_READ',
+  'PERMISSION_CREATE',
+  'PERMISSION_UPDATE',
+  'PERMISSION_DELETE',
+  'SITE_SETTING_READ',
+  'SITE_SETTING_UPDATE',
+  'DASHBOARD_READ',
+  'AUDIT_READ',
+] as const;
+
+export const SUPER_ADMIN_ROLE_NAME = 'SUPER_ADMIN';
+export const SITE_EDITOR_ROLE_NAME = 'SITE_EDITOR';
+export const E2E_VIEWER_ROLE_NAME = 'E2E_VIEWER';
+
+export const E2E_VIEWER_PERMISSION_CODES = ['USER_READ'] as const;
+
+export const SITE_EDITOR_PERMISSION_CODES = [
+  'SITE_SETTING_READ',
+  'SITE_SETTING_UPDATE',
+  'DASHBOARD_READ',
+] as const;

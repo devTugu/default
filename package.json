@@ -1,0 +1,32 @@
+{
+  "name": "website-template",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack website template — NestJS API + Next.js (FSD) monorepo",
+  "author": "devTugu (Tuguldur Unurtsetseg)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devTugu/default.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devTugu/default/issues"
+  },
+  "homepage": "https://github.com/devTugu/default#readme",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "test:e2e:backend": "pnpm --filter backend run test:e2e",
+    "test:e2e:frontend": "API_DIR=backend bash frontend/scripts/ci-e2e.sh",
+    "infra:up": "docker compose -f backend/docker-compose.dev.yml up -d",
+    "infra:down": "docker compose -f backend/docker-compose.dev.yml down"
+  }
+}

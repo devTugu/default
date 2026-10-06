@@ -1,0 +1,278 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9.15.9'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter frontend exec node scripts/verify-lightningcss.js
+
+      - run: pnpm lint
+
+      - run: pnpm --filter frontend run typecheck
+
+      - run: pnpm build
+
+      - run: pnpm test
+
+      - run: pnpm --filter backend run test:cov
+
+      - name: Security audit
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+  backend-e2e:
+    runs-on: ubuntu-latest
+    needs: quality
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: app_db
+          MYSQL_USER: app_user
+          MYSQL_PASSWORD: app_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USERNAME: app_user
+      DB_PASSWORD: app_password
+      DB_NAME: app_db
+      NODE_ENV: test
+      APP_PORT: 3001
+      JWT_ACCESS_SECRET: ci_access_secret_minimum_32_characters
+      JWT_REFRESH_SECRET: ci_refresh_secret_minimum_32_chars
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost:3000
+      THROTTLE_TTL: 60
+      THROTTLE_LIMIT: 1000
+      SWAGGER_ENABLED: false
+      REDIS_ENABLED: true
+      REDIS_URL: redis://127.0.0.1:6379
+      PERMISSION_CACHE_TTL_SEC: 60
+      OTEL_ENABLED: false
+      LOG_LEVEL: error
+      MFA_ENCRYPTION_KEY: ci_mfa_encryption_key_minimum_32_chars
+      MFA_ISSUER: Website Template CI
+      MFA_REQUIRED_ROLES: SITE_EDITOR
+      SEED_ADMIN_EMAIL: admin@example.com
+      SEED_ADMIN_PASSWORD: Admin123!
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run migrations and seed
+        run: |
+          for attempt in $(seq 1 30); do
+            if pnpm --filter backend run migration:run; then
+              break
+            fi
+            if [[ "${attempt}" -eq 30 ]]; then
+              echo "Database migrations failed"
+              exit 1
+            fi
+            sleep 2
+          done
+          pnpm --filter backend run seed
+
+      - run: pnpm --filter backend run test:e2e
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Helm lint and template
+        run: |
+          helm lint backend/deploy/helm/website-stack
+          helm template website-test backend/deploy/helm/website-stack \
+            --set api.enabled=true \
+            --set frontend.enabled=true > /dev/null
+
+  frontend-e2e:
+    runs-on: ubuntu-latest
+    needs: quality
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: app_db
+          MYSQL_USER: app_user
+          MYSQL_PASSWORD: app_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      CI: true
+      API_INTERNAL_URL: http://localhost:3001/api/v1
+      E2E_ADMIN_EMAIL: admin@example.com
+      E2E_ADMIN_PASSWORD: Admin123!
+      E2E_VIEWER_EMAIL: viewer@example.com
+      E2E_VIEWER_PASSWORD: Viewer123!
+      MFA_REQUIRED_ROLES: ''
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_USERNAME: app_user
+      DB_PASSWORD: app_password
+      DB_NAME: app_db
+      APP_PORT: 3001
+      JWT_ACCESS_SECRET: ci_access_secret_minimum_32_characters
+      JWT_REFRESH_SECRET: ci_refresh_secret_minimum_32_chars
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost:3000
+      THROTTLE_TTL: 60
+      THROTTLE_LIMIT: 1000
+      SWAGGER_ENABLED: false
+      REDIS_ENABLED: true
+      REDIS_URL: redis://127.0.0.1:6379
+      PERMISSION_CACHE_TTL_SEC: 60
+      OTEL_ENABLED: false
+      LOG_LEVEL: error
+      MFA_ENCRYPTION_KEY: ci_mfa_encryption_key_minimum_32_chars
+      MFA_ISSUER: Website Template CI
+      SEED_ADMIN_EMAIL: admin@example.com
+      SEED_ADMIN_PASSWORD: Admin123!
+      SEED_VIEWER_EMAIL: viewer@example.com
+      SEED_VIEWER_PASSWORD: Viewer123!
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Configure API environment
+        working-directory: backend
+        run: |
+          cat > .env <<'EOF'
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_USERNAME=app_user
+          DB_PASSWORD=app_password
+          DB_NAME=app_db
+          NODE_ENV=production
+          APP_PORT=3001
+          JWT_ACCESS_SECRET=ci_access_secret_minimum_32_characters
+          JWT_REFRESH_SECRET=ci_refresh_secret_minimum_32_chars
+          JWT_ACCESS_EXPIRES_IN=15m
+          JWT_REFRESH_EXPIRES_IN=7d
+          CORS_ORIGIN=http://localhost:3000
+          THROTTLE_TTL=60
+          THROTTLE_LIMIT=1000
+          SWAGGER_ENABLED=false
+          REDIS_ENABLED=true
+          REDIS_URL=redis://127.0.0.1:6379
+          PERMISSION_CACHE_TTL_SEC=60
+          OTEL_ENABLED=false
+          LOG_LEVEL=error
+          SEED_ADMIN_EMAIL=admin@example.com
+          SEED_ADMIN_PASSWORD=Admin123!
+          SEED_VIEWER_EMAIL=viewer@example.com
+          SEED_VIEWER_PASSWORD=Viewer123!
+          MFA_REQUIRED_ROLES=
+          MFA_ENCRYPTION_KEY=ci_mfa_encryption_key_minimum_32_chars
+          MFA_ISSUER=Website Template CI
+          EOF
+
+      - name: Migrate and seed API
+        run: |
+          for attempt in $(seq 1 30); do
+            if pnpm --filter backend run migration:run; then
+              break
+            fi
+            if [[ "${attempt}" -eq 30 ]]; then
+              echo "Database migrations failed"
+              exit 1
+            fi
+            sleep 2
+          done
+          pnpm --filter backend run seed
+
+      - run: pnpm --filter frontend exec playwright install --with-deps chromium
+
+      - run: pnpm --filter frontend run build
+        env:
+          NODE_ENV: production
+
+      - name: Run E2E
+        run: API_DIR=backend bash frontend/scripts/ci-e2e.sh
+        env:
+          NODE_ENV: production

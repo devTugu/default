@@ -1,0 +1,17 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.5
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HTTP_PORT: 8080
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./keycloak/website-realm.json:/opt/keycloak/data/import/website-realm.json:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:8080/health/ready || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 12

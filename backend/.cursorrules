@@ -1,0 +1,810 @@
+# 📁 USER RULES - .cursorrules (Global Settings)
+
+> **Хаана хуулах:** Home directory буюу `~/.cursorrules`  
+> **Зориулалт:** Бүх төсөлд хамаарах ерөнхий дүрмүүд
+
+---
+
+## Core Development Principles
+
+### Code Quality Standards
+- Write clean, maintainable, and self-documenting code
+- Follow SOLID principles strictly
+- Each function performs ONE specific task only
+- Maximum function length: 20-30 lines
+- Maximum file length: 200-300 lines
+- Use meaningful, descriptive names (no abbreviations unless industry-standard)
+- Prefer composition over inheritance
+- Write code that is easy to test and mock
+
+### Architecture Principles
+- Implement proper separation of concerns
+- Use dependency injection
+- Apply design patterns appropriately (Factory, Strategy, Repository, etc.)
+- Maintain clear boundaries between layers
+- Ensure code is framework-agnostic where possible
+- Design for scalability and maintainability
+
+### Code Style
+- Use TypeScript for all JavaScript projects
+- Strict type safety - no `any` types without explicit justification
+- Use `const` by default, `let` only when reassignment is needed
+- Prefer functional programming patterns (immutability, pure functions)
+- Use early returns to reduce nesting
+- Maximum nesting depth: 3 levels
+
+### Testing Requirements
+- Write unit tests for all business logic
+- Aim for 80%+ code coverage
+- Use integration tests for critical paths
+- Follow AAA pattern (Arrange, Act, Assert)
+- Mock external dependencies properly
+- Test edge cases and error scenarios
+
+### Documentation Standards
+- Add JSDoc/TSDoc comments for public APIs
+- Document complex business logic
+- Keep README files up to date
+- Document architectural decisions (ADR pattern)
+- Include setup instructions and environment requirements
+
+### Error Handling
+- Never use silent failures
+- Implement proper error boundaries
+- Use custom error classes for different error types
+- Log errors with appropriate context
+- Return meaningful error messages
+- Handle async errors with try-catch or .catch()
+
+### Performance & Optimization
+- Optimize only when necessary (measure first)
+- Use proper caching strategies
+- Implement pagination for large datasets
+- Lazy load when appropriate
+- Avoid premature optimization
+- Profile and benchmark critical paths
+
+### Security Best Practices
+- Never commit secrets or API keys
+- Use environment variables for configuration
+- Sanitize all user inputs
+- Implement proper authentication and authorization
+- Follow OWASP security guidelines
+- Use HTTPS and secure headers
+
+### Git Workflow
+- Write clear, descriptive commit messages using conventional commits format
+- Keep commits atomic and focused
+- Create feature branches from main/develop
+- Squash commits before merging if necessary
+- Write meaningful PR descriptions
+
+### Naming Conventions
+- Components: PascalCase (UserProfile.tsx)
+- Files: kebab-case (user-profile.service.ts)
+- Variables/Functions: camelCase (getUserData)
+- Constants: UPPER_SNAKE_CASE (MAX_RETRY_COUNT)
+- Interfaces: PascalCase (IUserRepository or UserRepository)
+- Types: PascalCase (UserRole)
+
+### Import Order
+```typescript
+// 1. External libraries
+import React from 'react';
+import { Injectable } from '@nestjs/common';
+
+// 2. Internal absolute imports
+import { Button } from '@/shared/ui';
+import { UserRepository } from '@/domain/repositories';
+
+// 3. Relative imports
+import { validateEmail } from '../utils';
+import styles from './styles.module.css';
+```
+
+### File Organization
+- One component/class per file
+- Group related files in folders
+- Use index files for clean imports
+- Keep test files next to source files
+- Use consistent naming conventions
+
+### Environment Management
+- Use .env files (never commit them)
+- Provide .env.example template
+- Validate environment variables at startup
+- Use different configs for dev/staging/prod
+- Document all required environment variables
+
+### Code Review Checklist
+Before submitting code, verify:
+- [ ] Follows project architecture
+- [ ] Has proper error handling
+- [ ] Includes tests
+- [ ] Has meaningful variable names
+- [ ] No code duplication
+- [ ] Proper TypeScript types
+- [ ] Performance optimized
+- [ ] Security best practices followed
+- [ ] Documentation updated
+- [ ] No console.logs or debugger statements in production code
+# 📁 PROJECT RULES - Backend (NestJS + Clean Architecture)
+
+> **Хаана хуулах:** Backend төслийн root directory `project-root/.cursorrules`  
+> **Зориулалт:** NestJS + Clean Architecture ашигласан төслүүд
+
+---
+
+## Project Structure (Clean Architecture)
+
+```
+src/
+├── domain/                 # Business logic layer (Inner layer)
+│   ├── entities/          # Domain models (pure business objects)
+│   │   ├── user.entity.ts
+│   │   └── order.entity.ts
+│   ├── repositories/      # Repository interfaces
+│   │   └── user.repository.interface.ts
+│   ├── services/          # Domain services (business rules)
+│   │   └── user-validator.service.ts
+│   └── value-objects/     # Value objects
+│       └── email.vo.ts
+├── application/            # Application business rules
+│   ├── use-cases/         # Application use cases
+│   │   ├── create-user/
+│   │   │   ├── create-user.use-case.ts
+│   │   │   └── create-user.dto.ts
+│   │   └── get-user/
+│   ├── dto/               # Data Transfer Objects
+│   └── ports/             # Interfaces for infrastructure
+├── infrastructure/         # External concerns (Outer layer)
+│   ├── database/          # Database configuration
+│   │   ├── typeorm/
+│   │   └── prisma/
+│   ├── repositories/      # Repository implementations
+│   │   └── user.repository.ts
+│   ├── messaging/         # Message queues (RabbitMQ, etc.)
+│   ├── cache/             # Cache implementation (Redis)
+│   ├── email/             # Email service
+│   └── external-api/      # Third-party API integrations
+├── presentation/           # API/Interface layer
+│   ├── http/              # HTTP controllers
+│   │   ├── controllers/
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   ├── filters/
+│   │   └── middlewares/
+│   └── graphql/           # GraphQL resolvers (if using)
+├── shared/                 # Shared utilities
+│   ├── config/            # Configuration
+│   ├── constants/         # Constants
+│   ├── decorators/        # Custom decorators
+│   ├── utils/             # Utility functions
+│   ├── exceptions/        # Custom exceptions
+│   └── types/             # Shared types
+└── main.ts                # Application entry point
+```
+
+## Clean Architecture Principles
+
+### Dependency Rule
+```
+Presentation → Application → Domain ← Infrastructure
+```
+
+**Rules:**
+- Domain layer has NO dependencies on outer layers
+- Application layer depends ONLY on Domain
+- Infrastructure implements Domain interfaces
+- Presentation depends on Application (use cases)
+- Dependencies point INWARD only
+
+## NestJS Module Structure
+
+### Good Module Organization
+```typescript
+// users/users.module.ts
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+// Presentation
+import { UsersController } from './presentation/http/controllers/users.controller';
+
+// Application
+import { CreateUserUseCase } from './application/use-cases/create-user/create-user.use-case';
+import { GetUserUseCase } from './application/use-cases/get-user/get-user.use-case';
+
+// Infrastructure
+import { UserRepository } from './infrastructure/repositories/user.repository';
+import { UserEntity } from './infrastructure/database/entities/user.entity';
+
+// Domain
+import { USER_REPOSITORY } from './domain/repositories/user.repository.interface';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([UserEntity])],
+  controllers: [UsersController],
+  providers: [
+    CreateUserUseCase,
+    GetUserUseCase,
+    {
+      provide: USER_REPOSITORY,
+      useClass: UserRepository,
+    },
+  ],
+  exports: [CreateUserUseCase, GetUserUseCase],
+})
+export class UsersModule {}
+```
+
+## Use Case Pattern
+
+### Example: Create User Use Case
+```typescript
+// application/use-cases/create-user/create-user.use-case.ts
+import { Injectable, Inject } from '@nestjs/common';
+import { USER_REPOSITORY, IUserRepository } from '@/domain/repositories/user.repository.interface';
+import { CreateUserDto } from './create-user.dto';
+import { User } from '@/domain/entities/user.entity';
+
+@Injectable()
+export class CreateUserUseCase {
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
+  ) {}
+
+  async execute(dto: CreateUserDto): Promise<User> {
+    // 1. Validate business rules
+    const existingUser = await this.userRepository.findByEmail(dto.email);
+    if (existingUser) {
+      throw new ConflictException('User already exists');
+    }
+
+    // 2. Create domain entity
+    const user = User.create(dto);
+
+    // 3. Persist
+    return this.userRepository.save(user);
+  }
+}
+```
+
+### DTO with Validation
+```typescript
+// application/use-cases/create-user/create-user.dto.ts
+import { IsEmail, IsString, MinLength, MaxLength } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
+export class CreateUserDto {
+  @ApiProperty({ example: 'john@example.com' })
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({ example: 'John Doe' })
+  @IsString()
+  @MinLength(2)
+  @MaxLength(100)
+  name: string;
+
+  @ApiProperty({ example: 'SecurePass123!' })
+  @IsString()
+  @MinLength(8)
+  password: string;
+}
+```
+
+## Repository Pattern
+
+### Repository Interface (Domain Layer)
+```typescript
+// domain/repositories/user.repository.interface.ts
+import { User } from '../entities/user.entity';
+
+export const USER_REPOSITORY = Symbol('USER_REPOSITORY');
+
+export interface IUserRepository {
+  findById(id: string): Promise<User | null>;
+  findByEmail(email: string): Promise<User | null>;
+  save(user: User): Promise<User>;
+  delete(id: string): Promise<void>;
+  findAll(options?: FindOptions): Promise<User[]>;
+}
+```
+
+### Repository Implementation (Infrastructure Layer)
+```typescript
+// infrastructure/repositories/user.repository.ts
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { IUserRepository } from '@/domain/repositories/user.repository.interface';
+import { User } from '@/domain/entities/user.entity';
+import { UserEntity } from '../database/entities/user.entity';
+
+@Injectable()
+export class UserRepository implements IUserRepository {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly repository: Repository<UserEntity>,
+  ) {}
+
+  async findById(id: string): Promise<User | null> {
+    const entity = await this.repository.findOne({ where: { id } });
+    return entity ? this.toDomain(entity) : null;
+  }
+
+  async save(user: User): Promise<User> {
+    const entity = this.toEntity(user);
+    const saved = await this.repository.save(entity);
+    return this.toDomain(saved);
+  }
+
+  private toDomain(entity: UserEntity): User {
+    return User.from(entity);
+  }
+
+  private toEntity(user: User): UserEntity {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      // ...
+    };
+  }
+}
+```
+
+## Domain Entity
+
+### Pure Domain Model
+```typescript
+// domain/entities/user.entity.ts
+import { v4 as uuid } from 'uuid';
+import * as bcrypt from 'bcrypt';
+
+export class User {
+  private constructor(
+    public readonly id: string,
+    public readonly email: string,
+    public readonly name: string,
+    private passwordHash: string,
+    public readonly createdAt: Date,
+  ) {}
+
+  // Factory method
+  static create(data: { email: string; name: string; password: string }): User {
+    return new User(
+      uuid(),
+      data.email,
+      data.name,
+      bcrypt.hashSync(data.password, 10),
+      new Date(),
+    );
+  }
+
+  // Reconstruct from database
+  static from(data: any): User {
+    return new User(
+      data.id,
+      data.email,
+      data.name,
+      data.passwordHash,
+      data.createdAt,
+    );
+  }
+
+  // Business logic methods
+  validatePassword(password: string): boolean {
+    return bcrypt.compareSync(password, this.passwordHash);
+  }
+
+  updateName(newName: string): void {
+    if (newName.length < 2) {
+      throw new Error('Name too short');
+    }
+    // This would create a new instance in true immutability
+    // For simplicity, we're mutating here
+  }
+}
+```
+
+## Controller Layer
+
+### RESTful Controller
+```typescript
+// presentation/http/controllers/users.controller.ts
+import { Controller, Post, Get, Body, Param, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { CreateUserUseCase } from '@/application/use-cases/create-user/create-user.use-case';
+import { GetUserUseCase } from '@/application/use-cases/get-user/get-user.use-case';
+import { CreateUserDto } from '@/application/use-cases/create-user/create-user.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+
+@ApiTags('users')
+@Controller('users')
+export class UsersController {
+  constructor(
+    private readonly createUserUseCase: CreateUserUseCase,
+    private readonly getUserUseCase: GetUserUseCase,
+  ) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({ status: 201, description: 'User created successfully' })
+  @ApiResponse({ status: 409, description: 'User already exists' })
+  async create(@Body() dto: CreateUserDto) {
+    return this.createUserUseCase.execute(dto);
+  }
+
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get user by ID' })
+  async getById(@Param('id') id: string) {
+    return this.getUserUseCase.execute(id);
+  }
+}
+```
+
+## Database Configuration
+
+### TypeORM Setup
+```typescript
+// infrastructure/database/typeorm/typeorm.config.ts
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+
+export const getTypeOrmConfig = (configService: ConfigService): TypeOrmModuleOptions => ({
+  type: 'postgres',
+  host: configService.get('DB_HOST'),
+  port: configService.get('DB_PORT'),
+  username: configService.get('DB_USERNAME'),
+  password: configService.get('DB_PASSWORD'),
+  database: configService.get('DB_NAME'),
+  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+  synchronize: false, // NEVER true in production
+  logging: configService.get('NODE_ENV') === 'development',
+  ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+});
+```
+
+## Authentication & Authorization
+
+### JWT Strategy
+```typescript
+// presentation/http/strategies/jwt.strategy.ts
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(private configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get('JWT_SECRET'),
+    });
+  }
+
+  async validate(payload: any) {
+    if (!payload.sub) {
+      throw new UnauthorizedException();
+    }
+    return { userId: payload.sub, email: payload.email };
+  }
+}
+```
+
+### Auth Guard
+```typescript
+// presentation/http/guards/jwt-auth.guard.ts
+import { Injectable, ExecutionContext } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Reflector } from '@nestjs/core';
+
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  constructor(private reflector: Reflector) {
+    super();
+  }
+
+  canActivate(context: ExecutionContext) {
+    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
+    if (isPublic) {
+      return true;
+    }
+    return super.canActivate(context);
+  }
+}
+```
+
+## Exception Handling
+
+### Global Exception Filter
+```typescript
+// presentation/http/filters/http-exception.filter.ts
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { Request, Response } from 'express';
+
+@Catch()
+export class AllExceptionsFilter implements ExceptionFilter {
+  catch(exception: unknown, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+
+    const status = exception instanceof HttpException
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
+
+    const message = exception instanceof HttpException
+      ? exception.getResponse()
+      : 'Internal server error';
+
+    response.status(status).json({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      message,
+    });
+  }
+}
+```
+
+## Logging
+
+### Custom Logger Service
+```typescript
+// shared/logger/logger.service.ts
+import { Injectable, LoggerService } from '@nestjs/common';
+import * as winston from 'winston';
+
+@Injectable()
+export class CustomLogger implements LoggerService {
+  private logger: winston.Logger;
+
+  constructor() {
+    this.logger = winston.createLogger({
+      level: process.env.LOG_LEVEL || 'info',
+      format: winston.format.json(),
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple(),
+          ),
+        }),
+      ],
+    });
+  }
+
+  log(message: string, context?: string) {
+    this.logger.info(message, { context });
+  }
+
+  error(message: string, trace?: string, context?: string) {
+    this.logger.error(message, { trace, context });
+  }
+
+  warn(message: string, context?: string) {
+    this.logger.warn(message, { context });
+  }
+
+  debug(message: string, context?: string) {
+    this.logger.debug(message, { context });
+  }
+}
+```
+
+## Testing
+
+### Unit Test Example
+```typescript
+// application/use-cases/create-user/__tests__/create-user.use-case.spec.ts
+import { Test } from '@nestjs/testing';
+import { CreateUserUseCase } from '../create-user.use-case';
+import { USER_REPOSITORY } from '@/domain/repositories/user.repository.interface';
+
+describe('CreateUserUseCase', () => {
+  let useCase: CreateUserUseCase;
+  let userRepository: jest.Mocked<any>;
+
+  beforeEach(async () => {
+    const mockRepository = {
+      findByEmail: jest.fn(),
+      save: jest.fn(),
+    };
+
+    const module = await Test.createTestingModule({
+      providers: [
+        CreateUserUseCase,
+        {
+          provide: USER_REPOSITORY,
+          useValue: mockRepository,
+        },
+      ],
+    }).compile();
+
+    useCase = module.get(CreateUserUseCase);
+    userRepository = module.get(USER_REPOSITORY);
+  });
+
+  it('should create a user successfully', async () => {
+    // Arrange
+    userRepository.findByEmail.mockResolvedValue(null);
+    userRepository.save.mockResolvedValue({ id: '1', email: 'test@example.com' });
+
+    // Act
+    const result = await useCase.execute({
+      email: 'test@example.com',
+      name: 'Test User',
+      password: 'password123',
+    });
+
+    // Assert
+    expect(result).toBeDefined();
+    expect(userRepository.save).toHaveBeenCalled();
+  });
+
+  it('should throw error if user already exists', async () => {
+    // Arrange
+    userRepository.findByEmail.mockResolvedValue({ id: '1' });
+
+    // Act & Assert
+    await expect(
+      useCase.execute({
+        email: 'existing@example.com',
+        name: 'Test',
+        password: 'pass',
+      })
+    ).rejects.toThrow();
+  });
+});
+```
+
+### Integration Test Example
+```typescript
+// test/integration/users.e2e-spec.ts
+import { Test } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { AppModule } from '@/app.module';
+
+describe('Users (e2e)', () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
+
+  it('/users (POST) - should create user', () => {
+    return request(app.getHttpServer())
+      .post('/users')
+      .send({
+        email: 'test@example.com',
+        name: 'Test User',
+        password: 'password123',
+      })
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.id).toBeDefined();
+        expect(res.body.email).toBe('test@example.com');
+      });
+  });
+});
+```
+
+## Configuration Management
+
+### Environment Validation
+```typescript
+// shared/config/env.validation.ts
+import { plainToClass } from 'class-transformer';
+import { IsString, IsNumber, validateSync } from 'class-validator';
+
+class EnvironmentVariables {
+  @IsString()
+  NODE_ENV: string;
+
+  @IsNumber()
+  PORT: number;
+
+  @IsString()
+  DB_HOST: string;
+
+  @IsNumber()
+  DB_PORT: number;
+
+  @IsString()
+  JWT_SECRET: string;
+}
+
+export function validate(config: Record<string, unknown>) {
+  const validatedConfig = plainToClass(EnvironmentVariables, config, {
+    enableImplicitConversion: true,
+  });
+
+  const errors = validateSync(validatedConfig, {
+    skipMissingProperties: false,
+  });
+
+  if (errors.length > 0) {
+    throw new Error(errors.toString());
+  }
+  return validatedConfig;
+}
+```
+
+## API Documentation (Swagger)
+
+### Main.ts Setup
+```typescript
+// main.ts
+import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // Global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  // CORS
+  app.enableCors();
+
+  // Swagger documentation
+  const config = new DocumentBuilder()
+    .setTitle('API Documentation')
+    .setDescription('Enterprise API documentation')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
+  await app.listen(process.env.PORT || 3000);
+}
+bootstrap();
+```
+
+## Technology Stack
+
+**Required:**
+- NestJS 10+
+- TypeScript
+- Node.js 18+
+
+**Database (Choose one):**
+- PostgreSQL + TypeORM
+- PostgreSQL + Prisma
+- MongoDB + Mongoose
+
+**Recommended:**
+- Validation: class-validator + class-transformer
+- Documentation: @nestjs/swagger
+- Authentication: @nestjs/passport + passport-jwt
+- Testing: Jest
+- Logging: Winston or Pino
+- Cache: Redis
+- Message Queue: RabbitMQ or Bull

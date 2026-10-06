@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "website-stack.fullname" . }}-api
+  labels:
+    app.kubernetes.io/name: website-api
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: website-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: website-api
+    spec:
+      serviceAccountName: {{ include "website-stack.serviceAccountName" . }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        readOnlyRootFilesystem: true
+      containers:
+        - name: api
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.api.port }}
+          envFrom:
+            - secretRef:
+                name: {{ include "website-stack.fullname" . }}-api-secrets
+            - configMapRef:
+                name: {{ include "website-stack.fullname" . }}-api-config
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health/live
+              port: {{ .Values.api.port }}
+            initialDelaySeconds: 20
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health/ready
+              port: {{ .Values.api.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
