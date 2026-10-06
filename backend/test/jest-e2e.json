@@ -16,6 +16,7 @@
     "^@shared/(.*)$": "<rootDir>/../src/shared/$1"
   },
   "transformIgnorePatterns": [
+    "node_modules/.pnpm/(?!(uuid@|openid-client@|oauth4webapi@))",
     "node_modules/(?!uuid|openid-client|oauth4webapi/)"
   ]
 }
