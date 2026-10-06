@@ -48,8 +48,9 @@ EOF
   export NEXT_PUBLIC_OAUTH_ENABLED=true
 fi
 
-export MFA_REQUIRED_ROLES="${MFA_REQUIRED_ROLES:-}"
-echo "MFA_REQUIRED_ROLES=${MFA_REQUIRED_ROLES}" >> "${API_PATH}/.env"
+if [[ -n "${MFA_REQUIRED_ROLES:-}" ]]; then
+  echo "MFA_REQUIRED_ROLES=${MFA_REQUIRED_ROLES}" >> "${API_PATH}/.env"
+fi
 
 echo "Building API for E2E..."
 pnpm --filter backend run build

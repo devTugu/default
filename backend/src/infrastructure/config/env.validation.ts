@@ -62,7 +62,7 @@ export const envValidationSchema = Joi.object({
   APP_DISPLAY_NAME: Joi.string().default('Website Template'),
   MFA_ISSUER: Joi.string().default('Website Template Admin'),
   MFA_ENCRYPTION_KEY: Joi.string().min(32).optional(),
-  MFA_REQUIRED_ROLES: Joi.string().default('SUPER_ADMIN'),
+  MFA_REQUIRED_ROLES: Joi.string().allow('').default('SUPER_ADMIN'),
 
   JWT_ACCESS_SECRET: Joi.string().min(32).required(),
   JWT_REFRESH_SECRET: Joi.string().min(32).required(),

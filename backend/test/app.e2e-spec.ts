@@ -136,9 +136,9 @@ describe('Admin foundation (e2e)', () => {
     await app.close();
   });
 
-  it('GET /api/v1/admin/dashboard returns 200 for admin', () => {
+  it('GET /api/v1/admin/dashboard/stats returns 200 for admin', () => {
     return request(app.getHttpServer())
-      .get('/api/v1/admin/dashboard')
+      .get('/api/v1/admin/dashboard/stats')
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
   });
