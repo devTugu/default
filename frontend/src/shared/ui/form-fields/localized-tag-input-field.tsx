@@ -12,10 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
+} from '@default/ui/primitives/form';
+import { Input } from '@default/ui/primitives/input';
+import { Badge } from '@default/ui/primitives/badge';
+import { Button } from '@default/ui/primitives/button';
 
 interface LocalizedTagInputFieldProps<T extends FieldValues> {
   control: Control<T>;

@@ -1,11 +1,26 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
-  "setupFiles": ["<rootDir>/e2e-env.ts"],
+  "setupFiles": [
+    "<rootDir>/e2e-env.ts"
+  ],
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
+    "^.+\\.ts$": [
+      "ts-jest",
+      {
+        "diagnostics": {
+          "ignoreCodes": [
+            151002
+          ]
+        }
+      }
+    ]
   },
   "moduleNameMapper": {
     "^openid-client$": "<rootDir>/__mocks__/openid-client.ts",

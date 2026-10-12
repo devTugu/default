@@ -1,0 +1,39 @@
+{
+  "name": "@default/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./lib/cn": "./src/lib/cn.ts",
+    "./primitives/*": "./src/primitives/*.tsx",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit && node ../../scripts/stamp-dist.mjs",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@default/design-tokens": "workspace:*",
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.555.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.77.0",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@default/tsconfig": "workspace:*",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "name": "@default/utils",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./dates": {
+      "types": "./dist/dates.d.ts",
+      "require": "./dist/dates.js",
+      "import": "./src/dates.ts",
+      "default": "./src/dates.ts"
+    },
+    "./reading-time": {
+      "types": "./dist/reading-time.d.ts",
+      "require": "./dist/reading-time.js",
+      "import": "./src/reading-time.ts",
+      "default": "./src/reading-time.ts"
+    },
+    "./color": {
+      "types": "./dist/color.d.ts",
+      "require": "./dist/color.js",
+      "import": "./src/color.ts",
+      "default": "./src/color.ts"
+    },
+    "./localized": {
+      "types": "./dist/localized.d.ts",
+      "require": "./dist/localized.js",
+      "import": "./src/localized.ts",
+      "default": "./src/localized.ts"
+    },
+    "./slug": {
+      "types": "./dist/slug.d.ts",
+      "require": "./dist/slug.js",
+      "import": "./src/slug.ts",
+      "default": "./src/slug.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "dates": ["./dist/dates.d.ts"],
+      "reading-time": ["./dist/reading-time.d.ts"],
+      "color": ["./dist/color.d.ts"],
+      "localized": ["./dist/localized.d.ts"],
+      "slug": ["./dist/slug.d.ts"]
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@default/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@default/tsconfig": "workspace:*",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

@@ -2,14 +2,14 @@
 
 import type { Table } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/ui/select';
+} from '@default/ui/primitives/select';
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;

@@ -35,7 +35,8 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 0",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -50,6 +51,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1068.0",
+    "@default/types": "workspace:*",
+    "@default/utils": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
@@ -68,8 +71,6 @@
     "@sentry/nestjs": "^10.58.0",
     "@sentry/node": "^10.58.0",
     "bcrypt": "^6.0.0",
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.3",
     "compression": "^1.8.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.45.3",
@@ -78,6 +79,7 @@
     "joi": "^18.0.2",
     "mysql2": "^3.17.5",
     "nest-winston": "^1.10.2",
+    "nestjs-zod": "^5.5.0",
     "nodemailer": "^9.0.1",
     "openid-client": "^6.6.2",
     "otplib": "^12.0.1",
@@ -87,9 +89,11 @@
     "rxjs": "^7.8.1",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.1",
-    "winston": "^3.19.0"
+    "winston": "^3.19.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@default/eslint-config": "workspace:*",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@marp-team/marp-cli": "^4.4.0",
@@ -137,7 +141,16 @@
     "rootDir": "src",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "diagnostics": {
+            "ignoreCodes": [
+              151002
+            ]
+          }
+        }
+      ]
     },
     "moduleNameMapper": {
       "^@domain/(.*)$": "<rootDir>/domain/$1",

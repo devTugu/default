@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import type { CreateRoleInput } from '@default/types/role';
 import { IRoleRepository } from '@domain/authorization/repositories/role.repository.interface';
 import { AppErrors } from '@application/exceptions/application.exception';
 import { ROLE_REPOSITORY } from '@shared/constants/tokens';
@@ -9,11 +10,7 @@ export class CreateRoleUseCase {
     @Inject(ROLE_REPOSITORY) private readonly roles: IRoleRepository,
   ) {}
 
-  async execute(input: {
-    name: string;
-    description?: string;
-    permissionIds?: number[];
-  }) {
+  async execute(input: CreateRoleInput) {
     const name = input.name.toUpperCase();
     if (await this.roles.nameExists(name)) {
       throw AppErrors.CONFLICT('Role name already exists.');

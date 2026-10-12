@@ -1,0 +1,52 @@
+/* Hand-written marketing aliases & utilities — token colors from @default/design-tokens */
+
+:root {
+  --marketing-hero-gradient: linear-gradient(
+    135deg,
+    oklch(0.62 0.19 264 / 0.35) 0%,
+    oklch(0.58 0.24 292 / 0.2) 50%,
+    oklch(0.72 0.15 320 / 0.1) 100%
+  );
+  --marketing-ribbon-gradient: linear-gradient(
+    90deg,
+    oklch(0.88 0.16 95) 0%,
+    oklch(0.75 0.2 55) 18%,
+    oklch(0.65 0.24 330) 45%,
+    oklch(0.55 0.22 292) 70%,
+    oklch(0.62 0.18 230) 100%
+  );
+}
+
+.dark {
+  --marketing-hero-gradient: linear-gradient(
+    135deg,
+    oklch(0.62 0.19 264 / 0.5) 0%,
+    oklch(0.58 0.24 292 / 0.38) 50%,
+    oklch(0.72 0.15 320 / 0.22) 100%
+  );
+  --marketing-ribbon-gradient: linear-gradient(
+    90deg,
+    oklch(0.82 0.14 95 / 0.8) 0%,
+    oklch(0.7 0.18 55 / 0.75) 18%,
+    oklch(0.6 0.22 330 / 0.7) 45%,
+    oklch(0.52 0.2 292 / 0.65) 70%,
+    oklch(0.58 0.16 230 / 0.6) 100%
+  );
+}
+
+.marketing-stat-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--marketing-wave-warm-start) 0%,
+    var(--marketing-wave-warm-mid) 45%,
+    var(--marketing-wave-warm-end) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@theme inline {
+  --color-marketing-indigo: var(--marketing-indigo);
+  --color-marketing-violet: var(--marketing-violet);
+}

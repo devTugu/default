@@ -1,0 +1,26 @@
+{
+  "name": "@default/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tokens.css": "./src/tokens.css",
+    "./theme": {
+      "types": "./src/theme.ts",
+      "default": "./src/theme.ts"
+    },
+    "./tokens.json": "./tokens.json"
+  },
+  "scripts": {
+    "generate": "tsx scripts/generate.ts",
+    "build": "pnpm generate && node ../../scripts/stamp-dist.mjs",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@default/tsconfig": "workspace:*",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

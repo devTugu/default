@@ -4,7 +4,7 @@ import { PasswordPolicy } from '@domain/user/value-objects/password-policy.vo';
 import { IUserRepository } from '@domain/user/repositories/user.repository.interface';
 import { IPasswordHasher } from '@application/ports/password-hasher.port';
 import { AppErrors } from '@application/exceptions/application.exception';
-import { UserOutput } from '@application/dto/user.dto';
+import { CreateUserInput, UserOutput } from '@application/dto/user.dto';
 import { toUserOutput } from '@application/dto/user-output.mapper';
 import { USER_REPOSITORY, PASSWORD_HASHER } from '@shared/constants/tokens';
 
@@ -15,11 +15,7 @@ export class CreateUserUseCase {
     @Inject(PASSWORD_HASHER) private readonly hasher: IPasswordHasher,
   ) {}
 
-  async execute(input: {
-    email: string;
-    password: string;
-    isActive?: boolean;
-  }): Promise<UserOutput> {
+  async execute(input: CreateUserInput): Promise<UserOutput> {
     try {
       PasswordPolicy.validate(input.password);
     } catch (error) {

@@ -16,7 +16,7 @@ import { useAuthPermissions } from '@/features/auth';
 import { useAuthStore } from '@/features/auth/model/store';
 import { PERMISSION_CODES } from '@/shared/config/permissions';
 import { ROUTES } from '@/shared/config/routes';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import {
   Card,
   CardAction,
@@ -24,9 +24,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
-import { Separator } from '@/shared/ui/separator';
-import { Skeleton } from '@/shared/ui/skeleton';
+} from '@default/ui/primitives/card';
+import { Separator } from '@default/ui/primitives/separator';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 import type { AppMessages } from '@/shared/i18n/messages';
 import { cn } from '@/shared/lib/utils';
 

@@ -4,7 +4,7 @@ import { RequirePermission } from '@/features/auth';
 import { PermissionsTable } from '@/features/permissions';
 import { PERMISSION_CODES } from '@/shared/config/permissions';
 import { AdminPageHeader } from '@/widgets/admin-page-header';
-import { Skeleton } from '@/shared/ui/skeleton';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 
 export default async function PermissionsPage() {
   const tNav = await getTranslations('nav');

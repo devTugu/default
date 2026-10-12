@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
-import { Textarea } from '@/shared/ui/textarea';
+} from '@default/ui/primitives/form';
+import { Textarea } from '@default/ui/primitives/textarea';
 
 interface LocalizedTextareaFieldProps<T extends FieldValues> {
   control: Control<T>;

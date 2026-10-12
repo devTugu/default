@@ -1,11 +1,8 @@
-import {
-  INestApplication,
-  ValidationPipe,
-  VersioningType,
-} from '@nestjs/common';
+import { INestApplication, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import { ZodValidationPipe } from 'nestjs-zod';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const compression = require('compression') as typeof import('compression');
 
@@ -27,14 +24,7 @@ export function configureApp(
     defaultVersion: '1',
   });
   expressApp.setGlobalPrefix('api');
-  expressApp.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      transformOptions: { enableImplicitConversion: true },
-    }),
-  );
+  expressApp.useGlobalPipes(new ZodValidationPipe());
 
   if (enableSecurityMiddleware) {
     expressApp.use(helmet());

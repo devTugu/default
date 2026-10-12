@@ -5,7 +5,7 @@ import { MotionConfig } from 'framer-motion';
 import { ThemeProvider } from 'next-themes';
 import { useState, type ReactNode } from 'react';
 import { Toaster } from '@/shared/ui/sonner';
-import { TooltipProvider } from '@/shared/ui/tooltip';
+import { TooltipProvider } from '@default/ui/primitives/tooltip';
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(

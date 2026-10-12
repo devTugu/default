@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import type { ApiError, ApiErrorEnvelope } from './types';
 
 const extractMessage = (
-  message: string | Record<string, unknown>
+  message: string | Record<string, unknown>,
 ): string => {
   if (typeof message === 'string') return message;
   if (Array.isArray(message)) return message.join(', ');
@@ -21,6 +21,7 @@ export const handleApiError = (error: unknown): ApiError => {
         message: extractMessage(envelope.error.message),
         statusCode: error.response?.status ?? 500,
         code: envelope.error.code,
+        details: envelope.error.details,
       };
     }
     return {

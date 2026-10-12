@@ -1,67 +1,35 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, MinLength } from 'class-validator';
+import {
+  LoginCredentialsSchema,
+  MfaCodeInputSchema,
+  MfaEnrollmentConfirmSchema,
+  MfaEnrollmentTokenSchema,
+  MfaLoginSchema,
+  OAuthCallbackSchema,
+  RefreshTokenSchema,
+} from '@default/types/auth';
+import { createZodDto } from 'nestjs-zod';
 
-export class LoginDto {
-  @ApiProperty({ example: 'admin@example.com' })
-  @IsEmail()
-  email: string;
+/** HTTP bodies reject unknown keys (parity with former `forbidNonWhitelisted`). */
+export class LoginDto extends createZodDto(LoginCredentialsSchema.strict()) {}
 
-  @ApiProperty({ example: 'Admin123!' })
-  @IsString()
-  @MinLength(8)
-  password: string;
-}
+export class RefreshDto extends createZodDto(RefreshTokenSchema.strict()) {}
 
-export class RefreshDto {
-  @ApiProperty()
-  @IsString()
-  refreshToken: string;
-}
+export class MfaLoginDto extends createZodDto(MfaLoginSchema.strict()) {}
 
-export class MfaLoginDto {
-  @ApiProperty()
-  @IsString()
-  mfaToken: string;
+export class MfaVerifyEnrollDto extends createZodDto(
+  MfaCodeInputSchema.strict(),
+) {}
 
-  @ApiProperty()
-  @IsString()
-  @MinLength(6)
-  code: string;
-}
+export class MfaDisableDto extends createZodDto(MfaCodeInputSchema.strict()) {}
 
-export class MfaVerifyEnrollDto {
-  @ApiProperty()
-  @IsString()
-  @MinLength(6)
-  code: string;
-}
+export class MfaEnrollmentTokenDto extends createZodDto(
+  MfaEnrollmentTokenSchema.strict(),
+) {}
 
-export class MfaDisableDto {
-  @ApiProperty()
-  @IsString()
-  @MinLength(6)
-  code: string;
-}
+export class MfaEnrollmentConfirmDto extends createZodDto(
+  MfaEnrollmentConfirmSchema.strict(),
+) {}
 
-export class MfaEnrollmentTokenDto {
-  @ApiProperty()
-  @IsString()
-  enrollmentToken: string;
-}
-
-export class MfaEnrollmentConfirmDto {
-  @ApiProperty()
-  @IsString()
-  enrollmentToken: string;
-
-  @ApiProperty()
-  @IsString()
-  @MinLength(6)
-  code: string;
-}
-
-export class OAuthCallbackDto {
-  @ApiProperty({ description: 'Full callback URL from IdP redirect' })
-  @IsString()
-  callbackUrl: string;
-}
+export class OAuthCallbackDto extends createZodDto(
+  OAuthCallbackSchema.strict(),
+) {}

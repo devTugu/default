@@ -13,7 +13,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/shared/ui/alert-dialog';
+} from '@default/ui/primitives/alert-dialog';
 
 const WARNING_BEFORE_MS = 2 * 60 * 1000;
 

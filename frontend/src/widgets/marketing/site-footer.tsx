@@ -4,7 +4,7 @@ import { pickLocalized } from '@/shared/lib/pick-localized';
 import type { Locale } from '@/shared/i18n/config';
 import { Container, Section } from '@/widgets/marketing/ui';
 import { LocaleSwitcher } from '@/shared/i18n/locale-switcher';
-import { Separator } from '@/shared/ui/separator';
+import { Separator } from '@default/ui/primitives/separator';
 import Link from 'next/link';
 
 interface SiteFooterProps {

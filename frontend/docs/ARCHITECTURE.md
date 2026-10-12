@@ -1,6 +1,15 @@
 # Architecture
 
-Next.js **Feature-Sliced Design (FSD)** + **BFF** auth.
+Next.js **Feature-Sliced Design (FSD)** + **BFF** auth. Agent rules: `.cursor/rules/frontend-data.mdc`, `design-system.mdc`.
+
+## Shared packages
+
+```text
+@default/types → @default/api → @default/hooks → features|widgets UI
+@default/design-tokens → @default/ui → UI
+```
+
+i18n stays in `src/shared/i18n` (app-local). BFF cookie/proxy stays in `app/api/*` + `src/shared/lib/bff-*`.
 
 ## Layers
 
@@ -8,8 +17,8 @@ Next.js **Feature-Sliced Design (FSD)** + **BFF** auth.
 app/           # App Router (routes, layouts, API routes)
 widgets/       # Composed UI (sidebar, marketing sections)
 features/      # User interactions (auth, site-settings, MFA)
-entities/      # Models + API clients
-shared/        # Config, UI kit, i18n, utilities
+entities/      # Thin models / entity UI (data hooks in @default/hooks)
+shared/        # Config, BFF helpers, app-local i18n
 processes/     # Providers, proxy / middleware
 ```
 

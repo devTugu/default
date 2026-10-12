@@ -1,0 +1,73 @@
+---
+description: Clean code — naming, structure, and the limits ESLint cannot judge
+alwaysApply: true
+---
+
+# Clean code
+
+Readable, small units. Architecture → `project-core.mdc`, `clean-architecture.mdc`.
+
+Size and complexity limits are ESLint **errors** in `@default/eslint-config` `clean-code` (`packages/config/eslint-config/clean-code.js`). Blank lines and comments are skipped. Do not raise the limits to silence a violation — split the unit. Nest DI constructors, specs, and vendored shadcn (e.g. sidebar) may use documented app eslint overrides.
+
+| Unit | Rule | Max |
+|------|------|-----|
+| Function / method | `max-lines-per-function` | 80 |
+| Source file | `max-lines` | 300 |
+| React component (`.tsx` / `.jsx` function) | `max-lines-per-function` | 150 |
+| Class file | `max-lines` (one class per file) | 300 |
+| Params | `max-params` | 4 |
+| Nesting depth | `max-depth` | 4 |
+| Cyclomatic complexity | `complexity` | 15 |
+| Nested callbacks | `max-nested-callbacks` | 3 |
+| `else` after `return` | `no-else-return` | error |
+| `console.log` | `no-console` (`warn` / `error` allowed) | error |
+
+Also enforced elsewhere:
+
+| Rule | Where |
+|------|--------|
+| unused vars (`_` ok) | base / app eslint |
+| `@typescript-eslint/no-explicit-any` | typescript-eslint |
+| FSD `boundaries` | frontend eslint |
+| Prettier | app eslint |
+
+Split by **responsibility**, not arbitrary cuts:
+
+```text
+✅ create-user.use-case.ts + list-users.use-case.ts
+✅ UserManageSheet.tsx + useUserManageForms.ts
+✅ useLoginForm.ts (UI state) — data stays in @default/hooks
+❌ utils.ts mega-file / helpers.ts grab-bag
+❌ one 160-line page with all sections inline
+```
+
+One file ≈ one main export (plus small private helpers). Barrel `index.ts` re-exports only.
+
+## Style
+
+Early `return` (`no-else-return`), no `console.log`, no `any` (`unknown` + narrow). Don’t disable a rule to hide a violation.
+
+## Naming & casing
+
+| What | Case | Example |
+|------|------|---------|
+| Folders | **kebab-case** | `site-settings/`, `audit-log/` |
+| Nest / package source files | **kebab-case** + role suffix | `create-user.use-case.ts` |
+| React feature/shared components | **PascalCase** | `UserManageSheet.tsx` |
+| Hook files | **camelCase** `use*` | `useUsers.ts` |
+| Next.js App Router special files | framework names | `page.tsx`, `route.ts` |
+| Variables / functions | **camelCase** | `activeUsers` |
+| Classes / types / interfaces | **PascalCase** | `CreateUserUseCase` |
+| Constants | **SCREAMING_SNAKE** | `MAX_OTP_ATTEMPTS` |
+| CSS variables / tokens | **kebab-case** | `--primary-foreground` |
+| Env vars | **SCREAMING_SNAKE** | `DATABASE_URL` |
+| Package names | **@default/** + kebab | `@default/api` |
+| DB tables / columns (Drizzle) | **snake_case** | `refresh_tokens` |
+
+## Errors
+
+Fail fast; no empty `catch`. Rethrow/log with context.
+
+## DRY / YAGNI / KISS
+
+Extract after real duplication (2–3+ call sites). Simplest correct solution first.

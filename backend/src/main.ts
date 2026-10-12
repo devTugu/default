@@ -3,6 +3,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { cleanupOpenApiDoc } from 'nestjs-zod';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 import { initTracing } from '@infrastructure/observability/tracing';
@@ -43,7 +44,9 @@ async function bootstrap() {
       )
       .build();
 
-    const document = SwaggerModule.createDocument(app, swaggerConfig);
+    const document = cleanupOpenApiDoc(
+      SwaggerModule.createDocument(app, swaggerConfig),
+    );
     SwaggerModule.setup('docs', app, document, {
       swaggerOptions: { persistAuthorization: true },
     });

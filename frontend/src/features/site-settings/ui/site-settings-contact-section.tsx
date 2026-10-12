@@ -8,15 +8,15 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@default/ui/primitives/card';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
-import { Switch } from '@/shared/ui/switch';
+} from '@default/ui/primitives/form';
+import { Input } from '@default/ui/primitives/input';
+import { Switch } from '@default/ui/primitives/switch';
 import type { SiteSettingsFormValues } from './site-settings-form.utils';
 
 interface SiteSettingsContactSectionProps {

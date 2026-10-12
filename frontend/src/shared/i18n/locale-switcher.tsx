@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { locales, defaultLocale, type Locale } from '@/shared/i18n/config';
 import { setLocaleCookie } from '@/shared/lib/locale-cookie';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import { cn } from '@/shared/lib/utils';
 
 interface LocaleSwitcherProps {

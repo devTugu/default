@@ -1,0 +1,14 @@
+{
+  "name": "@default/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./base": "./base.json",
+    "./library.json": "./library.json",
+    "./library": "./library.json",
+    "./react-library.json": "./react-library.json",
+    "./react-library": "./react-library.json"
+  },
+  "files": ["base.json", "library.json", "react-library.json"]
+}

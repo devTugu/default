@@ -14,7 +14,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/shared/ui/alert-dialog';
+} from '@default/ui/primitives/alert-dialog';
 
 interface UserDeleteDialogProps {
   user: UserOutput | null;

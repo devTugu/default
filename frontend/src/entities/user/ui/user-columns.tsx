@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
-import { Badge } from '@/shared/ui/badge';
+import { Badge } from '@default/ui/primitives/badge';
 import { useFormatDate } from '@/shared/i18n/use-format-date';
 import type { UserOutput } from '../types/user';
 

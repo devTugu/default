@@ -1,6 +1,8 @@
-export { axiosInstance, default } from './axiosInstance';
-export { api } from './client';
-export { handleApiError, getErrorMessage } from './errorHandler';
+import "./wire";
+
+export { axiosInstance, default } from "./axiosInstance";
+export { api } from "./client";
+export { handleApiError, getErrorMessage } from "./errorHandler";
 export type {
   ApiError,
   ApiEnvelope,
@@ -8,4 +10,4 @@ export type {
   PaginatedResult,
   TokenPair,
   ListQueryParams,
-} from './types';
+} from "./types";

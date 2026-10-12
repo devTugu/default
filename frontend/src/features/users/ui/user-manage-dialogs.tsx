@@ -11,8 +11,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/shared/ui/alert-dialog";
-import { Input } from "@/shared/ui/input";
+} from "@default/ui/primitives/alert-dialog";
+import { Input } from "@default/ui/primitives/input";
 import { UserDeleteDialog } from "./user-delete-dialog";
 import type { UserManageSheetModel } from "./use-user-manage-sheet";
 import type { UnassignTarget } from "./user-manage-sheet.types";

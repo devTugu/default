@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useIsMounted } from '@/shared/hooks/use-is-mounted';
 import { usePrefersReducedMotion } from '@/shared/hooks/use-prefers-reduced-motion';
 import { StripeGradientEngine } from '@/widgets/marketing/lib/stripe-gradient';
@@ -26,10 +26,14 @@ export function AnimatedMesh({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const showCanvas = mounted && !prefersReducedMotion;
-  const stripeColors = gradientColors?.length
-    ? [...gradientColors]
-    : [...STRIPE_GRADIENT_DEFAULT_COLORS];
-  const colorsKey = stripeColors.join(',');
+  const colorsKey = (gradientColors?.length
+    ? gradientColors
+    : STRIPE_GRADIENT_DEFAULT_COLORS
+  ).join('\0');
+  const stripeColors = useMemo(
+    () => colorsKey.split('\0'),
+    [colorsKey],
+  );
 
   useEffect(() => {
     if (!showCanvas) return undefined;
@@ -83,7 +87,7 @@ export function AnimatedMesh({
       intersectionObserver.disconnect();
       engine?.disconnect();
     };
-  }, [showCanvas, colorsKey]);
+  }, [showCanvas, stripeColors]);
 
   const shellClassName =
     variant === 'fill'

@@ -19,7 +19,7 @@ import { MfaEnrollmentStep } from '@/features/auth/ui/mfa-enrollment-step';
 import { MfaVerifyForm } from '@/features/mfa/ui/mfa-verify-form';
 import { ROUTES } from '@/shared/config/routes';
 import { getErrorMessage } from '@/shared/api';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import {
   Form,
   FormControl,
@@ -27,8 +27,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
+} from '@default/ui/primitives/form';
+import { Input } from '@default/ui/primitives/input';
 import { FadeIn } from '@/shared/ui/motion';
 import { OAuthSignInButton } from '@/widgets/oauth-sign-in-button';
 

@@ -51,12 +51,18 @@ export const env = {
   APP_ENV: process.env.NODE_ENV ?? 'development',
 } as const;
 
+function isNextProductionBuild(): boolean {
+  return process.env.NEXT_PHASE === 'phase-production-build';
+}
+
 function resolveInternalUrl(): string {
   const nodeEnv = process.env.NODE_ENV ?? 'development';
   const raw = process.env.API_INTERNAL_URL;
+  const enforceProduction =
+    nodeEnv === 'production' && !isNextProductionBuild();
 
   if (!raw) {
-    if (nodeEnv === 'production') {
+    if (enforceProduction) {
       failEnv('API_INTERNAL_URL is required in production', {});
     }
     return DEV_FALLBACK_URL;
@@ -65,7 +71,7 @@ function resolveInternalUrl(): string {
   const parsed = serverEnvSchema.safeParse({ API_INTERNAL_URL: raw });
 
   if (!parsed.success) {
-    if (nodeEnv === 'production') {
+    if (enforceProduction) {
       failEnv('Invalid server environment variables', parsed.error.flatten());
     }
     return raw;

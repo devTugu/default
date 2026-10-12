@@ -1,0 +1,39 @@
+---
+description: Design tokens and @default/ui — no hardcoded color, reuse primitives
+globs: "{frontend,packages/ui,packages/design-tokens}/**/*.{ts,tsx,css,json}"
+alwaysApply: false
+---
+
+# Design tokens and UI primitives
+
+## Tokens
+
+Single source: `packages/design-tokens/tokens.json` (`color`, `radius`, `space`, `font`, …).
+
+```text
+tokens.json
+  → pnpm --filter @default/design-tokens generate
+  → src/tokens.css   (generated — do not edit)
+  → src/theme.ts     (generated — do not edit)
+frontend/app/globals.css   @import tokens + @theme inline semantic aliases
+```
+
+After editing `tokens.json`, run `generate`. Saving alone does not regenerate.
+
+- Styles use semantic aliases: `bg-[var(--primary)]`, `text-[var(--muted-foreground)]`, `rounded-[var(--radius)]`.
+- No hex, rgb, or raw oklch in feature UI or primitives — add values to `tokens.json`.
+- New semantic names need an alias in `frontend/app/globals.css` (or `frontend/src/shared/styles/`) mapping to `--color-*` package vars.
+- Marketing **scalar** colors live in `packages/design-tokens/tokens.json` (`marketing` / `marketing-dark`) and are emitted by `pnpm generate:tokens`. Complex **gradients** stay in `frontend/src/shared/styles/marketing.css` and may reference those token vars — do not duplicate scalar hex/oklch in CSS.
+
+## Primitives
+
+```text
+import { Button } from "@default/ui/primitives/button";
+import { cn } from "@default/ui/lib/cn";
+```
+
+- `@default/ui` is presentational only — no fetch, no `@default/hooks`, no app data.
+- Reuse an existing primitive before a styled `div` or raw `<button>`.
+- Feature-only layout stays in `features/<name>/` or `widgets/`. Promote to `@default/ui` when a second consumer needs the same control.
+
+New primitive: `packages/ui/src/primitives/<name>.tsx`, CSS vars + `cva`/`cn`, then package exports.

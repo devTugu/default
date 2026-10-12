@@ -3,7 +3,7 @@
 import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { PermissionCode } from '@/shared/config/permissions';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 
 interface AdminTableActionsProps {
   name: string;

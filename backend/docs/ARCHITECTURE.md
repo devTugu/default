@@ -1,6 +1,8 @@
 # Architecture
 
-NestJS API using **Clean Architecture**.
+NestJS API using **Clean Architecture**. Agent rules: `.cursor/rules/clean-architecture.mdc`.
+
+Shared Zod contracts (when used): `@default/types`. Domain-agnostic helpers: `@default/utils`.
 
 ## Layers
 

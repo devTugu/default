@@ -18,8 +18,8 @@ import {
   DataTableEmpty,
   DataTableQueryState,
 } from "@/shared/ui/data-table";
-import { Badge } from "@/shared/ui/badge";
-import { Button } from "@/shared/ui/button";
+import { Badge } from "@default/ui/primitives/badge";
+import { Button } from "@default/ui/primitives/button";
 import { UserManageSheet, type UserSheetState } from "./user-manage-sheet";
 import { UserDeleteDialog } from "@/features/users/ui/user-delete-dialog";
 

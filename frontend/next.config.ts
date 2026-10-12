@@ -42,6 +42,14 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  transpilePackages: [
+    '@default/ui',
+    '@default/api',
+    '@default/hooks',
+    '@default/types',
+    '@default/utils',
+    '@default/design-tokens',
+  ],
   images: {
     remotePatterns: [
       {

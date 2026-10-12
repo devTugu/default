@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { bffOAuthAuthorize } from '@/shared/lib/bff-auth';
 import { getErrorMessage } from '@/shared/api';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 
 const OAUTH_STATE_KEY = 'oauth_state';
 

@@ -1,0 +1,34 @@
+---
+description: Reuse existing utils/helpers before creating new ones; extend safely without breaking callers
+alwaysApply: true
+---
+
+# Reuse existing helpers first
+
+Before adding a util, helper, formatter, date/string helper, or similar shared function:
+
+1. **Search first** — look in `@default/utils`, `@default/types`, `@default/api`, `@default/ui`, `frontend/src/shared/`, `backend/src/shared/`, and nearby feature folders.
+2. **Reuse if it fits** — import the existing export; do not copy-paste a parallel helper.
+3. **Extend carefully if close** — broaden or parameterize only if all current call sites stay correct. Prefer additive options over changing defaults.
+4. **Create new only if reuse is unsafe** — if adapting would break callers or mix unrelated concerns, add a well-named helper (right package / `shared/`).
+
+## Safety when changing shared code
+
+```text
+✅ Add optional param with backward-compatible default
+✅ Rename via deprecate + re-export old name temporarily
+❌ Change return type / semantics of a shared helper without updating every caller
+❌ Duplicate formatDate / cn / envelope unwrap in a feature
+❌ Dump unrelated helpers into a mega utils.ts
+```
+
+## Where shared code lives
+
+| Kind | Prefer |
+|------|--------|
+| Domain-agnostic pure helpers | `@default/utils/*` |
+| DTO / zod / enums | `@default/types/*` |
+| UI primitives | `@default/ui` |
+| App-only Next helpers (BFF, brand) | `frontend/src/shared/` |
+| Backend-only Nest helpers | `backend/src/shared/` |
+| Feature-only UI logic | that feature |

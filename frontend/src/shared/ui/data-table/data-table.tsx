@@ -14,9 +14,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/table';
+} from '@default/ui/primitives/table';
 import { DataTablePagination } from './data-table-pagination';
-import { Skeleton } from '@/shared/ui/skeleton';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, unknown>[];

@@ -1,0 +1,28 @@
+---
+description: Playwright E2E — write/run tests; agent should execute test:e2e automatically
+globs: frontend/e2e/**/*.{ts,tsx},frontend/playwright.config.ts
+alwaysApply: false
+---
+
+# Playwright E2E
+
+Location: `frontend/e2e/`, config: `frontend/playwright.config.ts`.
+
+## Commands (run without asking)
+
+```bash
+pnpm test:e2e:frontend
+pnpm --filter frontend test:e2e
+```
+
+## Conventions
+
+- Specs: `*.spec.ts` under `e2e/`
+- Prefer `getByRole` / `getByText` / `getByTestId` over CSS selectors
+- Assert with web-first `expect(...).toBeVisible()`
+- Keep tests independent; no shared mutable state
+- After changing UI flows, update/add matching e2e specs and **run** them
+
+## Cursor agent
+
+When editing frontend pages/features or e2e specs: run related Playwright tests and fix failures before finishing.

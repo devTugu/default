@@ -15,7 +15,7 @@ import {
   DataTableEmpty,
   DataTableQueryState,
 } from '@/shared/ui/data-table';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import { RoleManageSheet, type RoleSheetState } from './role-manage-sheet';
 import { RoleDeleteDialog } from './role-delete-dialog';
 

@@ -33,10 +33,15 @@ Constants: `src/shared/config/routes.ts`. Sidebar: `src/widgets/app-sidebar/`.
 
 | Goal | Where |
 |------|--------|
+| New domain (full stack) | `@default/types` → `@default/api` → `@default/hooks` → `features/*` UI |
 | New public page | `app/(marketing)/` + `widgets/marketing` |
-| New admin feature | `src/features/*` + `app/dashboard/...` |
+| New admin feature | `src/features/*` + `app/dashboard/...` (no axios/`fetch` to Nest — use hooks) |
 | New BFF API path | Add to `src/shared/config/bff-allowlist.ts` |
+| Design tokens | `packages/design-tokens/tokens.json` then `pnpm generate:tokens` |
+| UI primitive | `packages/ui/src/primitives/` (`@default/ui`) |
 | Permissions UI | Gate with `useAuthPermissions` / `PermissionGate` |
+
+i18n catalogs stay in `src/shared/i18n` (app-local).
 
 ## Production checklist
 

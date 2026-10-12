@@ -1,0 +1,10 @@
+{
+  "extends": "@default/tsconfig/react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@default/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

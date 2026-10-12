@@ -1,87 +1,35 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-  IsArray,
-  IsInt,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-  MinLength,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+  AssignRoleInputSchema,
+  CreateRoleInputSchema,
+  UpdateRoleInputSchema,
+} from '@default/types/role';
+import {
+  CreatePermissionInputSchema,
+  UpdatePermissionInputSchema,
+} from '@default/types/permission';
+import { ListQuerySchema } from '@default/types/common';
+import { createZodDto } from 'nestjs-zod';
 
-export class ListQueryDto {
-  @ApiPropertyOptional({ default: 1 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  page?: number = 1;
+export class ListQueryDto extends createZodDto(
+  ListQuerySchema.omit({ search: true }),
+) {}
 
-  @ApiPropertyOptional({ default: 20 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  @Min(1)
-  @Max(100)
-  limit?: number = 20;
-}
+export class CreateRoleDto extends createZodDto(
+  CreateRoleInputSchema.strict(),
+) {}
 
-export class CreateRoleDto {
-  @ApiProperty({ example: 'MANAGER' })
-  @IsString()
-  @MinLength(2)
-  name: string;
+export class UpdateRoleDto extends createZodDto(
+  UpdateRoleInputSchema.strict(),
+) {}
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  description?: string;
+export class AssignRoleDto extends createZodDto(
+  AssignRoleInputSchema.strict(),
+) {}
 
-  @ApiPropertyOptional({ type: [Number] })
-  @IsOptional()
-  @IsArray()
-  @IsInt({ each: true })
-  permissionIds?: number[];
-}
+export class CreatePermissionDto extends createZodDto(
+  CreatePermissionInputSchema.strict(),
+) {}
 
-export class UpdateRoleDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  description?: string;
-
-  @ApiPropertyOptional({ type: [Number] })
-  @IsOptional()
-  @IsArray()
-  @IsInt({ each: true })
-  permissionIds?: number[];
-}
-
-export class AssignRoleDto {
-  @ApiProperty()
-  @IsInt()
-  userId: number;
-
-  @ApiProperty()
-  @IsInt()
-  roleId: number;
-}
-
-export class CreatePermissionDto {
-  @ApiProperty({ example: 'USER_READ' })
-  @IsString()
-  code: string;
-
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  description?: string;
-}
-
-export class UpdatePermissionDto {
-  @ApiPropertyOptional()
-  @IsOptional()
-  @IsString()
-  description?: string;
-}
+export class UpdatePermissionDto extends createZodDto(
+  UpdatePermissionInputSchema.strict(),
+) {}

@@ -4,15 +4,15 @@ import { Loader2, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { UserOutput } from "@/entities/user";
 import { SUPER_ADMIN_ROLE } from "@/shared/config/permissions";
-import { Badge } from "@/shared/ui/badge";
-import { Button } from "@/shared/ui/button";
+import { Badge } from "@default/ui/primitives/badge";
+import { Button } from "@default/ui/primitives/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui/select";
+} from "@default/ui/primitives/select";
 import type { UnassignTarget } from "./user-manage-sheet.types";
 
 function RoleBadge({

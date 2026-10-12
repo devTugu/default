@@ -2,10 +2,12 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 import boundaries from "eslint-plugin-boundaries";
+import cleanCode from "@default/eslint-config/clean-code";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  ...cleanCode,
   {
     plugins: {
       boundaries,
@@ -25,7 +27,13 @@ const eslintConfig = defineConfig([
         { type: "processes", pattern: "src/processes", mode: "folder" },
         { type: "processes", pattern: "src/processes/**" },
       ],
-      "boundaries/ignore": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      "boundaries/ignore": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+      ],
+      "boundaries/dependency-nodes": ["import"],
     },
     rules: {
       "boundaries/dependencies": [
@@ -33,35 +41,110 @@ const eslintConfig = defineConfig([
         {
           default: "disallow",
           message:
-            "FSD layer violation: ${file.type} cannot import from ${dependency.type}",
+            "FSD layer violation: {{ from.type }} cannot import {{ to.type }}",
           rules: [
             {
-              from: ["app"],
-              allow: ["widgets", "features", "entities", "shared", "processes", "app"],
+              from: { type: "app" },
+              allow: [
+                { to: { type: "widgets" } },
+                { to: { type: "features" } },
+                { to: { type: "entities" } },
+                { to: { type: "shared" } },
+                { to: { type: "processes" } },
+                { to: { type: "app" } },
+              ],
             },
             {
-              from: ["widgets"],
-              allow: ["widgets", "features", "entities", "shared"],
+              from: { type: "widgets" },
+              allow: [
+                { to: { type: "widgets" } },
+                { to: { type: "features" } },
+                { to: { type: "entities" } },
+                { to: { type: "shared" } },
+              ],
             },
             {
-              from: ["features"],
-              allow: ["features", "entities", "shared"],
+              from: { type: "features" },
+              allow: [
+                { to: { type: "features" } },
+                { to: { type: "entities" } },
+                { to: { type: "shared" } },
+              ],
             },
             {
-              from: ["entities"],
-              allow: ["entities", "shared"],
+              from: { type: "entities" },
+              allow: [
+                { to: { type: "entities" } },
+                { to: { type: "shared" } },
+              ],
             },
             {
-              from: ["shared"],
-              allow: ["shared"],
+              from: { type: "shared" },
+              allow: [{ to: { type: "shared" } }],
             },
             {
-              from: ["processes"],
-              allow: ["shared", "processes"],
+              from: { type: "processes" },
+              allow: [
+                { to: { type: "shared" } },
+                { to: { type: "processes" } },
+              ],
             },
           ],
         },
       ],
+    },
+  },
+  {
+    files: ["src/features/**/*.{ts,tsx}", "src/widgets/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "axios",
+              message:
+                "Use @default/hooks for Nest API data — do not call axios from features/widgets.",
+            },
+          ],
+          patterns: [
+            {
+              group: [
+                "@/shared/api/client",
+                "@/shared/api/axiosInstance",
+                "@/shared/api/axiosInstance*",
+              ],
+              message:
+                "Use @default/hooks (or @default/api after app wire) — do not import the axios client from features/widgets.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  // Vendored shadcn sidebar (generated composition)
+  {
+    files: ["src/shared/ui/sidebar.tsx"],
+    rules: {
+      "max-lines": "off",
+    },
+  },
+  // Canvas / WebGL helpers — param bags would obscure math
+  {
+    files: [
+      "src/widgets/marketing/lib/marketing/ribbon-wave.ts",
+      "src/widgets/marketing/lib/stripe-gradient/mini-gl.ts",
+    ],
+    rules: {
+      "max-params": "off",
+    },
+  },
+  {
+    files: ["**/*.{spec,test}.{ts,tsx}"],
+    rules: {
+      "max-nested-callbacks": "off",
+      "max-lines-per-function": "off",
+      complexity: "off",
     },
   },
   globalIgnores([

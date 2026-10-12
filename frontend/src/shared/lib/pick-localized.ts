@@ -1,33 +1,33 @@
-import type { Locale } from '@/shared/i18n/config';
-import type { LocalizedStringList, LocalizedText } from '@/shared/i18n/localized-content';
+import type { Locale } from "@/shared/i18n/config";
+import type { LocalizedStringList, LocalizedText } from "@/shared/i18n/localized-content";
+import {
+  hasLocalizedMn as hasMn,
+  pickLocalized as pick,
+  pickLocalizedList as pickList,
+  pickLocalizedOptional as pickOptional,
+} from "@default/utils/localized";
 
 export function pickLocalized(
   text: LocalizedText | null | undefined,
   locale: Locale,
 ): string {
-  if (!text) return '';
-  const localized = text[locale]?.trim();
-  if (localized) return localized;
-  return text.en?.trim() || '';
+  return pick(text, locale);
 }
 
 export function pickLocalizedOptional(
   text: LocalizedText | null | undefined,
   locale: Locale,
 ): string {
-  if (!text) return '';
-  return pickLocalized(text, locale);
+  return pickOptional(text, locale);
 }
 
 export function pickLocalizedList(
   list: LocalizedStringList,
   locale: Locale,
 ): string[] {
-  const localized = list[locale];
-  if (localized && localized.length > 0) return localized;
-  return list.en ?? [];
+  return pickList(list, locale);
 }
 
 export function hasLocalizedMn(text: LocalizedText): boolean {
-  return Boolean(text.mn?.trim());
+  return hasMn(text);
 }

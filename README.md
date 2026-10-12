@@ -6,6 +6,15 @@ Full-stack **auth and admin starter** for a product site or internal app. Fork i
 |---------|------|
 | [`backend/`](backend/) | NestJS API — auth, RBAC, site-settings, media, dashboard, audit |
 | [`frontend/`](frontend/) | Next.js — public home + admin dashboard (FSD + BFF) |
+| [`packages/types`](packages/types) | `@default/types` — shared Zod schemas |
+| [`packages/api`](packages/api) | `@default/api` — HTTP client + domain APIs |
+| [`packages/hooks`](packages/hooks) | `@default/hooks` — React Query hooks |
+| [`packages/ui`](packages/ui) | `@default/ui` — shadcn primitives |
+| [`packages/design-tokens`](packages/design-tokens) | `@default/design-tokens` — tokens.json → CSS |
+| [`packages/utils`](packages/utils) | `@default/utils` — pure helpers |
+| [`packages/config/*`](packages/config) | shared tsconfig + eslint-config |
+
+Agent rules: [`.cursor/rules/`](.cursor/rules/), [`CLAUDE.md`](CLAUDE.md).
 
 **Who it is for:** a solo developer (or small team) who wants a production-shaped starting point — JWT auth, permissions, admin UI, and a marketing home — without shipping a full CMS.
 
@@ -51,8 +60,9 @@ After fork, add your own entities, pages, and APIs under the same layers. See [b
 
 | Script | Description |
 |--------|-------------|
-| `pnpm dev` | Backend + frontend |
-| `pnpm build` / `lint` / `test` | Quality gates |
+| `pnpm dev` | Backend + frontend (Turbo) |
+| `pnpm build` / `lint` / `typecheck` / `test` | Quality gates (`^build` via Turbo) |
+| `pnpm generate:tokens` | Regenerate `@default/design-tokens` CSS/theme |
 | `pnpm test:e2e:backend` | Nest e2e (needs DB) |
 | `pnpm test:e2e:frontend` | Playwright |
 | `pnpm infra:up` / `infra:down` | Dev MySQL + Redis |

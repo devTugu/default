@@ -1,0 +1,35 @@
+---
+description: Frontend data access — types → api → hooks; no fetch in features
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Frontend data flow
+
+```text
+@default/types → @default/api → @default/hooks → features|widgets|entities UI
+```
+
+## Rules
+
+- Nest API reads/writes from UI go through `@default/hooks` (React Query).
+- `@default/api` owns HTTP + query-keys; parse with `@default/types` Zod where applicable.
+- **Forbidden** in `features/**` and `widgets/**`: `axios`, raw `fetch` to Nest/BFF for domain APIs, new local `api.ts` clients.
+- Entities may keep thin UI/model helpers; data hooks live in `@default/hooks`.
+- UI-only form state hooks may stay in the feature (`useLoginForm`).
+
+## BFF (Next app only)
+
+- Cookie auth and proxy: `frontend/app/api/auth/*`, `frontend/app/api/backend/*`, `frontend/src/shared/lib/bff-*`
+- Do not move cookie/CSRF handling into `@default/api`; inject `baseURL` and refresh from the app.
+
+## Public SSR
+
+- Server Components may use `@default/api` server client or a small `public-server` helper that wraps it — not ad-hoc `fetch` scattered in features.
+
+```text
+✅ import { useUsers } from '@default/hooks'
+✅ import { createApiClient } from '@default/api'
+❌ features/users/api/client.ts with axios
+❌ widgets → fetch('/api/backend/...')
+```

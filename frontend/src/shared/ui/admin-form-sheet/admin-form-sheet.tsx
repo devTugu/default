@@ -9,7 +9,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from '@/shared/ui/sheet';
+} from '@default/ui/primitives/sheet';
 
 const sizeClasses = {
   sm: 'sm:max-w-sm',

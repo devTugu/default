@@ -4,20 +4,20 @@ import { Plus, Trash2 } from 'lucide-react';
 import type { Control, UseFieldArrayReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { LocalizedTextField } from '@/shared/ui/form-fields';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@default/ui/primitives/card';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
+} from '@default/ui/primitives/form';
+import { Input } from '@default/ui/primitives/input';
 import type { SiteSettingsFormValues } from './site-settings-form.utils';
 
 interface SiteSettingsFooterSectionProps {

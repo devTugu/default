@@ -9,7 +9,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@default/ui/primitives/card';
 import type { SiteSettingsFormValues } from './site-settings-form.utils';
 
 interface SiteSettingsAboutSectionProps {

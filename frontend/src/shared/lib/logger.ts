@@ -23,7 +23,8 @@ function write(level: LogLevel, message: string, context?: LogContext): void {
     console.warn(line);
     return;
   }
-  console.log(line);
+  // Structured info/debug — console.warn keeps no-console allowlist; payload.level distinguishes.
+  console.warn(line);
 }
 
 export const logger = {

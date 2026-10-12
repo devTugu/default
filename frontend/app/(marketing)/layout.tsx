@@ -2,43 +2,20 @@ import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { getPublicSiteSettings } from '@/entities/public-api';
 import { resolveBrandContext } from '@/shared/config/brand';
-import { buildBrandHeroPalette, toMarketingMeshCssVars } from '@/widgets/marketing/lib/marketing/brand-hero-palette';
+import {
+  buildBrandHeroPalette,
+  toMarketingMeshCssVars,
+} from '@/widgets/marketing/lib/marketing/brand-hero-palette';
 import { normalizeHexColor } from '@/shared/lib/normalize-hex-color';
 import type { Locale } from '@/shared/i18n/config';
-import { pickLocalized, pickLocalizedList } from '@/shared/lib/pick-localized';
 import { hasServerSession } from '@/shared/lib/server-session';
 import { SiteFooter, MarketingSiteHeader } from '@/widgets/marketing';
+import { buildMarketingMetadata } from './build-marketing-metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getPublicSiteSettings();
   const locale = (await getLocale()) as Locale;
-  const brand = resolveBrandContext({
-    locale,
-    cmsSiteName: settings?.header.siteName,
-    header: settings?.header,
-  });
-  const seo = settings?.seo;
-
-  const title =
-    pickLocalized(seo?.title ?? { en: '', mn: '' }, locale) || brand.siteName;
-  const description =
-    pickLocalized(seo?.description ?? { en: '', mn: '' }, locale) ||
-    pickLocalized(settings?.hero.description ?? { en: '', mn: '' }, locale);
-
-  return {
-    metadataBase: brand.siteUrl ? new URL(brand.siteUrl) : undefined,
-    title,
-    description,
-    keywords: seo?.keywords ? pickLocalizedList(seo.keywords, locale) : undefined,
-    icons: brand.assets.faviconUrl
-      ? { icon: [{ url: brand.assets.faviconUrl }] }
-      : undefined,
-    openGraph: {
-      title,
-      description: description || undefined,
-      ...(seo?.ogImageUrl ? { images: [{ url: seo.ogImageUrl }] } : {}),
-    },
-  };
+  return buildMarketingMetadata({ settings, locale });
 }
 
 export default async function MarketingLayout({
@@ -69,7 +46,9 @@ export default async function MarketingLayout({
     <div
       data-marketing-theme-root
       className="relative flex min-h-svh flex-col"
-      style={toMarketingMeshCssVars(heroPalette, brandColor) as React.CSSProperties}
+      style={
+        toMarketingMeshCssVars(heroPalette, brandColor) as React.CSSProperties
+      }
     >
       <MarketingSiteHeader
         siteName={brand.siteName}

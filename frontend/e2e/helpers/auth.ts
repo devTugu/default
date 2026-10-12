@@ -27,4 +27,20 @@ export async function loginAsViewer(page: Page): Promise<void> {
   await page.waitForURL(/\/dashboard/, { timeout: 15_000 });
 }
 
+/** Sidebar nav link — avoids dashboard card / button duplicates. */
+export async function goToUsers(page: Page): Promise<void> {
+  await page
+    .getByRole('listitem')
+    .filter({ hasText: /^Users$/ })
+    .getByRole('link')
+    .click();
+  await page.waitForURL(/\/dashboard\/users/, { timeout: 15_000 });
+}
+
+export async function logoutAsAdmin(page: Page): Promise<void> {
+  await page.getByRole('button', { name: adminEmail }).click();
+  await page.getByRole('menuitem', { name: /sign out/i }).click();
+  await page.waitForURL(/\/sign-in/, { timeout: 10_000 });
+}
+
 export { fetchCsrf, adminEmail, adminPassword, viewerEmail, viewerPassword };

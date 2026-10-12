@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Input } from '@/shared/ui/input';
+import { Input } from '@default/ui/primitives/input';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 
 interface DataTableToolbarProps {

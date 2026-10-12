@@ -3,7 +3,7 @@
 import { RefreshCw } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { getErrorMessage } from '@/shared/api';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 
 interface DataTableQueryStateProps {
   isError: boolean;

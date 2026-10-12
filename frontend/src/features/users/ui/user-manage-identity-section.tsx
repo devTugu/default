@@ -14,9 +14,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/shared/ui/form";
-import { Input } from "@/shared/ui/input";
-import { Switch } from "@/shared/ui/switch";
+} from "@default/ui/primitives/form";
+import { Input } from "@default/ui/primitives/input";
+import { Switch } from "@default/ui/primitives/switch";
 
 interface UserManageCreateIdentityProps {
   form: UseFormReturn<CreateUserFormValues>;

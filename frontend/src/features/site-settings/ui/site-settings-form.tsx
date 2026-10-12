@@ -1,10 +1,10 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
-import { Form } from '@/shared/ui/form';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
-import { Skeleton } from '@/shared/ui/skeleton';
+import { Button } from '@default/ui/primitives/button';
+import { Form } from '@default/ui/primitives/form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@default/ui/primitives/tabs';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 import { AdminContentLocaleProvider } from '@/shared/i18n/admin-content-locale-context';
 import { AdminContentLocaleTabs } from '@/shared/ui/admin-content-locale-tabs';
 import { SiteSettingsAboutSection } from './site-settings-about-section';

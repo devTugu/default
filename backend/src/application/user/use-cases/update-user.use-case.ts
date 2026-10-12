@@ -3,7 +3,7 @@ import { IUserRepository } from '@domain/user/repositories/user.repository.inter
 import { IPasswordHasher } from '@application/ports/password-hasher.port';
 import { IPermissionCache } from '@application/ports/permission-cache.port';
 import { AppErrors } from '@application/exceptions/application.exception';
-import { UserOutput } from '@application/dto/user.dto';
+import { UpdateUserInput, UserOutput } from '@application/dto/user.dto';
 import { toUserOutput } from '@application/dto/user-output.mapper';
 import {
   USER_REPOSITORY,
@@ -19,10 +19,7 @@ export class UpdateUserUseCase {
     @Inject(PERMISSION_CACHE) private readonly cache: IPermissionCache,
   ) {}
 
-  async execute(
-    id: number,
-    input: { password?: string; isActive?: boolean },
-  ): Promise<UserOutput> {
+  async execute(id: number, input: UpdateUserInput): Promise<UserOutput> {
     const existing = await this.users.findById(id);
     if (!existing) throw AppErrors.NOT_FOUND('User not found.');
     const passwordHash = input.password

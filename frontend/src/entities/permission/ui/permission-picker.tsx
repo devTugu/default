@@ -3,11 +3,11 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Permission } from '../types/permission';
-import { Checkbox } from '@/shared/ui/checkbox';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
-import { ScrollArea } from '@/shared/ui/scroll-area';
-import { Separator } from '@/shared/ui/separator';
+import { Checkbox } from '@default/ui/primitives/checkbox';
+import { Input } from '@default/ui/primitives/input';
+import { Label } from '@default/ui/primitives/label';
+import { ScrollArea } from '@default/ui/primitives/scroll-area';
+import { Separator } from '@default/ui/primitives/separator';
 import { filterPermissions, groupPermissions } from './group-permissions';
 
 interface PermissionPickerProps {

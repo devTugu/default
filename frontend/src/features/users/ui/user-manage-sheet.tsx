@@ -1,7 +1,7 @@
 "use client";
 
 import { AdminFormSheet } from "@/shared/ui/admin-form-sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@default/ui/primitives/tabs";
 import { buildUserManageFooter } from "./user-manage-actions";
 import { UserManageDialogs } from "./user-manage-dialogs";
 import {

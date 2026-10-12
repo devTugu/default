@@ -1,5 +1,6 @@
 // eslint.config.mjs — NestJS Clean Architecture backend
 import eslint from '@eslint/js';
+import cleanCode from '@default/eslint-config/clean-code';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -15,6 +16,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  ...cleanCode,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
@@ -31,7 +33,6 @@ export default tseslint.config(
   },
   {
     rules: {
-      // NestJS: PascalCase decorator factories (Public, Permissions, CurrentUser, AppErrors)
       '@typescript-eslint/naming-convention': [
         'error',
         { selector: ['class', 'interface', 'enum', 'typeAlias'], format: ['PascalCase'] },
@@ -64,7 +65,6 @@ export default tseslint.config(
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
 
-      // TypeORM / JWT adapters: strict typing enforced in code review, not noisy in infra
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
@@ -72,14 +72,12 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-extra-boolean-cast': 'off',
 
-      'no-console': 'warn',
       'no-duplicate-imports': ['error', { allowSeparateTypeImports: true }],
       'prefer-const': 'error',
       'prettier/prettier': 'error',
     },
   },
 
-  // DB CLI entrypoints
   {
     files: [
       'src/infrastructure/database/run-migrations.ts',
@@ -90,7 +88,6 @@ export default tseslint.config(
     },
   },
 
-  // Observability bootstrap (optional OTEL/Sentry)
   {
     files: [
       'src/infrastructure/observability/tracing.ts',
@@ -101,22 +98,42 @@ export default tseslint.config(
     },
   },
 
-  // Jest mocks
+  // Nest DI: constructor param count = injected deps, not smell
   {
-    files: ['**/*.spec.ts'],
+    files: [
+      '**/*.controller.ts',
+      '**/*use-case*.ts',
+      '**/*.module.ts',
+      '**/domain/**/*.entity.ts',
+    ],
+    rules: {
+      'max-params': 'off',
+    },
+  },
+
+  // Drizzle schema / seed / wide upsert mappers are declarative dumps
+  {
+    files: [
+      '**/infrastructure/database/drizzle/schema/**/*.ts',
+      '**/infrastructure/database/seed/**/*.ts',
+      '**/repositories/site-setting.drizzle-repository.ts',
+    ],
+    rules: {
+      'max-lines': 'off',
+      'max-lines-per-function': 'off',
+      complexity: 'off',
+    },
+  },
+
+  {
+    files: ['**/*.spec.ts', 'test/**/*.ts'],
     rules: {
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/naming-convention': 'off',
-    },
-  },
-
-  // E2E (supertest + full AppModule bootstrap)
-  {
-    files: ['test/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-floating-promises': 'off',
-      '@typescript-eslint/unbound-method': 'off',
+      'max-lines-per-function': 'off',
+      'max-nested-callbacks': 'off',
+      complexity: 'off',
     },
   },
 );

@@ -20,12 +20,13 @@ Fork this monorepo and grow it into your product. Root quick start: [../../READM
 
 | Goal | Where |
 |------|--------|
-| New API domain | `domain` → `application` → `infrastructure` → `presentation` |
+| Shared API contract | `packages/types/src/<domain>/` → `@default/types/<domain>` |
+| New API domain | `domain` → `application` → `infrastructure` → `presentation` (Clean Arch) |
 | New admin page | `frontend/src/features` + `app/dashboard/...` |
 | New public page | `app/(marketing)/` + widgets |
 | Permissions | `permissions.const.ts` + `@Permissions()` on controllers |
 
-Keep Clean Architecture / FSD import rules.
+Keep Clean Architecture / FSD import rules. Agent rules: `.cursor/rules/`. Client data: `@default/types` → `@default/api` → `@default/hooks` → UI.
 
 ## Scope
 

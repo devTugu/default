@@ -1,0 +1,76 @@
+---
+description: Website template monorepo — apps, packages, Clean Arch, FSD, BFF
+alwaysApply: true
+---
+
+# Website template — Project architecture
+
+Brand-agnostic auth/admin starter. Stack: pnpm workspace (+ Turbo). Package scope: `@default/*`.
+
+## Layout
+
+| Path | Package | Role |
+|------|---------|------|
+| `backend/` | `backend` | NestJS + Drizzle + MySQL — Clean Architecture |
+| `frontend/` | `frontend` | Next.js — FSD + BFF (httpOnly cookies) |
+| `packages/types` | `@default/types` | Zod schemas/enums per domain |
+| `packages/utils` | `@default/utils` | Domain-agnostic pure helpers |
+| `packages/api` | `@default/api` | HTTP client + domain APIs, query-keys |
+| `packages/hooks` | `@default/hooks` | React Query hooks |
+| `packages/design-tokens` | `@default/design-tokens` | tokens.json → CSS + theme |
+| `packages/ui` | `@default/ui` | shadcn primitives/composed — **no data fetch** |
+| `packages/config/tsconfig` | `@default/tsconfig` | Shared TS configs |
+| `packages/config/eslint-config` | `@default/eslint-config` | Shared ESLint (+ clean-code) |
+
+**i18n** stays app-local in `frontend/src/shared/i18n` (single Next app). Do not add `@default/i18n` unless backend needs the same catalogs.
+
+## Client data flow (required)
+
+```text
+@default/types → @default/api → @default/hooks → features|widgets UI
+```
+
+- Server/client Nest data → only `@default/hooks` + `@default/api`
+- Features/widgets must **not** call raw `fetch` / `axios` for Nest APIs
+- UI-local state hooks may live in the feature; data hooks live in `@default/hooks`
+- Feature UI uses design tokens / `@default/ui` — no hardcoded hex
+
+BFF (`frontend/app/api/backend/*`, `app/api/auth/*`) stays in the Next app. `@default/api` uses `/api/backend` (browser) or internal URL (server).
+
+## Backend layers (Clean Architecture)
+
+```text
+presentation → application → domain ← infrastructure
+```
+
+- Full rules: `.cursor/rules/clean-architecture.mdc`
+- Domain: no Nest/ORM deps; repository **interfaces** only
+- Application: use cases orchestrate ports; multi-write → one tx in the use-case
+- Infrastructure: Drizzle implementations, Redis, JWT, S3
+- Presentation: controllers, guards, filters
+- REST: `/api/v1/<resource>`
+
+## Frontend (FSD)
+
+- `app/` routes are thin — compose features/widgets
+- Layers: `app` → `widgets` → `features` → `entities` → `shared`; `processes` for providers/proxy
+- Features must not import widgets
+- No deep cross-feature imports; use `shared/` or `@default/*`
+
+## Naming
+
+- Backend domains follow Clean Arch folders under `backend/src/`
+- Shared types: `packages/types/src/<name>/`, import `@default/types/<name>`
+- FE slices: `frontend/src/features|<entities>/<name>/`
+
+## Do / Don’t
+
+```text
+✅ UseCase → port interface → infrastructure repository
+✅ feature → useUsers() from @default/hooks
+✅ import { UserSchema, type User } from '@default/types/user'
+❌ Domain → Nest / Drizzle imports
+❌ feature → fetch() / axios / new api.ts for Nest
+❌ Second z.object for the same API entity outside @default/types
+❌ app/page.tsx with large business UI
+```

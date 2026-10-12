@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
-import { Input } from '@/shared/ui/input';
+} from '@default/ui/primitives/form';
+import { Input } from '@default/ui/primitives/input';
 
 interface SortOrderFieldProps<T extends FieldValues> {
   control: Control<T>;

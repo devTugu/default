@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { loginAsAdmin, viewerEmail } from './helpers/auth';
+import { goToUsers, loginAsAdmin, viewerEmail } from './helpers/auth';
 
 test.describe('GDPR', () => {
   test('admin can export user data as JSON', async ({ page }) => {
     await loginAsAdmin(page);
-    await page.getByRole('link', { name: 'Users' }).click();
+    await goToUsers(page);
     await expect(page.getByRole('columnheader', { name: 'Email' })).toBeVisible({
       timeout: 15_000,
     });
@@ -34,7 +34,7 @@ test.describe('GDPR', () => {
     const disposablePassword = 'GdprTest123!';
 
     await loginAsAdmin(page);
-    await page.getByRole('link', { name: 'Users' }).click();
+    await goToUsers(page);
     await expect(page.getByRole('columnheader', { name: 'Email' })).toBeVisible({
       timeout: 15_000,
     });

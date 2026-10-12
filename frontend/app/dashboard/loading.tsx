@@ -1,4 +1,4 @@
-import { Skeleton } from '@/shared/ui/skeleton';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 
 export default function DashboardLoading() {
   return (

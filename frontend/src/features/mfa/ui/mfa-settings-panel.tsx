@@ -6,15 +6,15 @@ import { useTranslations } from 'next-intl';
 import type { UserOutput } from '@/entities/user';
 import { getErrorMessage } from '@/shared/api';
 import { bffMe } from '@/shared/lib/bff-auth';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
-import { Label } from '@/shared/ui/label';
+} from '@default/ui/primitives/card';
+import { Label } from '@default/ui/primitives/label';
 import {
   useConfirmMfaEnroll,
   useDisableMfa,

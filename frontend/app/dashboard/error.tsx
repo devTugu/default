@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 
 export default function DashboardError({
   error,

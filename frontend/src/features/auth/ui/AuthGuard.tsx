@@ -7,7 +7,7 @@ import { useAuthStore } from '../model/store';
 import { ROUTES } from '@/shared/config/routes';
 import { redirectToLogin } from '@/shared/lib/clear-client-session';
 import { sessionHint } from '@/shared/lib/session-hint';
-import { Skeleton } from '@/shared/ui/skeleton';
+import { Skeleton } from '@default/ui/primitives/skeleton';
 
 interface AuthGuardProps {
   children: React.ReactNode;

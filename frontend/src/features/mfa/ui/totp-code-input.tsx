@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@/shared/ui/input';
+import { Input } from '@default/ui/primitives/input';
 import { cn } from '@/shared/lib/utils';
 
 interface TotpCodeInputProps {

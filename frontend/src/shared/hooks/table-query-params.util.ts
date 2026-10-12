@@ -1,7 +1,4 @@
-interface FilterParamConfig {
-  defaultValue?: string;
-  omitFromQuery?: string[];
-}
+import type { FilterParamConfig } from './table-search-params.parse';
 
 export function buildTableQueryParams(input: {
   page: number;

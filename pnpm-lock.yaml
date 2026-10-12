@@ -6,13 +6,23 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      turbo:
+        specifier: ^2.5.4
+        version: 2.11.7
 
   backend:
     dependencies:
       '@aws-sdk/client-s3':
         specifier: ^3.1068.0
         version: 3.1146.0
+      '@default/types':
+        specifier: workspace:*
+        version: link:../packages/types
+      '@default/utils':
+        specifier: workspace:*
+        version: link:../packages/utils
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -67,12 +77,6 @@ importers:
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
-      class-transformer:
-        specifier: ^0.5.1
-        version: 0.5.1
-      class-validator:
-        specifier: ^0.14.3
-        version: 0.14.4
       compression:
         specifier: ^1.8.1
         version: 1.8.2
@@ -97,6 +101,9 @@ importers:
       nest-winston:
         specifier: ^1.10.2
         version: 1.10.2(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(winston@3.19.0)
+      nestjs-zod:
+        specifier: ^5.5.0
+        version: 5.5.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.7(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.7)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2))(rxjs@7.8.2)(zod@4.6.5)
       nodemailer:
         specifier: ^9.0.1
         version: 9.1.1
@@ -127,7 +134,13 @@ importers:
       winston:
         specifier: ^3.19.0
         version: 3.19.0
+      zod:
+        specifier: ^4.4.3
+        version: 4.6.5
     devDependencies:
+      '@default/eslint-config':
+        specifier: workspace:*
+        version: link:../packages/config/eslint-config
       '@eslint/eslintrc':
         specifier: ^3.2.0
         version: 3.3.7
@@ -224,6 +237,24 @@ importers:
 
   frontend:
     dependencies:
+      '@default/api':
+        specifier: workspace:*
+        version: link:../packages/api
+      '@default/design-tokens':
+        specifier: workspace:*
+        version: link:../packages/design-tokens
+      '@default/hooks':
+        specifier: workspace:*
+        version: link:../packages/hooks
+      '@default/types':
+        specifier: workspace:*
+        version: link:../packages/types
+      '@default/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
+      '@default/utils':
+        specifier: workspace:*
+        version: link:../packages/utils
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -346,6 +377,9 @@ importers:
         specifier: 1.30.2
         version: 1.30.2
     devDependencies:
+      '@default/eslint-config':
+        specifier: workspace:*
+        version: link:../packages/config/eslint-config
       '@opentelemetry/auto-instrumentations-node':
         specifier: ^0.62.0
         version: 0.62.2(@opentelemetry/api@1.9.1)(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))
@@ -406,6 +440,158 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.7(@types/node@20.19.43)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+
+  packages/api:
+    dependencies:
+      '@default/types':
+        specifier: workspace:*
+        version: link:../types
+      axios:
+        specifier: ^1.13.2
+        version: 1.20.0
+      zod:
+        specifier: ^4.4.3
+        version: 4.6.5
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/config/eslint-config:
+    dependencies:
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.5(jiti@2.7.0)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.36.0
+        version: 9.39.5
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.39.5(jiti@2.7.0))
+      typescript-eslint:
+        specifier: ^8.44.0
+        version: 8.71.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+
+  packages/config/tsconfig: {}
+
+  packages/design-tokens:
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      '@types/node':
+        specifier: ^22.10.0
+        version: 22.20.5
+      tsx:
+        specifier: ^4.20.5
+        version: 4.23.15
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/hooks:
+    dependencies:
+      '@default/api':
+        specifier: workspace:*
+        version: link:../api
+      '@default/types':
+        specifier: workspace:*
+        version: link:../types
+      '@tanstack/react-query':
+        specifier: ^5.90.11
+        version: 5.104.1(react@19.2.0)
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.3.0
+      react:
+        specifier: ^19.1.0
+        version: 19.2.0
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/types:
+    dependencies:
+      zod:
+        specifier: ^4.4.3
+        version: 4.6.5
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/ui:
+    dependencies:
+      '@default/design-tokens':
+        specifier: workspace:*
+        version: link:../design-tokens
+      '@radix-ui/react-navigation-menu':
+        specifier: ^1.2.14
+        version: 1.3.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-react:
+        specifier: ^0.555.0
+        version: 0.555.0(react@19.2.0)
+      radix-ui:
+        specifier: ^1.4.3
+        version: 1.7.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react:
+        specifier: ^19.1.0
+        version: 19.2.0
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.2.0(react@19.2.0)
+      react-hook-form:
+        specifier: ^7.77.0
+        version: 7.89.0(@types/react@19.3.0)(react@19.2.0)
+      tailwind-merge:
+        specifier: ^3.4.0
+        version: 3.7.0
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      '@types/react':
+        specifier: ^19.1.0
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19.1.0
+        version: 19.3.0(@types/react@19.3.0)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/utils:
+    dependencies:
+      '@default/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@default/tsconfig':
+        specifier: workspace:*
+        version: link:../config/tsconfig
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.7(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
 packages:
 
@@ -4498,6 +4684,36 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
+  '@turbo/darwin-64@2.11.7':
+    resolution: {integrity: sha512-Z2LFOxwbiJueD1miByXJS/BrW21vv6YaQXZustty5jEX4vQYw6zyh101Sz1QO7WG0mqBzKagZ/DoAeeujI0/Sw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@turbo/darwin-arm64@2.11.7':
+    resolution: {integrity: sha512-Vhv8ybgIflosNDSSRD9fNXHlCFA60dsGyTqQmc7l28SEX5jOaweCCD4BBYNd8/p0WGkw3e7tZbfA9w6FsujGvw==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@turbo/linux-64@2.11.7':
+    resolution: {integrity: sha512-rAqRp3blQKk1+ylMGlZHAW0eJjVNuuGUm4ZrC6RU1Im8tLryvaO4a2zLQ/FQi1TRlmKqKV9YXBki2YeytlLbXA==}
+    cpu: [x64]
+    os: [android, linux]
+
+  '@turbo/linux-arm64@2.11.7':
+    resolution: {integrity: sha512-thVYGov7S+llXAxrl3kBb/efalav0xhrjl5NHCR6AfKx14JkbqaetvbVwyss4FvZ9rt+Pv3xsTb+8SIYix8DTg==}
+    cpu: [arm64]
+    os: [android, linux]
+
+  '@turbo/windows-64@2.11.7':
+    resolution: {integrity: sha512-ZIoKT7J7KutgYl4bGxmmgeUQjG+7E0nY8BF9dxUOiMH2vdTsM4JQ2uSwTYFkTR2Llbg6ghGjSmuZ8LQtkLEYjg==}
+    cpu: [x64]
+    os: [win32]
+
+  '@turbo/windows-arm64@2.11.7':
+    resolution: {integrity: sha512-88Xv2f7SLGVJ68lRRx8o375dKmnZYNdDtvlKcPA0kZpcF93eAQd8l96BKQ0/AMHG0bMJA0Z5QqoqtetxzNsC+g==}
+    cpu: [arm64]
+    os: [win32]
+
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
 
@@ -7469,6 +7685,17 @@ packages:
       '@nestjs/common': ^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
       winston: ^3.0.0
 
+  nestjs-zod@5.5.0:
+    resolution: {integrity: sha512-V0WMtmICygYE2RoMKk8ExEeoetkC7PoUmUlZNP4JNk1YgrnUnG1vgkRn2DBNqsDi+Obv3c9AOssmXe/k/AvBOg==}
+    peerDependencies:
+      '@nestjs/common': ^10.0.0 || ^11.0.0
+      '@nestjs/swagger': ^7.4.2 || ^8.0.0 || ^11.0.0
+      rxjs: ^7.0.0
+      zod: ^3.25.0 || ^4.0.0
+    peerDependenciesMeta:
+      '@nestjs/swagger':
+        optional: true
+
   netmask@2.1.1:
     resolution: {integrity: sha512-eonl3sLUha+S1GzTPxychyhnUzKyeQkZ7jLjKrBagJgPla13F+uQ71HgpFefyHgqrjEbCPkDArxYsjY8/+gLKA==}
     engines: {node: '>= 0.4.0'}
@@ -8629,6 +8856,10 @@ packages:
   tsx@4.23.15:
     resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
+    hasBin: true
+
+  turbo@2.11.7:
+    resolution: {integrity: sha512-RhXHbqfvY6o3xt/zSHCwSNwLrZlXiqHzewi4eAj9PtZ1T1CqgMJ2yIDb7SKPTG9IikTm925mfzL6hldQVdyNWw==}
     hasBin: true
 
   tw-animate-css@1.4.0:
@@ -13608,6 +13839,24 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
+  '@turbo/darwin-64@2.11.7':
+    optional: true
+
+  '@turbo/darwin-arm64@2.11.7':
+    optional: true
+
+  '@turbo/linux-64@2.11.7':
+    optional: true
+
+  '@turbo/linux-arm64@2.11.7':
+    optional: true
+
+  '@turbo/windows-64@2.11.7':
+    optional: true
+
+  '@turbo/windows-arm64@2.11.7':
+    optional: true
+
   '@tybys/wasm-util@0.10.4':
     dependencies:
       tslib: 2.8.1
@@ -13778,7 +14027,7 @@ snapshots:
 
   '@types/pg@8.15.5':
     dependencies:
-      '@types/node': 20.19.43
+      '@types/node': 22.20.5
       pg-protocol: 1.16.1
       pg-types: 2.2.0
 
@@ -13831,7 +14080,8 @@ snapshots:
 
   '@types/uuid@10.0.0': {}
 
-  '@types/validator@13.15.10': {}
+  '@types/validator@13.15.10':
+    optional: true
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -14041,6 +14291,14 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 7.3.6(@types/node@20.19.43)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+
+  '@vitest/mocker@3.2.7(vite@7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))':
+    dependencies:
+      '@vitest/spy': 3.2.7
+      estree-walker: 3.0.3
+      magic-string: 0.30.21
+    optionalDependencies:
+      vite: 7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
   '@vitest/pretty-format@3.2.7':
     dependencies:
@@ -14643,13 +14901,15 @@ snapshots:
 
   cjs-module-lexer@2.3.0: {}
 
-  class-transformer@0.5.1: {}
+  class-transformer@0.5.1:
+    optional: true
 
   class-validator@0.14.4:
     dependencies:
       '@types/validator': 13.15.10
       libphonenumber-js: 1.13.14
       validator: 13.15.35
+    optional: true
 
   class-variance-authority@0.7.1:
     dependencies:
@@ -15192,7 +15452,7 @@ snapshots:
       eslint: 9.39.5(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
+      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-react: 7.37.5(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-react-hooks: 7.1.1(eslint@9.39.5(jiti@2.7.0))
@@ -15237,7 +15497,7 @@ snapshots:
       tinyglobby: 0.2.17
       unrs-resolver: 1.12.2
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
+      eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -15275,7 +15535,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.32.0(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0)):
+  eslint-plugin-import@2.32.0(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.2.0
@@ -16635,7 +16895,8 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libphonenumber-js@1.13.14: {}
+  libphonenumber-js@1.13.14:
+    optional: true
 
   lightningcss-android-arm64@1.30.2:
     optional: true
@@ -16974,6 +17235,15 @@ snapshots:
       '@nestjs/common': 11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       fast-safe-stringify: 2.1.1
       winston: 3.19.0
+
+  nestjs-zod@5.5.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.4.7(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.7)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2))(rxjs@7.8.2)(zod@4.6.5):
+    dependencies:
+      '@nestjs/common': 11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      deepmerge: 4.3.1
+      rxjs: 7.8.2
+      zod: 4.6.5
+    optionalDependencies:
+      '@nestjs/swagger': 11.4.7(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.2.7)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
 
   netmask@2.1.1: {}
 
@@ -17372,7 +17642,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.2
-      '@types/node': 20.19.43
+      '@types/node': 22.20.5
       long: 5.3.2
 
   proxy-addr@2.0.8:
@@ -18334,6 +18604,15 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
+  turbo@2.11.7:
+    optionalDependencies:
+      '@turbo/darwin-64': 2.11.7
+      '@turbo/darwin-arm64': 2.11.7
+      '@turbo/linux-64': 2.11.7
+      '@turbo/linux-arm64': 2.11.7
+      '@turbo/windows-64': 2.11.7
+      '@turbo/windows-arm64': 2.11.7
+
   tw-animate-css@1.4.0: {}
 
   type-check@0.4.0:
@@ -18536,7 +18815,8 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
-  validator@13.15.35: {}
+  validator@13.15.35:
+    optional: true
 
   vary@1.1.2: {}
 
@@ -18547,6 +18827,27 @@ snapshots:
       es-module-lexer: 1.7.0
       pathe: 2.0.3
       vite: 7.3.6(@types/node@20.19.43)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+    transitivePeerDependencies:
+      - '@types/node'
+      - jiti
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - yaml
+
+  vite-node@3.2.4(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.3
+      es-module-lexer: 1.7.0
+      pathe: 2.0.3
+      vite: 7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -18578,6 +18879,23 @@ snapshots:
       tsx: 4.23.15
       yaml: 2.9.1
 
+  vite@7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1):
+    dependencies:
+      esbuild: 0.28.2
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
+      postcss: 8.5.29
+      rollup: 4.64.0
+      tinyglobby: 0.2.17
+    optionalDependencies:
+      '@types/node': 22.20.5
+      fsevents: 2.3.3
+      jiti: 2.7.0
+      lightningcss: 1.32.0
+      terser: 5.51.2
+      tsx: 4.23.15
+      yaml: 2.9.1
+
   vitest@3.2.7(@types/node@20.19.43)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1):
     dependencies:
       '@types/chai': 5.2.3
@@ -18605,6 +18923,47 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.19.43
+    transitivePeerDependencies:
+      - jiti
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - yaml
+
+  vitest@3.2.7(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1):
+    dependencies:
+      '@types/chai': 5.2.3
+      '@vitest/expect': 3.2.7
+      '@vitest/mocker': 3.2.7(vite@7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      '@vitest/pretty-format': 3.2.7
+      '@vitest/runner': 3.2.7
+      '@vitest/snapshot': 3.2.7
+      '@vitest/spy': 3.2.7
+      '@vitest/utils': 3.2.7
+      chai: 5.3.3
+      debug: 4.4.3
+      expect-type: 1.4.0
+      magic-string: 0.30.21
+      pathe: 2.0.3
+      picomatch: 4.0.7
+      std-env: 3.10.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.17
+      tinypool: 1.1.1
+      tinyrainbow: 2.0.0
+      vite: 7.3.6(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+      vite-node: 3.2.4(@types/node@22.20.5)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 22.20.5
     transitivePeerDependencies:
       - jiti
       - less

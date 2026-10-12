@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/shared/ui/form';
-import { Switch } from '@/shared/ui/switch';
+} from '@default/ui/primitives/form';
+import { Switch } from '@default/ui/primitives/switch';
 
 interface PublishedSwitchProps<T extends FieldValues> {
   control: Control<T>;

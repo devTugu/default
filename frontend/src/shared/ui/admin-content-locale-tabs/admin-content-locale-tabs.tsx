@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { SUPPORTED_LOCALES } from '@/shared/i18n/localized-content';
 import { useAdminContentLocale } from '@/shared/i18n/admin-content-locale-context';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@default/ui/primitives/button';
 import { cn } from '@/shared/lib/utils';
 
 const localeLabels = {

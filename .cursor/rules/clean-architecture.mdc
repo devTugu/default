@@ -1,0 +1,58 @@
+---
+description: Backend Clean Architecture — layers, ports, use-cases, transactions
+globs: backend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# NestJS Clean Architecture
+
+Applies to `backend/`. Overview also in `project-core.mdc`.
+
+## Layers
+
+```text
+src/
+├── domain/           # Entities, repository interfaces, value objects — no Nest/ORM
+├── application/      # Use cases, ports, application DTOs
+├── infrastructure/   # Drizzle, Redis, JWT, S3, repository implementations
+├── presentation/http/# Controllers, guards, filters, HTTP DTOs
+└── shared/           # Config, constants, cross-cutting helpers
+```
+
+**Dependency rule:** `presentation` → `application` → `domain` ← `infrastructure`
+
+| Boundary | Allowed | Forbidden |
+|----------|---------|-----------|
+| Controller | Call use cases / application services | Call repositories or Drizzle directly |
+| Use case | Ports (interfaces), other use cases sparingly | Import Drizzle/Nest HTTP |
+| Domain | Pure TS | Nest, Drizzle, axios, env I/O |
+| Infrastructure | Implement domain/application ports | Expose ORM entities as API DTOs |
+
+## Use cases
+
+- One use case ≈ one application action (`create-user.use-case.ts`)
+- Validate input; enforce business rules; persist via ports
+- Multi-write: run inside **one** DB transaction owned by the use-case (or a unit-of-work port). External payment/email side effects stay outside the tx when possible.
+
+## Cross-module
+
+- Orchestrate via application use cases / ports — not by reaching into another module’s repository implementation
+- Do not query foreign tables from an unrelated repository
+
+## Persistence
+
+- ORM: **Drizzle** under `infrastructure/database/drizzle/`
+- `synchronize: false`; migrations only
+- Map DB rows ↔ domain entities inside infrastructure repositories
+
+## REST
+
+- Prefix `/api/v1`
+- Controllers stay thin; Swagger on HTTP DTOs when present
+- HTTP DTO = `createZodDto(SharedSchema)` from `@default/types`; class-validator is forbidden
+
+```text
+✅ UsersController → CreateUserUseCase → IUserRepository
+❌ UsersController → Drizzle db.insert(...)
+❌ Domain entity imports drizzle-orm
+```

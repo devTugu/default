@@ -5,7 +5,7 @@ import { ChevronsUpDown, LogOut } from 'lucide-react';
 import { useAuthStore, useLogout } from '@/features/auth';
 import { ROUTES } from '@/shared/config/routes';
 import { useTranslations } from 'next-intl';
-import { Avatar, AvatarFallback } from '@/shared/ui/avatar';
+import { Avatar, AvatarFallback } from '@default/ui/primitives/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
+} from '@default/ui/primitives/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,

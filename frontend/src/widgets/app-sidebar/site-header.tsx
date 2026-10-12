@@ -5,7 +5,7 @@ import { useLocale } from 'next-intl';
 import { getPageTitle } from '@/shared/i18n/messages';
 import type { Locale } from '@/shared/i18n/config';
 import { LocaleSwitcher } from '@/shared/i18n/locale-switcher';
-import { Separator } from '@/shared/ui/separator';
+import { Separator } from '@default/ui/primitives/separator';
 import { SidebarTrigger } from '@/shared/ui/sidebar';
 import { ThemeToggle } from '@/shared/ui/theme-toggle';
 

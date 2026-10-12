@@ -2,8 +2,8 @@
 
 import { ShieldCheck } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { Button } from '@/shared/ui/button';
-import { Label } from '@/shared/ui/label';
+import { Button } from '@default/ui/primitives/button';
+import { Label } from '@default/ui/primitives/label';
 import { FadeIn } from '@/shared/ui/motion';
 import { TotpCodeInput } from './totp-code-input';
 

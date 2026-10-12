@@ -9,6 +9,9 @@ on:
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9.15.9'
+  # Optional Turbo remote cache — no-op when unset
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
 jobs:
   quality:
@@ -30,9 +33,11 @@ jobs:
 
       - run: pnpm --filter frontend exec node scripts/verify-lightningcss.js
 
+      - run: pnpm generate:tokens
+
       - run: pnpm lint
 
-      - run: pnpm --filter frontend run typecheck
+      - run: pnpm typecheck
 
       - run: pnpm build
 

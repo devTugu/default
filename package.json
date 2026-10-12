@@ -18,15 +18,20 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm -r --parallel dev",
+    "dev": "turbo run dev --filter=backend --filter=frontend",
     "dev:backend": "pnpm --filter backend dev",
     "dev:frontend": "pnpm --filter frontend dev",
-    "build": "pnpm -r build",
-    "lint": "pnpm -r lint",
-    "test": "pnpm -r test",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test --filter=backend --filter=frontend --filter=@default/utils",
     "test:e2e:backend": "pnpm --filter backend run test:e2e",
     "test:e2e:frontend": "API_DIR=backend bash frontend/scripts/ci-e2e.sh",
+    "generate:tokens": "pnpm --filter @default/design-tokens generate",
     "infra:up": "docker compose -f backend/docker-compose.dev.yml up -d",
     "infra:down": "docker compose -f backend/docker-compose.dev.yml down"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4"
   }
 }

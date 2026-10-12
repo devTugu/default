@@ -1,0 +1,109 @@
+{
+  "name": "@default/types",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./user": {
+      "types": "./dist/user/index.d.ts",
+      "require": "./dist/user/index.js",
+      "import": "./dist/user/index.js",
+      "default": "./dist/user/index.js"
+    },
+    "./role": {
+      "types": "./dist/role/index.d.ts",
+      "require": "./dist/role/index.js",
+      "import": "./dist/role/index.js",
+      "default": "./dist/role/index.js"
+    },
+    "./permission": {
+      "types": "./dist/permission/index.d.ts",
+      "require": "./dist/permission/index.js",
+      "import": "./dist/permission/index.js",
+      "default": "./dist/permission/index.js"
+    },
+    "./auth": {
+      "types": "./dist/auth/index.d.ts",
+      "require": "./dist/auth/index.js",
+      "import": "./dist/auth/index.js",
+      "default": "./dist/auth/index.js"
+    },
+    "./common": {
+      "types": "./dist/common/index.d.ts",
+      "require": "./dist/common/index.js",
+      "import": "./dist/common/index.js",
+      "default": "./dist/common/index.js"
+    },
+    "./site-settings": {
+      "types": "./dist/site-settings/index.d.ts",
+      "require": "./dist/site-settings/index.js",
+      "import": "./dist/site-settings/index.js",
+      "default": "./dist/site-settings/index.js"
+    },
+    "./dashboard": {
+      "types": "./dist/dashboard/index.d.ts",
+      "require": "./dist/dashboard/index.js",
+      "import": "./dist/dashboard/index.js",
+      "default": "./dist/dashboard/index.js"
+    },
+    "./audit-log": {
+      "types": "./dist/audit-log/index.d.ts",
+      "require": "./dist/audit-log/index.js",
+      "import": "./dist/audit-log/index.js",
+      "default": "./dist/audit-log/index.js"
+    },
+    "./media": {
+      "types": "./dist/media/index.d.ts",
+      "require": "./dist/media/index.js",
+      "import": "./dist/media/index.js",
+      "default": "./dist/media/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "user": [
+        "./dist/user/index.d.ts"
+      ],
+      "role": [
+        "./dist/role/index.d.ts"
+      ],
+      "permission": [
+        "./dist/permission/index.d.ts"
+      ],
+      "auth": [
+        "./dist/auth/index.d.ts"
+      ],
+      "common": [
+        "./dist/common/index.d.ts"
+      ],
+      "site-settings": [
+        "./dist/site-settings/index.d.ts"
+      ],
+      "dashboard": [
+        "./dist/dashboard/index.d.ts"
+      ],
+      "audit-log": [
+        "./dist/audit-log/index.d.ts"
+      ],
+      "media": [
+        "./dist/media/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@default/tsconfig": "workspace:*",
+    "typescript": "^5.9.2"
+  }
+}

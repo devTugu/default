@@ -26,5 +26,10 @@ frontend/playwright-report
 frontend/blob-report
 frontend/playwright/.cache
 
+# shared packages (built in CI / turbo ^build)
+packages/*/dist
+!packages/config/**
+
 # tooling
 .swc-cache
+.turbo

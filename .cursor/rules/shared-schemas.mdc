@@ -1,0 +1,42 @@
+---
+description: Domain Zod schemas live in @default/types; types are z.infer, not handwritten duplicates
+alwaysApply: true
+---
+
+# Shared Zod schemas
+
+Each domain lives in `packages/types/src/<module>/` and is imported from `@default/types/<module>`. Schema, enums, and module helpers stay in that folder.
+
+## Do not declare a second schema
+
+Apps, `@default/api`, `@default/hooks`, and backend DTOs do not define a new `z.object` or `z.enum` for a domain entity.
+
+- The schema already exists → import it.
+- Need a create, update, or public subset → derive with `.omit()`, `.pick()`, `.partial()`, or `.extend()`. If more than one caller needs that variant, put it in `@default/types` too.
+- The entity is new → add `packages/types/src/<module>/schema.ts` (and `enums.ts` when needed), export from that folder's `index.ts`, then import `@default/types/<module>`.
+
+A UI-only value that never crosses the API may stay local. A request or response body uses the shared schema.
+
+## Types come from the schema
+
+Export the inferred type next to the schema. Do not hand-write an `interface` or `type` that copies the same fields.
+
+```typescript
+export const UserSchema = z.object({ /* ... */ });
+export type User = z.infer<typeof UserSchema>;
+
+const CreateUserSchema = UserSchema.omit({ id: true, createdAt: true });
+type CreateUser = z.infer<typeof CreateUserSchema>;
+```
+
+Enums are const objects next to that module's schema. Schemas use `z.enum(UserStatus)`. Do not re-list those strings as a union.
+
+Drizzle `$inferSelect` / `$inferInsert` stay inside infrastructure as the row type. The API and domain contract type is still `z.infer` of the shared schema.
+
+```text
+✅ import { UserSchema, type User } from "@default/types/user"
+✅ export class CreateUserDto extends createZodDto(CreateUserInputSchema.strict()) {}
+❌ z.object({ email, name }) in a feature, hook, or Nest DTO for the same API shape
+❌ interface User { email: string }
+❌ class-validator decorators on HTTP DTOs — use createZodDto(SharedSchema)
+```

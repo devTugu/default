@@ -9,7 +9,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@default/ui/primitives/card';
 import { useAuthPermissions } from '../hooks/use-permissions';
 
 interface RequirePermissionProps {
