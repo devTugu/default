@@ -90,10 +90,11 @@ export class AuditLogDrizzleRepository implements IAuditLogRepository {
   }
 
   async deleteOlderThan(before: Date): Promise<number> {
-    const result = await this.db
+    const deleted = await this.db
       .delete(auditLogs)
-      .where(lt(auditLogs.createdAt, before));
-    return result[0].affectedRows ?? 0;
+      .where(lt(auditLogs.createdAt, before))
+      .returning({ id: auditLogs.id });
+    return deleted.length;
   }
 
   private toEntry(entity: typeof auditLogs.$inferSelect): AuditLogEntry {

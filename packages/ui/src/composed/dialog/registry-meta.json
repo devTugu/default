@@ -1,0 +1,50 @@
+[
+  {
+    "id": "08",
+    "fname": "dialog-08.tsx",
+    "title": "Dialog 08 - Connectors",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "dialog-07.tsx",
+    "title": "Dialog 07 - Connect Integration",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "dialog-06.tsx",
+    "title": "Dialog 06 - Zoom Out",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "dialog-05.tsx",
+    "title": "Dialog 05 - Zoom In",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "dialog-04.tsx",
+    "title": "Dialog 04 - Slide from Right",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "dialog-03.tsx",
+    "title": "Dialog 03 - Slide from Left",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "dialog-02.tsx",
+    "title": "Dialog 02 - Slide from Bottom",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "dialog-01.tsx",
+    "title": "Dialog 01 - Slide from Top",
+    "isNew": false
+  }
+]

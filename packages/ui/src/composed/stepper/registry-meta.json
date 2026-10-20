@@ -1,0 +1,26 @@
+[
+  {
+    "id": "04",
+    "fname": "stepper-04.tsx",
+    "title": "Stepper 04 - Segmented Progress Pill",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "stepper-03.tsx",
+    "title": "Stepper 03 - Animated Progress Indicators",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "stepper-02.tsx",
+    "title": "Stepper 02 - Multi-Step Wizards",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "stepper-01.tsx",
+    "title": "Stepper 01 - Custom Square Badges",
+    "isNew": false
+  }
+]

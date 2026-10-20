@@ -1,6 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { IUserRepository } from '@domain/user/repositories/user.repository.interface';
+import {
+  mergeSessionMeta,
+  type ClientRequestMeta,
+} from '../dto/client-request-meta';
+import { RecordRefreshTokenService } from '../services/record-refresh-token.service';
 import { IRefreshTokenRepository } from '@domain/auth/repositories/refresh-token.repository.interface';
 import { ITokenIssuer } from '@application/ports/token-issuer.port';
 import { IPermissionCache } from '@application/ports/permission-cache.port';
@@ -24,9 +29,13 @@ export class RefreshTokenUseCase {
     @Inject(PERMISSION_CACHE)
     private readonly permissionCache: IPermissionCache,
     private readonly config: ConfigService,
+    private readonly recordRefresh: RecordRefreshTokenService,
   ) {}
 
-  async execute(refreshTokenRaw: string): Promise<TokenPair> {
+  async execute(
+    refreshTokenRaw: string,
+    meta?: ClientRequestMeta,
+  ): Promise<TokenPair> {
     let payload: { sub: number; type: string };
     try {
       payload = await this.tokens.verifyRefresh(refreshTokenRaw);
@@ -80,11 +89,13 @@ export class RefreshTokenUseCase {
     }
 
     const issued = await this.tokens.issuePair(user.id, user.email);
-    const newHash = crypto
-      .createHash('sha256')
-      .update(issued.refreshToken)
-      .digest('hex');
-    await this.refreshTokens.save(user.id, newHash, issued.refreshExpiresAt);
+    const persistedMeta = mergeSessionMeta(meta, stored);
+    await this.recordRefresh.record(
+      user.id,
+      issued.refreshToken,
+      issued.refreshExpiresAt,
+      persistedMeta,
+    );
 
     return {
       accessToken: issued.accessToken,

@@ -1,0 +1,108 @@
+[
+  {
+    "id": "01",
+    "fname": "alert-01.tsx",
+    "title": "Alert 01 - Alert with Password Detail",
+    "deps": [
+      "lucide-react"
+    ],
+    "reg": [
+      "alert"
+    ],
+    "base": "AlertPassWordDemo"
+  },
+  {
+    "id": "02",
+    "fname": "alert-02.tsx",
+    "title": "Alert 02 - Alert with User Detail",
+    "deps": [
+      "lucide-react"
+    ],
+    "reg": [
+      "alert",
+      "avatar"
+    ],
+    "base": "AlertWithUserDetailDemo"
+  },
+  {
+    "id": "03",
+    "fname": "alert-03.tsx",
+    "title": "Alert 03 - Social Alert",
+    "deps": [
+      "lucide-react",
+      "canvas-confetti"
+    ],
+    "reg": [
+      "alert",
+      "button"
+    ],
+    "base": "AlertSocialComponent"
+  },
+  {
+    "id": "04",
+    "fname": "alert-04.tsx",
+    "title": "Alert 04 - Indicator Destructive Alert",
+    "deps": [
+      "lucide-react"
+    ],
+    "reg": [
+      "alert"
+    ],
+    "base": "AlertIndicatorDestructiveDemo"
+  },
+  {
+    "id": "05",
+    "fname": "alert-05.tsx",
+    "title": "Alert 05 - Dark Alert",
+    "deps": [
+      "lucide-react"
+    ],
+    "reg": [
+      "alert",
+      "button"
+    ],
+    "base": "AlertDarkDemo"
+  },
+  {
+    "id": "06",
+    "fname": "alert-06.tsx",
+    "title": "Alert 06 - Animated Gradient Alert",
+    "deps": [
+      "lucide-react",
+      "motion"
+    ],
+    "reg": [
+      "alert",
+      "button"
+    ],
+    "base": "AlertGradientDemo"
+  },
+  {
+    "id": "07",
+    "fname": "alert-07.tsx",
+    "title": "Alert 07 - With Hover-Fill Dismiss",
+    "deps": [
+      "lucide-react",
+      "motion"
+    ],
+    "reg": [
+      "alert",
+      "button"
+    ],
+    "base": "AlertToastDemo"
+  },
+  {
+    "id": "08",
+    "fname": "alert-08.tsx",
+    "title": "Alert 08 - Evaporate Dismiss",
+    "deps": [
+      "lucide-react",
+      "motion"
+    ],
+    "reg": [
+      "alert",
+      "button"
+    ],
+    "base": "AlertEvaporateDemo"
+  }
+]

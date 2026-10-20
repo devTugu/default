@@ -1,0 +1,36 @@
+[
+  {
+    "id": "01",
+    "fname": "animated-list-01.tsx",
+    "title": "Animated List 01 - Default",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "AnimatedListDemo"
+  },
+  {
+    "id": "02",
+    "fname": "animated-list-02.tsx",
+    "title": "Animated List 02 - Setup Steps",
+    "deps": [
+      "motion",
+      "lucide-react"
+    ],
+    "reg": [],
+    "base": "SetupStepsDemo"
+  },
+  {
+    "id": "03",
+    "fname": "animated-list-03.tsx",
+    "title": "Animated List 03 - Expandable Stack",
+    "deps": [
+      "motion",
+      "lucide-react"
+    ],
+    "reg": [
+      "button"
+    ],
+    "base": "StackRippleDemo"
+  }
+]

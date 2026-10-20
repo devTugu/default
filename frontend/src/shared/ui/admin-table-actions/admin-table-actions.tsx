@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import type { PermissionCode } from '@/shared/config/permissions';
 import { Button } from '@default/ui/primitives/button';
+import { AdminTableIconActions } from './admin-table-icon-actions';
 
 interface AdminTableActionsProps {
   name: string;
@@ -13,6 +14,8 @@ interface AdminTableActionsProps {
   can?: (code: PermissionCode) => boolean;
   onEdit?: () => void;
   onDelete?: () => void;
+  /** Table 02 — compact icon row without button chrome. */
+  variant?: 'buttons' | 'icons';
 }
 
 export function AdminTableActions({
@@ -22,6 +25,7 @@ export function AdminTableActions({
   can,
   onEdit,
   onDelete,
+  variant = 'buttons',
 }: AdminTableActionsProps) {
   const t = useTranslations('common');
   const canEdit = updatePermission
@@ -32,6 +36,18 @@ export function AdminTableActions({
     : Boolean(onDelete);
 
   if (!canEdit && !canDelete) return null;
+
+  if (variant === 'icons') {
+    return (
+      <AdminTableIconActions
+        name={name}
+        canEdit={canEdit}
+        canDelete={canDelete}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+    );
+  }
 
   return (
     <div className="flex items-center justify-end gap-1">

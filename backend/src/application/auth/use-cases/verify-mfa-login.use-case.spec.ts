@@ -6,7 +6,7 @@ describe('VerifyMfaLoginUseCase', () => {
     findByEmailWithRolesAndPermissions: jest.fn(),
     getMfaSecretEncrypted: jest.fn(),
   };
-  const refreshTokens = { save: jest.fn() };
+  const recordRefresh = { record: jest.fn() };
   const tokens = {
     verifyMfaPending: jest
       .fn()
@@ -28,8 +28,8 @@ describe('VerifyMfaLoginUseCase', () => {
 
   const useCase = new VerifyMfaLoginUseCase(
     users as never,
-    refreshTokens as never,
     tokens as never,
+    recordRefresh as never,
     permissionCache as never,
     mfa as never,
     config as never,
@@ -49,7 +49,7 @@ describe('VerifyMfaLoginUseCase', () => {
 
     const result = await useCase.execute('mfa-token', '123456');
     expect(result.accessToken).toBe('access');
-    expect(refreshTokens.save).toHaveBeenCalled();
+    expect(recordRefresh.record).toHaveBeenCalled();
   });
 
   it('throws on invalid MFA code', async () => {

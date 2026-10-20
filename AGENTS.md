@@ -1,6 +1,6 @@
 # Agent instructions
 
-Coding rules live in `.cursor/rules/`. Start with `CLAUDE.md` for the rule index and commands.
+Coding rules live in `.cursor/rules/`. Start with `CLAUDE.md` for the rule index and commands. Product docs: `md/README.md`.
 
 Do not follow outdated TypeORM / mega-`.cursorrules` tutorials — this backend uses **Drizzle** + Clean Architecture; frontend uses **FSD + BFF**.
 

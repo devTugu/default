@@ -3,15 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import {
-  ClipboardList,
-  KeyRound,
-  LayoutDashboard,
-  Settings,
-  Shield,
-  ShieldCheck,
-  Users,
-} from 'lucide-react';
+import { LayoutDashboard, Settings, Shield } from 'lucide-react';
 import { env } from '@/shared/config/env';
 import { ROUTES } from '@/shared/config/routes';
 import {
@@ -22,7 +14,6 @@ import { useSiteSettings } from '@/entities/site-settings';
 import { BrandLogo } from '@/shared/ui/brand-logo';
 import { useAuthPermissions } from '@/features/auth';
 import type { AppMessages } from '@/shared/i18n/messages';
-import { LocaleSwitcher } from '@/shared/i18n/locale-switcher';
 import {
   Sidebar,
   SidebarContent,
@@ -35,7 +26,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/shared/ui/sidebar';
+import { sidebarNavActiveClass } from './nav-active-styles';
+import { NavAccessControlGroup } from './nav-access-control-group';
 import { NavUser } from './nav-user';
+import { cn } from '@/shared/lib/utils';
 
 type NavTitleKey = keyof AppMessages['nav'];
 
@@ -52,35 +46,6 @@ const systemNavItems: NavItem[] = [
     href: ROUTES.DASHBOARD,
     icon: LayoutDashboard,
     permission: PERMISSION_CODES.DASHBOARD_READ,
-  },
-  {
-    titleKey: 'users',
-    href: ROUTES.USERS,
-    icon: Users,
-    permission: PERMISSION_CODES.USER_READ,
-  },
-  {
-    titleKey: 'roles',
-    href: ROUTES.ROLES,
-    icon: Shield,
-    permission: PERMISSION_CODES.ROLE_READ,
-  },
-  {
-    titleKey: 'permissions',
-    href: ROUTES.PERMISSIONS,
-    icon: KeyRound,
-    permission: PERMISSION_CODES.PERMISSION_READ,
-  },
-  {
-    titleKey: 'auditLogs',
-    href: ROUTES.AUDIT_LOGS,
-    icon: ClipboardList,
-    permission: PERMISSION_CODES.AUDIT_READ,
-  },
-  {
-    titleKey: 'security',
-    href: ROUTES.SECURITY,
-    icon: ShieldCheck,
   },
 ];
 
@@ -114,17 +79,21 @@ function NavSection({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{tNav(labelKey)}</SidebarGroupLabel>
+      <SidebarGroupLabel className="text-sidebar-foreground/50 text-[11px] font-semibold uppercase tracking-wider">
+        {tNav(labelKey)}
+      </SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {visibleItems.map((item) => {
             const title = tNav(item.titleKey);
+            const active = pathname === item.href;
             return (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href}
+                  isActive={active}
                   tooltip={title}
+                  className={cn(active && sidebarNavActiveClass)}
                 >
                   <Link href={item.href}>
                     <item.icon />
@@ -148,7 +117,7 @@ export function AppSidebar() {
   const adminLogoUrl = siteSettings?.header.adminLogoUrl ?? null;
 
   return (
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon" variant="sidebar">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -185,6 +154,7 @@ export function AppSidebar() {
           can={can}
           tNav={tNav}
         />
+        <NavAccessControlGroup pathname={pathname} can={can} />
         <NavSection
           labelKey="content"
           items={contentNavItems}
@@ -194,9 +164,6 @@ export function AppSidebar() {
         />
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-2 pb-2 group-data-[collapsible=icon]:hidden">
-          <LocaleSwitcher className="justify-center" />
-        </div>
         <NavUser />
       </SidebarFooter>
     </Sidebar>

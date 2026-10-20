@@ -1,24 +1,23 @@
 import 'reflect-metadata';
 import * as dotenv from 'dotenv';
-import { drizzle } from 'drizzle-orm/mysql2';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
-import mysql from 'mysql2/promise';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { migrate } from 'drizzle-orm/node-postgres/migrator';
 import path from 'node:path';
+import { Pool } from 'pg';
 
 dotenv.config({ path: '.env' });
 
 const useSsl = process.env.DB_SSL === 'true';
 
 async function run(): Promise<void> {
-  const pool = mysql.createPool({
+  const pool = new Pool({
     host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT ?? 3306),
+    port: Number(process.env.DB_PORT ?? 5432),
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 1,
-    connectTimeout: 15000,
+    max: 1,
+    connectionTimeoutMillis: 15_000,
     ...(useSsl && { ssl: { rejectUnauthorized: true } }),
   });
 

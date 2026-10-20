@@ -64,6 +64,11 @@ export const SiteSettingsAboutStatSchema = z.object({
   value: z.string(),
 });
 
+export const SiteSettingsSecuritySchema = z.object({
+  /** When true, privileged roles (default SUPER_ADMIN) must enroll MFA to sign in. */
+  enforcePrivilegedMfa: z.boolean(),
+});
+
 export const SiteSettingsAboutSchema = z.object({
   brief: LocalizedTextOptionalSchema,
   mission: LocalizedTextOptionalSchema,
@@ -82,7 +87,13 @@ export const SiteSettingsOutputSchema = z.object({
   contactInfo: SiteSettingsContactInfoSchema,
   theme: SiteSettingsThemeSchema,
   about: SiteSettingsAboutSchema,
+  security: SiteSettingsSecuritySchema,
   updatedAt: z.string(),
+});
+
+/** Public marketing API — no admin security policy fields. */
+export const PublicSiteSettingsOutputSchema = SiteSettingsOutputSchema.omit({
+  security: true,
 });
 
 export const UpdateSiteSettingsInputSchema = z.object({
@@ -93,6 +104,7 @@ export const UpdateSiteSettingsInputSchema = z.object({
   contactInfo: SiteSettingsContactInfoSchema.partial().optional(),
   theme: SiteSettingsThemeSchema.partial().optional(),
   about: SiteSettingsAboutSchema.partial().optional(),
+  security: SiteSettingsSecuritySchema.partial().optional(),
 });
 
 export type SocialLink = z.infer<typeof SocialLinkSchema>;
@@ -109,7 +121,11 @@ export type SiteSettingsAboutValue = z.infer<
 >;
 export type SiteSettingsAboutStat = z.infer<typeof SiteSettingsAboutStatSchema>;
 export type SiteSettingsAbout = z.infer<typeof SiteSettingsAboutSchema>;
+export type SiteSettingsSecurity = z.infer<typeof SiteSettingsSecuritySchema>;
 export type SiteSettingsOutput = z.infer<typeof SiteSettingsOutputSchema>;
+export type PublicSiteSettingsOutput = z.infer<
+  typeof PublicSiteSettingsOutputSchema
+>;
 export type UpdateSiteSettingsInput = z.infer<
   typeof UpdateSiteSettingsInputSchema
 >;

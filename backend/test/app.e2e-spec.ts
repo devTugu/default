@@ -40,8 +40,8 @@ describe('Auth and RBAC (e2e)', () => {
     const response = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
       .send({
-        email: process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com',
-        password: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
+        email: process.env.SEED_ADMIN_EMAIL ?? 'admin@default.mn',
+        password: process.env.SEED_ADMIN_PASSWORD ?? 'admin123!',
       })
       .expect(200);
 
@@ -59,9 +59,7 @@ describe('Auth and RBAC (e2e)', () => {
       .expect(200);
 
     const body = response.body.data ?? response.body;
-    expect(body.email).toBe(
-      process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com',
-    );
+    expect(body.email).toBe(process.env.SEED_ADMIN_EMAIL ?? 'admin@default.mn');
     expect(Array.isArray(body.permissionCodes)).toBe(true);
     expect(body.permissionCodes.length).toBeGreaterThan(0);
   });
@@ -125,8 +123,8 @@ describe('Admin foundation (e2e)', () => {
     const login = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
       .send({
-        email: process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com',
-        password: process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!',
+        email: process.env.SEED_ADMIN_EMAIL ?? 'admin@default.mn',
+        password: process.env.SEED_ADMIN_PASSWORD ?? 'admin123!',
       });
     const body = login.body.data ?? login.body;
     accessToken = body.accessToken;

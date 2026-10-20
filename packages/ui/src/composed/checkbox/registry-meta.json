@@ -1,0 +1,62 @@
+[
+  {
+    "id": "10",
+    "fname": "checkbox-10.tsx",
+    "title": "Checkbox 10 - Checkbox with avatar and group",
+    "isNew": false
+  },
+  {
+    "id": "09",
+    "fname": "checkbox-09.tsx",
+    "title": "Checkbox 09 - Checkbox with tree",
+    "isNew": false
+  },
+  {
+    "id": "08",
+    "fname": "checkbox-08.tsx",
+    "title": "Checkbox 08 - Checkbox with dashed border",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "checkbox-07.tsx",
+    "title": "Checkbox 07 - Checkbox with custom icons",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "checkbox-06.tsx",
+    "title": "Checkbox 06 - Checkbox with form",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "checkbox-05.tsx",
+    "title": "Checkbox 05 - Checkbox with list group",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "checkbox-04.tsx",
+    "title": "Checkbox 04 - Checkbox with todo list",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "checkbox-03.tsx",
+    "title": "Checkbox 03 - Checkbox with colors",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "checkbox-02.tsx",
+    "title": "Checkbox 02 - Checkbox with vertical group",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "checkbox-01.tsx",
+    "title": "Checkbox 01 - Checkbox with sizes",
+    "isNew": false
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "09",
+    "fname": "separator-09.tsx",
+    "title": "Separator 09 - Animated Pulse Release",
+    "isNew": false
+  },
+  {
+    "id": "08",
+    "fname": "separator-08.tsx",
+    "title": "Separator 08 - With Icon",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "separator-07.tsx",
+    "title": "Separator 07 - With Badge",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "separator-06.tsx",
+    "title": "Separator 06 - Gradient Faded",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "separator-05.tsx",
+    "title": "Separator 05 - Dashed",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "separator-04.tsx",
+    "title": "Separator 04 - Vertical Label Placement",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "separator-03.tsx",
+    "title": "Separator 03 - Horizontal Label Placement",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "separator-02.tsx",
+    "title": "Separator 02 - Vertical",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "separator-01.tsx",
+    "title": "Separator 01 - Default",
+    "isNew": false
+  }
+]

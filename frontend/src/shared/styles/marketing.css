@@ -1,3 +1,10 @@
+/* Shadcn Space hero-16 on marketing home — scan block classes (full default-space stays in docs.css). */
+@source "../../../../packages/ui/src/default-space/blocks/hero-16/**/*.tsx";
+@source "../../../../packages/ui/src/default-space/blocks/footer-07/**/*.tsx";
+@source "../../../../packages/ui/src/default-space/blocks/about-us-04/**/*.tsx";
+@source "../../../../packages/ui/src/default-space/animations/marquee.tsx";
+@source "../../../../packages/ui/src/default-space/assets/logo/logo.tsx";
+
 /* Hand-written marketing aliases & utilities — token colors from @default/design-tokens */
 
 :root {

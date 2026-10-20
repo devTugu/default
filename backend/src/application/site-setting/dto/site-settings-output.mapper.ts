@@ -9,8 +9,11 @@ export interface SiteSettingsOutput {
   contactInfo: SiteSettings['contactInfo'];
   theme: SiteSettings['theme'];
   about: SiteSettings['about'];
+  security: SiteSettings['security'];
   updatedAt: string;
 }
+
+export type PublicSiteSettingsOutput = Omit<SiteSettingsOutput, 'security'>;
 
 export function toSiteSettingsOutput(
   settings: SiteSettings,
@@ -24,6 +27,15 @@ export function toSiteSettingsOutput(
     contactInfo: settings.contactInfo,
     theme: settings.theme,
     about: settings.about,
+    security: settings.security,
     updatedAt: settings.updatedAt.toISOString(),
   };
+}
+
+export function toPublicSiteSettingsOutput(
+  settings: SiteSettings,
+): PublicSiteSettingsOutput {
+  const full = toSiteSettingsOutput(settings);
+  const { security: _security, ...rest } = full;
+  return rest;
 }

@@ -1,6 +1,6 @@
-import type { MySql2Database } from 'drizzle-orm/mysql2';
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import type { DrizzleSchema } from './schema';
 
 export const DRIZZLE = Symbol('DRIZZLE');
 
-export type DrizzleDatabase = MySql2Database<DrizzleSchema>;
+export type DrizzleDatabase = NodePgDatabase<DrizzleSchema>;

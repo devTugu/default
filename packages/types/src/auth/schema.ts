@@ -54,6 +54,21 @@ export const MfaEnrollmentResponseSchema = z.object({
   otpauthUrl: z.string(),
 });
 
+export const AuthSessionSchema = z.object({
+  id: z.number().int().positive(),
+  deviceLabel: z.string(),
+  ipAddress: z.string().nullable(),
+  userAgent: z.string().nullable(),
+  createdAt: z.string(),
+  lastSeenAt: z.string(),
+  expiresAt: z.string(),
+  current: z.boolean(),
+});
+
+export const AuthSessionsListSchema = z.object({
+  items: z.array(AuthSessionSchema),
+});
+
 export type RefreshTokenInput = z.infer<typeof RefreshTokenSchema>;
 export type MfaLoginInput = z.infer<typeof MfaLoginSchema>;
 export type MfaCodeInput = z.infer<typeof MfaCodeInputSchema>;
@@ -63,3 +78,5 @@ export type MfaEnrollmentConfirmInput = z.infer<
 >;
 export type OAuthCallbackInput = z.infer<typeof OAuthCallbackSchema>;
 export type MfaEnrollmentResponse = z.infer<typeof MfaEnrollmentResponseSchema>;
+export type AuthSession = z.infer<typeof AuthSessionSchema>;
+export type AuthSessionsList = z.infer<typeof AuthSessionsListSchema>;

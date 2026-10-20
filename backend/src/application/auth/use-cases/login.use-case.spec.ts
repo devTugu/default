@@ -7,7 +7,7 @@ describe('LoginUseCase', () => {
     clearFailedLogin: jest.fn(),
     findByEmailWithRolesAndPermissions: jest.fn(),
   };
-  const refreshTokens = { save: jest.fn() };
+  const recordRefresh = { record: jest.fn() };
   const hasher = { compare: jest.fn(), hash: jest.fn() };
   const tokens = {
     issuePair: jest.fn().mockResolvedValue({
@@ -26,20 +26,23 @@ describe('LoginUseCase', () => {
   const config = {
     get: jest.fn((key: string) => {
       if (key === 'PERMISSION_CACHE_TTL_SEC') return 60;
-      if (key === 'MFA_REQUIRED_ROLES') return 'SUPER_ADMIN';
       if (key === 'LOGIN_MAX_FAILED_ATTEMPTS') return 5;
       if (key === 'LOGIN_LOCKOUT_MINUTES') return 15;
       return undefined;
     }),
   };
+  const mfaPolicy = {
+    getRequiredRoles: jest.fn().mockResolvedValue([]),
+  };
 
   const useCase = new LoginUseCase(
     users as never,
-    refreshTokens as never,
     hasher,
+    recordRefresh as never,
     tokens as never,
     permissionCache as never,
     config as never,
+    mfaPolicy as never,
   );
 
   beforeEach(() => jest.clearAllMocks());
@@ -103,7 +106,7 @@ describe('LoginUseCase', () => {
     const result = await useCase.execute('a@b.com', 'pass');
     expect('accessToken' in result && result.accessToken).toBe('access');
     expect(users.clearFailedLogin).toHaveBeenCalledWith(1);
-    expect(refreshTokens.save).toHaveBeenCalled();
+    expect(recordRefresh.record).toHaveBeenCalled();
     expect(permissionCache.set).toHaveBeenCalled();
   });
 
@@ -126,10 +129,11 @@ describe('LoginUseCase', () => {
 
     const result = await useCase.execute('a@b.com', 'pass');
     expect(result).toEqual({ requiresMfa: true, mfaToken: 'mfa-token' });
-    expect(refreshTokens.save).not.toHaveBeenCalled();
+    expect(recordRefresh.record).not.toHaveBeenCalled();
   });
 
   it('returns enrollment required for privileged role without MFA', async () => {
+    mfaPolicy.getRequiredRoles.mockResolvedValueOnce(['SUPER_ADMIN']);
     users.getLoginLockState.mockResolvedValue({
       userId: 1,
       passwordHash: 'hash',

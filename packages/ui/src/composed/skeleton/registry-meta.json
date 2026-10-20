@@ -1,0 +1,20 @@
+[
+  {
+    "id": "03",
+    "fname": "skeleton-03.tsx",
+    "title": "Skeleton 03 - List with Icons",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "skeleton-02.tsx",
+    "title": "Skeleton 02 - Table with Avatars",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "skeleton-01.tsx",
+    "title": "Skeleton 01 - Profile with Stats",
+    "isNew": false
+  }
+]

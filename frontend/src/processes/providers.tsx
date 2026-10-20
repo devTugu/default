@@ -1,13 +1,20 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MotionConfig } from 'framer-motion';
-import { ThemeProvider } from 'next-themes';
+import { MotionConfig } from 'motion/react';
+import { AppThemeProvider } from '@/shared/ui/app-theme-provider';
 import { useState, type ReactNode } from 'react';
 import { Toaster } from '@/shared/ui/sonner';
 import { TooltipProvider } from '@default/ui/primitives/tooltip';
+import { BrandThemeApplier } from '@/shared/ui/brand-theme-applier';
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({
+  children,
+  brandColor,
+}: {
+  children: ReactNode;
+  brandColor: string | null;
+}) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -22,19 +29,15 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <AppThemeProvider>
         <MotionConfig reducedMotion="user">
           <TooltipProvider>
+            <BrandThemeApplier initialBrandColor={brandColor} />
             {children}
             <Toaster richColors position="top-right" />
           </TooltipProvider>
         </MotionConfig>
-      </ThemeProvider>
+      </AppThemeProvider>
     </QueryClientProvider>
   );
 }

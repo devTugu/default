@@ -55,6 +55,10 @@ export interface SiteSettingsTheme {
   brandColor: string | null;
 }
 
+export interface SiteSettingsSecurity {
+  enforcePrivilegedMfa: boolean;
+}
+
 export interface AboutValue {
   icon: string;
   label: LocalizedText;
@@ -84,6 +88,7 @@ export class SiteSettings {
     public readonly contactInfo: SiteSettingsContactInfo,
     public readonly theme: SiteSettingsTheme,
     public readonly about: SiteSettingsAbout,
+    public readonly security: SiteSettingsSecurity,
     public readonly updatedAt: Date,
   ) {}
 }
@@ -140,6 +145,9 @@ export const DEFAULT_SITE_SETTINGS = {
   },
   theme: {
     brandColor: null,
+  },
+  security: {
+    enforcePrivilegedMfa: false,
   },
   about: {
     brief: localizedText(

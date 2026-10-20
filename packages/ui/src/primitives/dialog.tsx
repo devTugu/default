@@ -5,6 +5,7 @@ import { XIcon } from "lucide-react"
 import { Dialog as DialogPrimitive } from "radix-ui"
 
 import { cn } from "@default/ui/lib/cn"
+import { resolveRenderElement } from "../lib/render-slot"
 import { Button } from "@default/ui/primitives/button"
 
 function Dialog({
@@ -14,9 +15,28 @@ function Dialog({
 }
 
 function DialogTrigger({
+  render,
+  children,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+}: React.ComponentProps<typeof DialogPrimitive.Trigger> & {
+  render?: React.ReactElement
+}) {
+  const child =
+    render ?? (React.isValidElement(children) ? children : undefined)
+
+  if (child) {
+    return (
+      <DialogPrimitive.Trigger data-slot="dialog-trigger" asChild {...props}>
+        {child}
+      </DialogPrimitive.Trigger>
+    )
+  }
+
+  return (
+    <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props}>
+      {children}
+    </DialogPrimitive.Trigger>
+  )
 }
 
 function DialogPortal({
@@ -26,9 +46,27 @@ function DialogPortal({
 }
 
 function DialogClose({
+  render,
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+}: React.ComponentProps<typeof DialogPrimitive.Close> & {
+  render?: React.ReactElement
+  asChild?: boolean
+}) {
+  const child = resolveRenderElement({ render, asChild, children })
+  if (child) {
+    return (
+      <DialogPrimitive.Close data-slot="dialog-close" asChild {...props}>
+        {child}
+      </DialogPrimitive.Close>
+    )
+  }
+  return (
+    <DialogPrimitive.Close data-slot="dialog-close" {...props}>
+      {children}
+    </DialogPrimitive.Close>
+  )
 }
 
 function DialogOverlay({

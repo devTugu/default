@@ -9,7 +9,9 @@ export {
   SiteSettingsAboutValueSchema,
   SiteSettingsAboutStatSchema,
   SiteSettingsAboutSchema,
+  SiteSettingsSecuritySchema,
   SiteSettingsOutputSchema,
+  PublicSiteSettingsOutputSchema,
   UpdateSiteSettingsInputSchema,
   type SocialLink,
   type SiteSettingsHero,
@@ -21,6 +23,8 @@ export {
   type SiteSettingsAboutValue,
   type SiteSettingsAboutStat,
   type SiteSettingsAbout,
+  type SiteSettingsSecurity,
   type SiteSettingsOutput,
+  type PublicSiteSettingsOutput,
   type UpdateSiteSettingsInput,
 } from "./schema";

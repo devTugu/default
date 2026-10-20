@@ -26,7 +26,12 @@ export function BrandLogo({
   if (!lightSrc && !darkSrc) {
     if (!showName) return null;
     return (
-      <span className={cn('truncate font-semibold tracking-tight', className)}>
+      <span
+        className={cn(
+          'truncate font-semibold tracking-tight text-primary',
+          className,
+        )}
+      >
         {name}
       </span>
     );

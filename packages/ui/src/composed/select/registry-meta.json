@@ -1,0 +1,74 @@
+[
+  {
+    "id": "12",
+    "fname": "select-12.tsx",
+    "title": "Select 12 - Workspace Role Select",
+    "isNew": false
+  },
+  {
+    "id": "11",
+    "fname": "select-11.tsx",
+    "title": "Select 11 - Alert Channels Multi-Select",
+    "isNew": false
+  },
+  {
+    "id": "10",
+    "fname": "select-10.tsx",
+    "title": "Select 10 - Flip Clock Daypart Picker",
+    "isNew": false
+  },
+  {
+    "id": "09",
+    "fname": "select-09.tsx",
+    "title": "Select 09 - Select with separator",
+    "isNew": false
+  },
+  {
+    "id": "08",
+    "fname": "select-08.tsx",
+    "title": "Select 08 - Select with leading text",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "select-07.tsx",
+    "title": "Select 07 - Select with avatars",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "select-06.tsx",
+    "title": "Select 06 - Select with multiple options",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "select-05.tsx",
+    "title": "Select 05 - Select with overlapping label",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "select-04.tsx",
+    "title": "Select 04 - Select with timezone",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "select-03.tsx",
+    "title": "Select 03 - Select with status",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "select-02.tsx",
+    "title": "Select 02 - Select with icon",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "select-01.tsx",
+    "title": "Select 01 - Required select",
+    "isNew": false
+  }
+]

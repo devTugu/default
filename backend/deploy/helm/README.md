@@ -6,7 +6,7 @@ Deploys the NestJS API and Next.js frontend as one release.
 
 - Kubernetes 1.26+
 - Helm 3.12+
-- MySQL and Redis (in-cluster or external)
+- PostgreSQL and Redis (in-cluster or external)
 - Container images available to the cluster
 
 ## Install

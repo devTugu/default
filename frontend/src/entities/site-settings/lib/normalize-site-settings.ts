@@ -54,6 +54,9 @@ const DEFAULT_SITE_SETTINGS: SiteSettingsOutput = {
     values: [],
     stats: [],
   },
+  security: {
+    enforcePrivilegedMfa: false,
+  },
   updatedAt: new Date(0).toISOString(),
 };
 
@@ -93,6 +96,10 @@ export function normalizeSiteSettings(
     contactInfo: {
       ...DEFAULT_SITE_SETTINGS.contactInfo,
       ...raw.contactInfo,
+    },
+    security: {
+      ...DEFAULT_SITE_SETTINGS.security,
+      ...raw.security,
     },
   };
 }

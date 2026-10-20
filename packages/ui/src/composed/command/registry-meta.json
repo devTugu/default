@@ -1,0 +1,44 @@
+[
+  {
+    "id": "07",
+    "fname": "command-07.tsx",
+    "title": "Command 07 - Filter Search",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "command-06.tsx",
+    "title": "Command 06 - Search Files",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "command-05.tsx",
+    "title": "Command 05 - Developer Actions",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "command-04.tsx",
+    "title": "Command 04 - Team Member Search",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "command-03.tsx",
+    "title": "Command 03 - Palette",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "command-02.tsx",
+    "title": "Command 02 - Scrollable",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "command-01.tsx",
+    "title": "Command 01 - Shortcut Menu",
+    "isNew": false
+  }
+]

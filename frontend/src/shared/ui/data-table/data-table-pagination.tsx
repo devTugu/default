@@ -1,6 +1,7 @@
 'use client';
 
-import type { Table } from '@tanstack/react-table';
+import type { RowData } from '@tanstack/table-core';
+import type { LegacyReactTable as Table } from '@tanstack/react-table/legacy';
 import { useTranslations } from 'next-intl';
 import { Button } from '@default/ui/primitives/button';
 import {
@@ -11,11 +12,11 @@ import {
   SelectValue,
 } from '@default/ui/primitives/select';
 
-interface DataTablePaginationProps<TData> {
+interface DataTablePaginationProps<TData extends RowData> {
   table: Table<TData>;
 }
 
-export function DataTablePagination<TData>({
+export function DataTablePagination<TData extends RowData>({
   table,
 }: DataTablePaginationProps<TData>) {
   const t = useTranslations('common');

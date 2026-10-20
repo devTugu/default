@@ -3,7 +3,23 @@
 @import "@default/design-tokens/tokens.css";
 @import "../src/shared/styles/marketing.css";
 
+/* Match AppThemeProvider (.dark on html) — not prefers-color-scheme alone. */
 @custom-variant dark (&:is(.dark *));
+
+/* Base UI / design token utilities — radio, checkbox, toggle checked-state utilities */
+@custom-variant data-checked (&[data-checked]);
+@custom-variant not-data-checked (&:not([data-checked]));
+@custom-variant has-data-checked (&:has([data-checked]));
+@custom-variant data-unchecked (&[data-unchecked]);
+@custom-variant data-active (&[data-active]);
+@custom-variant data-pressed (&[data-pressed]);
+@custom-variant data-open (&[data-open]);
+@custom-variant data-closed (&[data-closed]);
+
+/* App shell: primitives + frontend only (composed/default-space → app/docs/docs.css). */
+@source "../../packages/ui/src/primitives/**/*.tsx";
+@source "../src/**/*.tsx";
+@source "../../packages/ui/src/default-space/blocks/login-04/**/*.tsx";
 
 @theme inline {
   --color-background: var(--background);
@@ -43,9 +59,11 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* Admin shell content + topbar (AdminCN-style scale: 360 → 90rem) */
+  --max-width-360: 90rem;
 }
 
-/* Semantic shadcn aliases → package token vars (--color-*) */
+/* Semantic semantic UI aliases → package token vars (--color-*) */
 :root {
   --radius: var(--radius-base);
   --background: var(--color-background);
@@ -88,6 +106,103 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Theme toggle: top → bottom wipe (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-wipe-down 0.45s ease-in-out forwards;
+}
+
+@keyframes theme-wipe-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@theme inline {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@layer utilities {
+  .shimmer {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in srgb, var(--foreground) 12%, transparent) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  .shimmer-color-orange-400 {
+    background-image: linear-gradient(
+      90deg,
+      oklch(0.75 0.18 55) 0%,
+      oklch(0.82 0.14 70) 50%,
+      oklch(0.75 0.18 55) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+@keyframes navigation-progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.navigation-progress-shimmer {
+  animation: navigation-progress-shimmer 1.1s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

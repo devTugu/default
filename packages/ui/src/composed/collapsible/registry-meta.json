@@ -1,0 +1,32 @@
+[
+  {
+    "id": "05",
+    "fname": "collapsible-05.tsx",
+    "title": "Collapsible 05 - Token Usage",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "collapsible-04.tsx",
+    "title": "Collapsible 04 - User Profile",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "collapsible-03.tsx",
+    "title": "Collapsible 03 - API Keys Manager",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "collapsible-02.tsx",
+    "title": "Collapsible 02 - Dashboard Sidebar",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "collapsible-01.tsx",
+    "title": "Collapsible 01 - Release Changelog",
+    "isNew": false
+  }
+]

@@ -5,23 +5,29 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "@default/ui#build": {
+      "dependsOn": ["@default/design-tokens#build", "@default/ui-charts#build", "@default/ui-motion-3d#build"],
+      "outputs": ["dist/**"]
+    },
+    "@default/ui-code#build": {
+      "dependsOn": [],
+      "outputs": ["dist/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "cache": false
     },
     "typecheck": {
-      "dependsOn": ["^build"],
       "cache": false
     },
     "test": {
-      "dependsOn": ["^build"]
+      "cache": false
     },
     "test:e2e": {
-      "cache": false,
-      "dependsOn": ["^build"]
+      "cache": false
     },
     "generate": {
       "cache": false

@@ -1,0 +1,65 @@
+[
+  {
+    "id": "09",
+    "fname": "sidebar-09.tsx",
+    "title": "Sidebar 09 - Productivity Workspace Sidebar",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "08",
+    "fname": "sidebar-08.tsx",
+    "title": "Sidebar 08 - Mail Workspace Sidebar",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "07",
+    "fname": "sidebar-07.tsx",
+    "title": "Sidebar 07 - Animated Mega-Menu Console Sidebar",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "06",
+    "fname": "sidebar-06.tsx",
+    "title": "Sidebar 06 - Card Layout Admin Dashboard Sidebar",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "sidebar-05.tsx",
+    "title": "Sidebar 05 - Admin Sidebar with Promo",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "04",
+    "fname": "sidebar-04.tsx",
+    "title": "Sidebar 04 - Compact Dashboard Navigation",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "03",
+    "fname": "sidebar-03.tsx",
+    "title": "Sidebar 03 - Two Column Sidebar",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "02",
+    "fname": "sidebar-02.tsx",
+    "title": "Sidebar 02 - Mini Sidebar Navigation",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "01",
+    "fname": "sidebar-01.tsx",
+    "title": "Sidebar 01 - Admin Dashboard Sidebar",
+    "isNew": false,
+    "isPro": false
+  }
+]

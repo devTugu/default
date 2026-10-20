@@ -1,0 +1,51 @@
+[
+  {
+    "id": "07",
+    "fname": "footer-07.tsx",
+    "title": "Footer 07 - SaaS Footer with Nav Columns",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "06",
+    "fname": "footer-06.tsx",
+    "title": "Footer 06 - Creative Contact Footer",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "05",
+    "fname": "footer-05.tsx",
+    "title": "Footer 05 - Minimal Navigation Footer",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "04",
+    "fname": "footer-04.tsx",
+    "title": "Footer 04 - Multi-Column Mega Footer",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "03",
+    "fname": "footer-03.tsx",
+    "title": "Footer 03 - Footer with Newsletter",
+    "isNew": true,
+    "isPro": true
+  },
+  {
+    "id": "02",
+    "fname": "footer-02.tsx",
+    "title": "Footer 02 - Dark Conversion Footer",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "footer-01.tsx",
+    "title": "Footer 01 - Agency Footer Layout",
+    "isNew": false,
+    "isPro": false
+  }
+]

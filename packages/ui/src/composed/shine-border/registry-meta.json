@@ -1,0 +1,44 @@
+[
+  {
+    "id": "07",
+    "fname": "shine-border-07.tsx",
+    "title": "Shine Border 07 - Marching Dashes",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "shine-border-06.tsx",
+    "title": "Shine Border 06 - Focus Frame",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "shine-border-05.tsx",
+    "title": "Shine Border 05 - Aurora Glow",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "shine-border-04.tsx",
+    "title": "Shine Border 04 - Stats Card",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "shine-border-03.tsx",
+    "title": "Shine Border 03 - Feature Card",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "shine-border-02.tsx",
+    "title": "Shine Border 02 - Security Card",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "shine-border-01.tsx",
+    "title": "Shine Border 01 - Basic",
+    "isNew": false
+  }
+]

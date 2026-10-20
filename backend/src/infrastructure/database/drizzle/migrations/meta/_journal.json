@@ -1,19 +1,26 @@
 {
   "version": "7",
-  "dialect": "mysql",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
+      "version": "7",
       "when": 1730000000000,
       "tag": "0000_foundation",
       "breakpoints": true
     },
     {
       "idx": 1,
-      "version": "5",
-      "when": 1730000001000,
-      "tag": "0001_tenancy_lockout",
+      "version": "7",
+      "when": 1730000002000,
+      "tag": "0001_site_settings_security",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730000003000,
+      "tag": "0002_refresh_token_session_meta",
       "breakpoints": true
     }
   ]

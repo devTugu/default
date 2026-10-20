@@ -53,3 +53,12 @@ export {
   useConfirmMfaEnroll,
   useDisableMfa,
 } from "./auth/use-mfa";
+
+export { configureAuthSessionsFetcher } from "./auth-sessions-fetcher";
+
+export {
+  authSessionKeys,
+  useAuthSessions,
+  useRevokeAuthSession,
+  useRevokeOtherAuthSessions,
+} from "./auth/use-auth-sessions";

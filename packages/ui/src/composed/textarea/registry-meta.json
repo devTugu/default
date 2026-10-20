@@ -1,0 +1,65 @@
+[
+  {
+    "id": "09",
+    "fname": "textarea-09.tsx",
+    "title": "Textarea 09 - Disabled Textarea",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "08",
+    "fname": "textarea-08.tsx",
+    "title": "Textarea 08 - Textarea with helper text",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "textarea-07.tsx",
+    "title": "Textarea 07 - Textarea with floating label",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "textarea-06.tsx",
+    "title": "Textarea 06 - Textarea with characters left",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "textarea-05.tsx",
+    "title": "Textarea 05 - Auto growing textarea",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "textarea-04.tsx",
+    "title": "Textarea 04 - Textarea with button",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "textarea-03.tsx",
+    "title": "Textarea 03 - Required Textarea",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "textarea-02.tsx",
+    "title": "Textarea 02 - Textarea with icon",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "textarea-01.tsx",
+    "title": "Textarea 01 - Feedback Textarea",
+    "isNew": false,
+    "isPro": false
+  }
+]

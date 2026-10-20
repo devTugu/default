@@ -43,6 +43,7 @@ import {
 import { LOGIN_THROTTLE_OPTIONS } from '../../config/throttle-options';
 import { JwtPayload, TokenPair } from '@shared/types/pagination';
 import { LoginResult } from '@application/auth/dto/login-result';
+import { extractClientRequestMeta } from '../../lib/client-request-meta';
 
 @ApiTags('Auth v1')
 @Controller({ path: 'auth', version: '1' })
@@ -67,8 +68,15 @@ export class AuthV1Controller {
   @HttpCode(HttpStatus.OK)
   @Throttle(LOGIN_THROTTLE_OPTIONS)
   @ApiOperation({ summary: 'Login with email and password' })
-  async login(@Body() dto: LoginDto): Promise<LoginResult> {
-    return this.loginUseCase.execute(dto.email, dto.password);
+  async login(
+    @Body() dto: LoginDto,
+    @Req() req: Request,
+  ): Promise<LoginResult> {
+    return this.loginUseCase.execute(
+      dto.email,
+      dto.password,
+      extractClientRequestMeta(req),
+    );
   }
 
   @Public()
@@ -76,8 +84,15 @@ export class AuthV1Controller {
   @HttpCode(HttpStatus.OK)
   @Throttle(LOGIN_THROTTLE_OPTIONS)
   @ApiOperation({ summary: 'Complete login with TOTP code' })
-  async verifyMfa(@Body() dto: MfaLoginDto): Promise<TokenPair> {
-    return this.verifyMfaLogin.execute(dto.mfaToken, dto.code);
+  async verifyMfa(
+    @Body() dto: MfaLoginDto,
+    @Req() req: Request,
+  ): Promise<TokenPair> {
+    return this.verifyMfaLogin.execute(
+      dto.mfaToken,
+      dto.code,
+      extractClientRequestMeta(req),
+    );
   }
 
   @Public()
@@ -94,10 +109,14 @@ export class AuthV1Controller {
   @HttpCode(HttpStatus.OK)
   @Throttle(LOGIN_THROTTLE_OPTIONS)
   @ApiOperation({ summary: 'Confirm MFA enrollment and receive tokens' })
-  enrollmentConfirm(@Body() dto: MfaEnrollmentConfirmDto): Promise<TokenPair> {
+  enrollmentConfirm(
+    @Body() dto: MfaEnrollmentConfirmDto,
+    @Req() req: Request,
+  ): Promise<TokenPair> {
     return this.confirmMfaEnrollWithEnrollmentToken.execute(
       dto.enrollmentToken,
       dto.code,
+      extractClientRequestMeta(req),
     );
   }
 
@@ -141,8 +160,14 @@ export class AuthV1Controller {
   @Post('oauth/callback')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Complete OIDC login' })
-  oauthCallback(@Body() dto: OAuthCallbackDto): Promise<LoginResult> {
-    return this.completeOAuth.execute(dto.callbackUrl);
+  oauthCallback(
+    @Body() dto: OAuthCallbackDto,
+    @Req() req: Request,
+  ): Promise<LoginResult> {
+    return this.completeOAuth.execute(
+      dto.callbackUrl,
+      extractClientRequestMeta(req),
+    );
   }
 
   @Public()
@@ -150,8 +175,14 @@ export class AuthV1Controller {
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Rotate refresh token' })
-  async refresh(@Body() dto: RefreshDto): Promise<TokenPair> {
-    return this.refreshUseCase.execute(dto.refreshToken);
+  async refresh(
+    @Body() dto: RefreshDto,
+    @Req() req: Request,
+  ): Promise<TokenPair> {
+    return this.refreshUseCase.execute(
+      dto.refreshToken,
+      extractClientRequestMeta(req),
+    );
   }
 
   @Post('logout')

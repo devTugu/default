@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test';
 
-const adminEmail = process.env.E2E_ADMIN_EMAIL ?? 'admin@example.com';
-const adminPassword = process.env.E2E_ADMIN_PASSWORD ?? 'Admin123!';
+const adminEmail = process.env.E2E_ADMIN_EMAIL ?? 'admin@default.mn';
+const adminPassword = process.env.E2E_ADMIN_PASSWORD ?? 'admin123!';
 const viewerEmail = process.env.E2E_VIEWER_EMAIL ?? 'viewer@example.com';
 const viewerPassword = process.env.E2E_VIEWER_PASSWORD ?? 'Viewer123!';
 
@@ -40,7 +40,10 @@ export async function goToUsers(page: Page): Promise<void> {
 export async function logoutAsAdmin(page: Page): Promise<void> {
   await page.getByRole('button', { name: adminEmail }).click();
   await page.getByRole('menuitem', { name: /sign out/i }).click();
-  await page.waitForURL(/\/sign-in/, { timeout: 10_000 });
+  await page.waitForURL(
+    (url) => new URL(url).pathname === '/',
+    { timeout: 10_000 },
+  );
 }
 
 export { fetchCsrf, adminEmail, adminPassword, viewerEmail, viewerPassword };

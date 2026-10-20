@@ -33,6 +33,18 @@
       "import": "./src/slug.ts",
       "default": "./src/slug.ts"
     },
+    "./user-agent": {
+      "types": "./dist/user-agent/device-label.d.ts",
+      "require": "./dist/user-agent/device-label.js",
+      "import": "./src/user-agent/device-label.ts",
+      "default": "./src/user-agent/device-label.ts"
+    },
+    "./api-error-message": {
+      "types": "./dist/api-error-message.d.ts",
+      "require": "./dist/api-error-message.js",
+      "import": "./src/api-error-message.ts",
+      "default": "./src/api-error-message.ts"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -41,7 +53,9 @@
       "reading-time": ["./dist/reading-time.d.ts"],
       "color": ["./dist/color.d.ts"],
       "localized": ["./dist/localized.d.ts"],
-      "slug": ["./dist/slug.d.ts"]
+      "slug": ["./dist/slug.d.ts"],
+      "user-agent": ["./dist/user-agent/device-label.d.ts"],
+      "api-error-message": ["./dist/api-error-message.d.ts"]
     }
   },
   "files": ["dist", "src"],

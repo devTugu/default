@@ -6,4 +6,4 @@ All notable changes to this project are documented in this file.
 
 Initial release of the website-template API package.
 
-NestJS Clean Architecture starter: JWT auth, RBAC, site-settings, media, dashboard, audit, Drizzle ORM, MySQL, Redis.
+NestJS Clean Architecture starter: JWT auth, RBAC, site-settings, media, dashboard, audit, Drizzle ORM, PostgreSQL, Redis.

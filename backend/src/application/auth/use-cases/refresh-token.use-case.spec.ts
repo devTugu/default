@@ -17,6 +17,7 @@ describe('RefreshTokenUseCase', () => {
   };
   const permissionCache = { set: jest.fn() };
   const config = { get: jest.fn().mockReturnValue(60) };
+  const recordRefresh = { record: jest.fn() };
 
   const useCase = new RefreshTokenUseCase(
     users as never,
@@ -24,6 +25,7 @@ describe('RefreshTokenUseCase', () => {
     tokens as never,
     permissionCache as never,
     config as never,
+    recordRefresh as never,
   );
 
   beforeEach(() => jest.clearAllMocks());
@@ -62,7 +64,7 @@ describe('RefreshTokenUseCase', () => {
     const result = await useCase.execute('valid-refresh');
     expect(result.accessToken).toBe('new-access');
     expect(refreshTokens.revokeById).toHaveBeenCalledWith(10);
-    expect(refreshTokens.save).toHaveBeenCalled();
+    expect(recordRefresh.record).toHaveBeenCalled();
   });
 
   it('revokes all sessions on refresh token reuse', async () => {

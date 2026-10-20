@@ -1,0 +1,109 @@
+// @ts-nocheck
+'use client'
+
+import { useId, useMemo, useState, useEffect } from 'react'
+
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react'
+
+import { Button } from "@default/ui/primitives/button"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from "@default/ui/primitives/command"
+import { Popover, PopoverContent, PopoverTrigger } from "@default/ui/primitives/popover"
+
+import { cn } from "@default/ui/lib/cn"
+
+const ComboboxTimezoneDemo = () => {
+  const id = useId()
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState<string>('Indian/Cocos')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => {
+        setMounted(true)
+      }, 50)
+      return () => clearTimeout(timer)
+    } else {
+      setMounted(false)
+    }
+  }, [open])
+
+  // Fetch supported timezones
+  const timezones = Intl.supportedValuesOf('timeZone')
+
+  const formattedTimezones = useMemo(() => {
+    return timezones
+      .map(timezone => {
+        const formatter = new Intl.DateTimeFormat('en', {
+          timeZone: timezone,
+          timeZoneName: 'shortOffset'
+        })
+
+        const parts = formatter.formatToParts(new Date())
+        const offset = parts.find(part => part.type === 'timeZoneName')?.value || ''
+        const formattedOffset = offset === 'GMT' ? 'GMT+0' : offset
+
+        return {
+          value: timezone,
+          label: `(${formattedOffset}) ${timezone.replace(/_/g, ' ')}`,
+          numericOffset: parseInt(formattedOffset.replace('GMT', '').replace('+', '') || '0')
+        }
+      })
+      .sort((a, b) => a.numericOffset - b.numericOffset) // Sort by numeric offset
+  }, [timezones])
+
+  return (
+    <div className='w-full max-w-xs'>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+<Button id={id} variant='outline' role='combobox' aria-expanded={open} className='w-full justify-between cursor-pointer'>
+<span className={cn('truncate')}>
+              {value ? (
+                formattedTimezones.find(timezone => timezone.value === value)?.label
+              ) : (
+                <span className='text-muted-foreground'>Select timezone</span>
+              )}
+            </span>
+            <ChevronsUpDownIcon className='text-muted-foreground/80 shrink-0' aria-hidden='true' />
+          
+</Button>
+</PopoverTrigger>
+        <PopoverContent className='p-0' initialFocus={false}>
+          {mounted && (
+            <Command>
+              <CommandInput placeholder='Search timezone' />
+              <CommandList>
+                <CommandEmpty>No timezone found.</CommandEmpty>
+                <CommandGroup>
+                  {formattedTimezones.map(({ value: itemValue, label }) => (
+                    <CommandItem
+                      key={itemValue}
+                      value={itemValue}
+                      onSelect={currentValue => {
+                        setValue(currentValue === value ? '' : currentValue)
+                        setOpen(false)
+                      }}
+                      className="[&>svg:last-of-type]:hidden"
+                    >
+                      <span className='truncate'>{label}</span>
+                      {value === itemValue && <CheckIcon size={16} className='ml-auto' />}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          )}
+        </PopoverContent>
+      </Popover>
+    </div>
+  )
+}
+
+export default ComboboxTimezoneDemo

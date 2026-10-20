@@ -33,3 +33,4 @@ packages/*/dist
 # tooling
 .swc-cache
 .turbo
+.cache

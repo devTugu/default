@@ -1,0 +1,30 @@
+[
+  {
+    "id": "04",
+    "fname": "orbiting-circles-04.tsx",
+    "title": "Orbiting Circles 04 - Stack Reveal",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "orbiting-circles-03.tsx",
+    "title": "Orbiting Circles 03 - Spotlight",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "orbiting-circles-02.tsx",
+    "title": "Orbiting Circles 02 - with Globe",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "01",
+    "fname": "orbiting-circles-01.tsx",
+    "title": "Orbiting Circles 01 - Default",
+    "isNew": false,
+    "isPro": false
+  }
+]

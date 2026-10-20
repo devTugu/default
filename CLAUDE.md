@@ -1,6 +1,6 @@
 # Website template — Claude instructions
 
-Full-stack auth/admin starter (pnpm workspace). Overview: `README.md`.
+Full-stack auth/admin starter (pnpm workspace). Overview: `README.md`. Product & fork docs: `md/README.md`.
 
 Single source of truth for coding rules is `.cursor/rules/` — shared with Cursor. Edit rules there, not here.
 

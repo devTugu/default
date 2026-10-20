@@ -1,0 +1,37 @@
+[
+  {
+    "id": "05",
+    "fname": "file-upload-05.tsx",
+    "title": "File Upload 05 - Crop & Preview Editor",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "file-upload-04.tsx",
+    "title": "File Upload 04 - Upload with Ring Progress",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "file-upload-03.tsx",
+    "title": "File Upload 03 - Avatar Upload",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "file-upload-02.tsx",
+    "title": "File Upload 02 - File Upload with Progress",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "file-upload-01.tsx",
+    "title": "File Upload 01 - Animated File Upload",
+    "isNew": false,
+    "isPro": false
+  }
+]

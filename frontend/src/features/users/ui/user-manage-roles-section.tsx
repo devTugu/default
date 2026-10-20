@@ -114,7 +114,14 @@ export function UserManageRolesSection({
         <div className="space-y-2">
           <p className="text-sm font-medium">{t("addRole")}</p>
           <div className="flex gap-2">
-            <Select value={selectedRoleId} onValueChange={onRoleSelect}>
+            <Select
+              value={selectedRoleId}
+              onValueChange={(value) => {
+                if (value != null) {
+                  onRoleSelect(value);
+                }
+              }}
+            >
               <SelectTrigger className="flex-1">
                 <SelectValue placeholder={t("selectRole")} />
               </SelectTrigger>

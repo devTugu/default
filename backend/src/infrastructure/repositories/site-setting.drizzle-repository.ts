@@ -58,6 +58,7 @@ export class SiteSettingDrizzleRepository implements ISiteSettingRepository {
         values: [...DEFAULT_SITE_SETTINGS.about.values],
         stats: [...DEFAULT_SITE_SETTINGS.about.stats],
       },
+      security: { ...DEFAULT_SITE_SETTINGS.security },
       updatedAt: new Date(),
     };
 
@@ -78,6 +79,9 @@ export class SiteSettingDrizzleRepository implements ISiteSettingRepository {
             stats: data.about.stats ?? base.about.stats ?? [],
           }
         : base.about,
+      security: data.security
+        ? { ...base.security, ...data.security }
+        : base.security,
     };
 
     const organizationId = await this.orgContext.getCurrentOrganizationId();

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "06",
+    "fname": "label-06.tsx",
+    "title": "Label 06 - Floating Label",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "label-05.tsx",
+    "title": "Label 05 - With Switch",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "label-04.tsx",
+    "title": "Label 04 - With Textarea",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "label-03.tsx",
+    "title": "Label 03 - With Badge",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "label-02.tsx",
+    "title": "Label 02 - With Input",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "label-01.tsx",
+    "title": "Label 01 - With Checkbox",
+    "isNew": false
+  }
+]

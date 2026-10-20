@@ -1,0 +1,58 @@
+[
+  {
+    "id": "08",
+    "fname": "switch-08.tsx",
+    "title": "Switch 08 - Role Picker",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "switch-07.tsx",
+    "title": "Switch 07 - Labeled Toggle",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "switch-06.tsx",
+    "title": "Switch 06 - Custom Colors",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "switch-05.tsx",
+    "title": "Switch 05 - With label",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "switch-04.tsx",
+    "title": "Switch 04 - With Description",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "switch-03.tsx",
+    "title": "Switch 03 - Toggle theme",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "switch-02.tsx",
+    "title": "Switch 02 - With Icon",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "switch-01.tsx",
+    "title": "Switch 01 - Active effect",
+    "isNew": false,
+    "isPro": false
+  }
+]

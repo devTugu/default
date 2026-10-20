@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "types": ["node"]
+  },
+  "include": ["src/composed/**/*.tsx", "src/default-space/**/*.tsx"]
+}

@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { drizzle } from 'drizzle-orm/mysql2';
-import mysql from 'mysql2/promise';
-import { createMysqlPoolOptions } from '@infrastructure/config/drizzle.config';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
+import { createPostgresPoolConfig } from '@infrastructure/config/drizzle.config';
 import { DRIZZLE, type DrizzleDatabase } from './drizzle.tokens';
 import { schema } from './schema';
 
@@ -13,8 +13,8 @@ import { schema } from './schema';
       provide: DRIZZLE,
       inject: [ConfigService],
       useFactory: (configService: ConfigService): DrizzleDatabase => {
-        const pool = mysql.createPool(createMysqlPoolOptions(configService));
-        return drizzle(pool, { schema, mode: 'default' });
+        const pool = new Pool(createPostgresPoolConfig(configService));
+        return drizzle(pool, { schema });
       },
     },
   ],

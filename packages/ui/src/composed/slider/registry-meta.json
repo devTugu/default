@@ -1,0 +1,58 @@
+[
+  {
+    "id": "08",
+    "fname": "slider-08.tsx",
+    "title": "Slider 08 - Circular Volume Dial",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "slider-07.tsx",
+    "title": "Slider 07 - Slingshot Launch Power",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "slider-06.tsx",
+    "title": "Slider 06 - Animated Price Range Filter",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "slider-05.tsx",
+    "title": "Slider 05 - Equalizer Bar",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "04",
+    "fname": "slider-04.tsx",
+    "title": "Slider 04 - Modern Volume",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "slider-03.tsx",
+    "title": "Slider 03 - Temperature Control",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "slider-02.tsx",
+    "title": "Slider 02 - Emoji Rating",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "slider-01.tsx",
+    "title": "Slider 01 - Volume Control",
+    "isNew": false,
+    "isPro": false
+  }
+]

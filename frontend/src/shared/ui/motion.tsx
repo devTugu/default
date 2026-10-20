@@ -1,7 +1,7 @@
 'use client';
 
 import { type ReactNode } from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { motion, type HTMLMotionProps } from 'motion/react';
 import { useIsMounted } from '@/shared/hooks/use-is-mounted';
 import { usePrefersReducedMotion } from '@/shared/hooks/use-prefers-reduced-motion';
 

@@ -25,6 +25,7 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test --filter=backend --filter=frontend --filter=@default/utils",
+    "quality": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
     "test:e2e:backend": "pnpm --filter backend run test:e2e",
     "test:e2e:frontend": "API_DIR=backend bash frontend/scripts/ci-e2e.sh",
     "generate:tokens": "pnpm --filter @default/design-tokens generate",

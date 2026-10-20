@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { LegacyColumnDef as ColumnDef } from '@tanstack/react-table/legacy';
 import { useTranslations } from 'next-intl';
 import type { Permission } from '../types/permission';
 

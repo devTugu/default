@@ -11,33 +11,32 @@ services:
     env_file:
       - .env
     environment:
-      DB_HOST: mysql
+      DB_HOST: postgres
       REDIS_ENABLED: 'true'
       REDIS_URL: redis://redis:6379
       NODE_ENV: production
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
     networks:
       - backend
 
-  mysql:
-    image: mysql:8.0
-    container_name: backend-mysql
+  postgres:
+    image: postgres:16-alpine
+    container_name: backend-postgres
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${DB_NAME:-app_db}
-      MYSQL_USER: ${DB_USERNAME:-app_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-app_password}
+      POSTGRES_DB: ${DB_NAME:-app_db}
+      POSTGRES_USER: ${DB_USERNAME:-app_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-app_password}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - '3307:3306'
+      - '5433:5432'
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ['CMD-SHELL', 'pg_isready -U ${DB_USERNAME:-app_user} -d ${DB_NAME:-app_db}']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -59,7 +58,7 @@ services:
       - backend
 
 volumes:
-  mysql_data:
+  postgres_data:
 
 networks:
   backend:

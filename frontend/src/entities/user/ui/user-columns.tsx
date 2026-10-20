@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { LegacyColumnDef as ColumnDef } from '@tanstack/react-table/legacy';
 import { useTranslations } from 'next-intl';
 import { Badge } from '@default/ui/primitives/badge';
 import { useFormatDate } from '@/shared/i18n/use-format-date';
@@ -35,7 +35,13 @@ export function useUserColumns() {
         accessorKey: 'isActive',
         header: t('status'),
         cell: ({ row }) => (
-          <Badge variant={row.original.isActive ? 'default' : 'outline'}>
+          <Badge
+            className={
+              row.original.isActive
+                ? 'bg-teal-500/10 text-teal-600 dark:text-teal-400'
+                : 'bg-orange-500/10 text-orange-600 dark:text-orange-400'
+            }
+          >
             {row.original.isActive ? tStatus('active') : tStatus('inactive')}
           </Badge>
         ),

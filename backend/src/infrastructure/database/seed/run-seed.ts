@@ -1,10 +1,10 @@
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
-import { drizzle } from 'drizzle-orm/mysql2';
 import { and, eq, isNull } from 'drizzle-orm';
-import mysql from 'mysql2/promise';
-import { DEFAULT_SITE_SETTINGS } from '@domain/site-setting/entities/site-settings.entity';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 import { OrganizationMembership } from '@domain/organization/entities/organization-membership.entity';
+import { DEFAULT_SITE_SETTINGS } from '@domain/site-setting/entities/site-settings.entity';
 import {
   organizationMembers,
   organizations,
@@ -29,39 +29,38 @@ dotenv.config({ path: '.env' });
 
 const useSsl = process.env.DB_SSL === 'true';
 
-const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@example.com';
-const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD ?? 'Admin123!';
-const VIEWER_EMAIL = process.env.SEED_VIEWER_EMAIL ?? 'viewer@example.com';
-const VIEWER_PASSWORD = process.env.SEED_VIEWER_PASSWORD ?? 'Viewer123!';
+const ADMIN_EMAIL = process.env.SEED_ADMIN_EMAIL ?? 'admin@default.mn';
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD ?? 'admin123!';
+const VIEWER_EMAIL = process.env.SEED_VIEWER_EMAIL ?? 'viewer@default.mn';
+const VIEWER_PASSWORD = process.env.SEED_VIEWER_PASSWORD ?? 'viewer123!';
 const DEFAULT_ORG_SLUG = process.env.ORGANIZATION_DEFAULT_SLUG ?? 'default';
 
 async function runSeed(): Promise<void> {
-  const pool = mysql.createPool({
+  const pool = new Pool({
     host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT ?? 3306),
+    port: Number(process.env.DB_PORT ?? 5432),
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 2,
-    connectTimeout: 15000,
+    max: 2,
+    connectionTimeoutMillis: 15_000,
     ...(useSsl && { ssl: { rejectUnauthorized: true } }),
   });
 
-  const db = drizzle(pool, { schema, mode: 'default' });
+  const db = drizzle(pool, { schema });
 
-  // Tenancy-ready: single default org (multi-org UI out of scope).
   let defaultOrg = await db.query.organizations.findFirst({
     where: eq(organizations.slug, DEFAULT_ORG_SLUG),
   });
   if (!defaultOrg) {
-    const [inserted] = await db.insert(organizations).values({
-      slug: DEFAULT_ORG_SLUG,
-      name: 'Default',
-    });
-    defaultOrg = await db.query.organizations.findFirst({
-      where: eq(organizations.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(organizations)
+      .values({
+        slug: DEFAULT_ORG_SLUG,
+        name: 'Default',
+      })
+      .returning();
+    defaultOrg = inserted;
     console.log('Created default organization:', DEFAULT_ORG_SLUG);
   }
   if (!defaultOrg) throw new Error('DEFAULT_ORGANIZATION_MISSING');
@@ -70,13 +69,14 @@ async function runSeed(): Promise<void> {
     where: eq(roles.name, SUPER_ADMIN_ROLE_NAME),
   });
   if (!superAdminRole) {
-    const [inserted] = await db.insert(roles).values({
-      name: SUPER_ADMIN_ROLE_NAME,
-      description: 'Super administrator with all permissions',
-    });
-    superAdminRole = await db.query.roles.findFirst({
-      where: eq(roles.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(roles)
+      .values({
+        name: SUPER_ADMIN_ROLE_NAME,
+        description: 'Super administrator with all permissions',
+      })
+      .returning();
+    superAdminRole = inserted;
     console.log('Created SUPER_ADMIN role');
   }
   if (!superAdminRole) throw new Error('SUPER_ADMIN_ROLE_MISSING');
@@ -110,15 +110,16 @@ async function runSeed(): Promise<void> {
   });
   if (!adminUser) {
     const passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
-    const [inserted] = await db.insert(users).values({
-      email: ADMIN_EMAIL,
-      passwordHash,
-      isActive: true,
-      organizationId: defaultOrg.id,
-    });
-    adminUser = await db.query.users.findFirst({
-      where: eq(users.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(users)
+      .values({
+        email: ADMIN_EMAIL,
+        passwordHash,
+        isActive: true,
+        organizationId: defaultOrg.id,
+      })
+      .returning();
+    adminUser = inserted;
     console.log('Created admin user:', ADMIN_EMAIL);
   } else {
     await db
@@ -145,13 +146,14 @@ async function runSeed(): Promise<void> {
     where: eq(roles.name, SITE_EDITOR_ROLE_NAME),
   });
   if (!siteEditorRole) {
-    const [inserted] = await db.insert(roles).values({
-      name: SITE_EDITOR_ROLE_NAME,
-      description: 'Website content editor (site settings)',
-    });
-    siteEditorRole = await db.query.roles.findFirst({
-      where: eq(roles.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(roles)
+      .values({
+        name: SITE_EDITOR_ROLE_NAME,
+        description: 'Website content editor (site settings)',
+      })
+      .returning();
+    siteEditorRole = inserted;
     console.log('Created SITE_EDITOR role');
   }
   if (!siteEditorRole) throw new Error('SITE_EDITOR_ROLE_MISSING');
@@ -188,6 +190,7 @@ async function runSeed(): Promise<void> {
       contactInfo: DEFAULT_SITE_SETTINGS.contactInfo,
       theme: DEFAULT_SITE_SETTINGS.theme,
       about: DEFAULT_SITE_SETTINGS.about,
+      security: DEFAULT_SITE_SETTINGS.security,
     } as unknown as typeof siteSettings.$inferInsert);
     console.log('Created default site settings');
     existingSettings = await db.query.siteSettings.findFirst({
@@ -199,13 +202,14 @@ async function runSeed(): Promise<void> {
     where: eq(roles.name, E2E_VIEWER_ROLE_NAME),
   });
   if (!viewerRole) {
-    const [inserted] = await db.insert(roles).values({
-      name: E2E_VIEWER_ROLE_NAME,
-      description: 'E2E limited viewer — no dashboard or audit access',
-    });
-    viewerRole = await db.query.roles.findFirst({
-      where: eq(roles.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(roles)
+      .values({
+        name: E2E_VIEWER_ROLE_NAME,
+        description: 'E2E limited viewer — no dashboard or audit access',
+      })
+      .returning();
+    viewerRole = inserted;
     console.log('Created E2E_VIEWER role');
   }
   if (!viewerRole) throw new Error('E2E_VIEWER_ROLE_MISSING');
@@ -233,15 +237,16 @@ async function runSeed(): Promise<void> {
   });
   if (!viewerUser) {
     const passwordHash = await bcrypt.hash(VIEWER_PASSWORD, 12);
-    const [inserted] = await db.insert(users).values({
-      email: VIEWER_EMAIL,
-      passwordHash,
-      isActive: true,
-      organizationId: defaultOrg.id,
-    });
-    viewerUser = await db.query.users.findFirst({
-      where: eq(users.id, Number(inserted.insertId)),
-    });
+    const [inserted] = await db
+      .insert(users)
+      .values({
+        email: VIEWER_EMAIL,
+        passwordHash,
+        isActive: true,
+        organizationId: defaultOrg.id,
+      })
+      .returning();
+    viewerUser = inserted;
     console.log('Created viewer user:', VIEWER_EMAIL);
   }
   if (!viewerUser) throw new Error('VIEWER_USER_MISSING');

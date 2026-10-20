@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useSiteSettings, useUpdateSiteSettings } from '@/entities/site-settings';
 import { useAuthPermissions } from '@/features/auth';
@@ -13,23 +13,18 @@ import {
 } from './site-settings-form.utils';
 import { createSiteSettingsSubmit } from './site-settings-form.submit';
 
-export function useSiteSettingsForm() {
+export function useSiteSettingsForm(options?: { enabled?: boolean }) {
   const t = useTranslations('entities.siteSettings');
   const tCommon = useTranslations('common');
-  const tAuth = useTranslations('auth');
-  const tTable = useTranslations('table');
-  const { can } = useAuthPermissions();
+  const { can, isSuperAdmin } = useAuthPermissions();
   const canUpdate = can(PERMISSION_CODES.SITE_SETTING_UPDATE);
-  const { data, isLoading } = useSiteSettings();
+  const { data, isLoading } = useSiteSettings({
+    enabled: options?.enabled ?? true,
+  });
   const updateSettings = useUpdateSiteSettings();
 
   const form = useForm<SiteSettingsFormValues>({
     defaultValues: emptySiteSettingsFormValues,
-  });
-
-  const socialLinks = useFieldArray({
-    control: form.control,
-    name: 'footer.socialLinks',
   });
 
   useEffect(() => {
@@ -46,16 +41,12 @@ export function useSiteSettingsForm() {
   return {
     t,
     tCommon,
-    tAuth,
-    tTable,
     canUpdate,
+    isSuperAdmin,
     data,
     isLoading,
     form,
-    socialLinks,
     updateSettings,
     onSubmit,
   };
 }
-
-export type SiteSettingsFormModel = ReturnType<typeof useSiteSettingsForm>;

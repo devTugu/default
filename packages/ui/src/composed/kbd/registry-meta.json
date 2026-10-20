@@ -1,0 +1,32 @@
+[
+  {
+    "id": "05",
+    "fname": "kbd-05.tsx",
+    "title": "KBD 05 - KBD Generator",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "kbd-04.tsx",
+    "title": "KBD 04 - KBD in Search Input",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "kbd-03.tsx",
+    "title": "KBD 03 - KBD in Tooltip",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "kbd-02.tsx",
+    "title": "KBD 02 - KBD Group",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "kbd-01.tsx",
+    "title": "KBD 01 - KBD in Button",
+    "isNew": false
+  }
+]

@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { ZodValidationException } from 'nestjs-zod';
 import { z } from 'zod';
 import { AllExceptionsFilter } from './all-exceptions.filter';
@@ -23,6 +23,22 @@ describe('AllExceptionsFilter', () => {
     } as never);
     return { response, json };
   }
+
+  it('maps HttpException response object to a string message', () => {
+    const { response, json } = catchException(
+      new UnauthorizedException('Unauthorized or invalid token.'),
+    );
+
+    expect(response.status).toHaveBeenCalledWith(HttpStatus.UNAUTHORIZED);
+    expect(json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        success: false,
+        error: expect.objectContaining({
+          message: 'Unauthorized or invalid token.',
+        }),
+      }),
+    );
+  });
 
   it('maps ZodValidationException to VALIDATION_ERROR with details', () => {
     const parsed = z

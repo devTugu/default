@@ -1,0 +1,10 @@
+export { default as InputOtp10 } from "./input-otp-10";
+export { default as InputOtp09 } from "./input-otp-09";
+export { default as InputOtp08 } from "./input-otp-08";
+export { default as InputOtp07 } from "./input-otp-07";
+export { default as InputOtp06 } from "./input-otp-06";
+export { default as InputOtp05 } from "./input-otp-05";
+export { default as InputOtp04 } from "./input-otp-04";
+export { default as InputOtp03 } from "./input-otp-03";
+export { default as InputOtp02 } from "./input-otp-02";
+export { default as InputOtp01 } from "./input-otp-01";

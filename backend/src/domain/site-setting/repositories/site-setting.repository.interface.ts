@@ -6,6 +6,7 @@ import {
   SiteSettingsHeader,
   SiteSettingsHero,
   SiteSettingsSeo,
+  SiteSettingsSecurity,
   SiteSettingsTheme,
 } from '../entities/site-settings.entity';
 
@@ -17,6 +18,7 @@ export interface UpdateSiteSettingsData {
   contactInfo?: Partial<SiteSettingsContactInfo>;
   theme?: Partial<SiteSettingsTheme>;
   about?: Partial<SiteSettingsAbout>;
+  security?: Partial<SiteSettingsSecurity>;
 }
 
 export interface ISiteSettingRepository {

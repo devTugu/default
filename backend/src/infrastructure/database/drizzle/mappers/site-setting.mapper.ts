@@ -5,6 +5,7 @@ import {
   type SiteSettingsContactInfo,
   type SiteSettingsHeader,
   type SiteSettingsHero,
+  type SiteSettingsSecurity,
   type SiteSettingsTheme,
 } from '@domain/site-setting/entities/site-settings.entity';
 import type { siteSettings } from '../schema';
@@ -47,6 +48,16 @@ function normalizeTheme(theme: SiteSettingsTheme): SiteSettingsTheme {
   };
 }
 
+function normalizeSecurity(
+  security: SiteSettingsSecurity | null | undefined,
+): SiteSettingsSecurity {
+  return {
+    enforcePrivilegedMfa:
+      security?.enforcePrivilegedMfa ??
+      DEFAULT_SITE_SETTINGS.security.enforcePrivilegedMfa,
+  };
+}
+
 function normalizeAbout(about: SiteSettingsAbout): SiteSettingsAbout {
   return {
     brief: about?.brief ?? DEFAULT_SITE_SETTINGS.about.brief,
@@ -69,6 +80,7 @@ export class SiteSettingMapper {
       normalizeContactInfo(entity.contactInfo),
       normalizeTheme(entity.theme),
       normalizeAbout(entity.about),
+      normalizeSecurity(entity.security),
       entity.updatedAt,
     );
   }

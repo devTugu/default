@@ -9,7 +9,7 @@ test.describe('Site settings', () => {
   test('loads site settings form', async ({ page }) => {
     await page.getByRole('link', { name: 'Site Settings' }).click();
     await expect(page).toHaveURL(/\/dashboard\/site-settings/);
-    await expect(page.getByRole('tab', { name: 'Hero' })).toBeVisible({
+    await expect(page.getByRole('heading', { name: 'Account & Security' })).toBeVisible({
       timeout: 15_000,
     });
   });

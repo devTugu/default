@@ -1,0 +1,32 @@
+[
+  {
+    "id": "05",
+    "fname": "marquee-05.tsx",
+    "title": "Marquee 05 - Trending Stocks",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "marquee-04.tsx",
+    "title": "Marquee 04 - Fashion Video Showcase",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "marquee-03.tsx",
+    "title": "Marquee 03 - Vertical Testimonials",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "marquee-02.tsx",
+    "title": "Marquee 02 - Brands",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "marquee-01.tsx",
+    "title": "Marquee 01 - Testimonials",
+    "isNew": false
+  }
+]

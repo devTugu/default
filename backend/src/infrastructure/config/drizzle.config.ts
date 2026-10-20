@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config';
-import type { PoolOptions } from 'mysql2/promise';
+import type { PoolConfig } from 'pg';
 
-export const createMysqlPoolOptions = (
+export const createPostgresPoolConfig = (
   configService: ConfigService,
-): PoolOptions => {
+): PoolConfig => {
   const useSsl = configService.get<string>('DB_SSL') === 'true';
-  const connectionLimit = configService.get<number>('DB_CONNECTION_LIMIT', 10);
+  const max = configService.get<number>('DB_CONNECTION_LIMIT', 10);
 
   return {
     host: configService.getOrThrow<string>('DB_HOST'),
@@ -13,9 +13,8 @@ export const createMysqlPoolOptions = (
     user: configService.getOrThrow<string>('DB_USERNAME'),
     password: configService.getOrThrow<string>('DB_PASSWORD'),
     database: configService.getOrThrow<string>('DB_NAME'),
-    waitForConnections: true,
-    connectionLimit,
-    connectTimeout: 15000,
+    max,
+    connectionTimeoutMillis: 15_000,
     ...(useSsl && { ssl: { rejectUnauthorized: true } }),
   };
 };

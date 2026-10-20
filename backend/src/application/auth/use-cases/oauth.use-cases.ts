@@ -1,26 +1,23 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as crypto from 'crypto';
 import { IUserRepository } from '@domain/user/repositories/user.repository.interface';
-import { IRefreshTokenRepository } from '@domain/auth/repositories/refresh-token.repository.interface';
 import { IOAuthIdentityProvider } from '@application/ports/identity.port';
 import { ITokenIssuer } from '@application/ports/token-issuer.port';
 import { IPermissionCache } from '@application/ports/permission-cache.port';
 import { IPasswordHasher } from '@application/ports/password-hasher.port';
 import { AppErrors } from '@application/exceptions/application.exception';
 import { LoginResult } from '../dto/login-result';
-import {
-  parseMfaRequiredRoles,
-  roleRequiresMfa,
-} from '../lib/mfa-required-roles';
+import { roleRequiresMfa } from '../lib/mfa-required-roles';
+import { MfaPolicyService } from '../services/mfa-policy.service';
 import {
   USER_REPOSITORY,
-  REFRESH_TOKEN_REPOSITORY,
   OAUTH_IDENTITY,
   TOKEN_ISSUER,
   PERMISSION_CACHE,
   PASSWORD_HASHER,
 } from '@shared/constants/tokens';
 import { ConfigService } from '@nestjs/config';
+import type { ClientRequestMeta } from '../dto/client-request-meta';
+import { RecordRefreshTokenService } from '../services/record-refresh-token.service';
 
 @Injectable()
 export class GetOAuthAuthorizationUrlUseCase {
@@ -42,16 +39,19 @@ export class CompleteOAuthLoginUseCase {
   constructor(
     @Inject(OAUTH_IDENTITY) private readonly oauth: IOAuthIdentityProvider,
     @Inject(USER_REPOSITORY) private readonly users: IUserRepository,
-    @Inject(REFRESH_TOKEN_REPOSITORY)
-    private readonly refreshTokens: IRefreshTokenRepository,
     @Inject(TOKEN_ISSUER) private readonly tokens: ITokenIssuer,
+    private readonly recordRefresh: RecordRefreshTokenService,
     @Inject(PERMISSION_CACHE)
     private readonly permissionCache: IPermissionCache,
     @Inject(PASSWORD_HASHER) private readonly hasher: IPasswordHasher,
     private readonly config: ConfigService,
+    private readonly mfaPolicy: MfaPolicyService,
   ) {}
 
-  async execute(callbackUrl: string): Promise<LoginResult> {
+  async execute(
+    callbackUrl: string,
+    meta?: ClientRequestMeta,
+  ): Promise<LoginResult> {
     if (!this.oauth.isEnabled()) {
       throw AppErrors.BAD_REQUEST('OAuth is not enabled.');
     }
@@ -81,9 +81,7 @@ export class CompleteOAuthLoginUseCase {
     );
     if (!authUser) throw AppErrors.UNAUTHORIZED('OAuth user inactive.');
 
-    const requiredRoles = parseMfaRequiredRoles(
-      this.config.get<string>('MFA_REQUIRED_ROLES'),
-    );
+    const requiredRoles = await this.mfaPolicy.getRequiredRoles();
     const privilegedRole = roleRequiresMfa(authUser.roleNames, requiredRoles);
 
     if (authUser.mfaEnabled) {
@@ -109,14 +107,11 @@ export class CompleteOAuthLoginUseCase {
     );
 
     const issued = await this.tokens.issuePair(authUser.id, authUser.email);
-    const tokenHash = crypto
-      .createHash('sha256')
-      .update(issued.refreshToken)
-      .digest('hex');
-    await this.refreshTokens.save(
+    await this.recordRefresh.record(
       authUser.id,
-      tokenHash,
+      issued.refreshToken,
       issued.refreshExpiresAt,
+      meta,
     );
     return {
       accessToken: issued.accessToken,

@@ -11,7 +11,16 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ZodValidationException } from 'nestjs-zod';
 import { Request, Response } from 'express';
 import { ApplicationException } from '@application/exceptions/application.exception';
+import { readApiErrorMessage } from '@default/utils/api-error-message';
 import { REQUEST_ID_HEADER } from '../middleware/request-id.middleware';
+
+function httpExceptionMessage(exception: HttpException): string {
+  const response = exception.getResponse();
+  if (typeof response === 'string') {
+    return response;
+  }
+  return readApiErrorMessage(response, exception.message);
+}
 
 interface ValidationDetail {
   path: string;
@@ -84,7 +93,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     } else if (exception instanceof HttpException) {
       status = exception.getStatus();
       code = exception.constructor.name.replace('Exception', '').toUpperCase();
-      message = exception.getResponse();
+      message = httpExceptionMessage(exception);
     }
 
     if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {

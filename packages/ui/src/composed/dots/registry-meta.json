@@ -1,0 +1,74 @@
+[
+  {
+    "id": "12",
+    "fname": "dots-12.tsx",
+    "title": "Dots 12 - Pebble",
+    "isNew": false
+  },
+  {
+    "id": "11",
+    "fname": "dots-11.tsx",
+    "title": "Dots 11 - Cloud",
+    "isNew": false
+  },
+  {
+    "id": "10",
+    "fname": "dots-10.tsx",
+    "title": "Dots 10 - Circle",
+    "isNew": false
+  },
+  {
+    "id": "09",
+    "fname": "dots-09.tsx",
+    "title": "Dots 09 - Hexagon",
+    "isNew": false
+  },
+  {
+    "id": "08",
+    "fname": "dots-08.tsx",
+    "title": "Dots 08 - Squircle",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "dots-07.tsx",
+    "title": "Dots 07 - Clover",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "dots-06.tsx",
+    "title": "Dots 06 - Triangle",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "dots-05.tsx",
+    "title": "Dots 05 - Diamond",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "dots-04.tsx",
+    "title": "Dots 04 - Teardrop",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "dots-03.tsx",
+    "title": "Dots 03 - Scalloped",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "dots-02.tsx",
+    "title": "Dots 02 - Eared Blob",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "dots-01.tsx",
+    "title": "Dots 01 - Flower",
+    "isNew": false
+  }
+]

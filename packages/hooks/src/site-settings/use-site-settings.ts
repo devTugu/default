@@ -10,10 +10,11 @@ import type { UpdateSiteSettingsInput } from "@default/types/site-settings";
 
 export { siteSettingsKeys };
 
-export const useSiteSettings = () => {
+export const useSiteSettings = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: siteSettingsKeys.detail(),
     queryFn: () => getSiteSettings(),
+    enabled: options?.enabled ?? true,
   });
 };
 

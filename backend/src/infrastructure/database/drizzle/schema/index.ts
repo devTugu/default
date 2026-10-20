@@ -1,48 +1,49 @@
 import { relations, sql } from 'drizzle-orm';
 import {
   boolean,
-  datetime,
   index,
-  int,
-  json,
-  mysqlTable,
+  integer,
+  jsonb,
+  pgTable,
+  serial,
   text,
   timestamp,
   uniqueIndex,
   varchar,
-} from 'drizzle-orm/mysql-core';
+} from 'drizzle-orm/pg-core';
 import type {
   SiteSettingsAbout,
   SiteSettingsContactInfo,
   SiteSettingsFooter,
   SiteSettingsHeader,
   SiteSettingsHero,
+  SiteSettingsSecurity,
   SiteSettingsSeo,
   SiteSettingsTheme,
 } from '@domain/site-setting/entities/site-settings.entity';
 
 /** Multi-org UI is out of scope; schema is tenancy-ready with a single default org. */
-export const organizations = mysqlTable(
+export const organizations = pgTable(
   'organizations',
   {
-    id: int('id').autoincrement().primaryKey(),
+    id: serial('id').primaryKey(),
     slug: varchar('slug', { length: 100 }).notNull(),
     name: varchar('name', { length: 255 }).notNull(),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 6 })
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`)
+      .defaultNow()
       .$onUpdate(() => new Date()),
   },
   (table) => [uniqueIndex('UQ_organizations_slug').on(table.slug)],
 );
 
-export const users = mysqlTable(
+export const users = pgTable(
   'users',
   {
-    id: int('id').autoincrement().primaryKey(),
+    id: serial('id').primaryKey(),
     email: varchar('email', { length: 255 }).notNull(),
     passwordHash: varchar('password_hash', { length: 255 }),
     isActive: boolean('isActive').notNull().default(true),
@@ -50,17 +51,17 @@ export const users = mysqlTable(
     oauthSubject: varchar('oauth_subject', { length: 255 }),
     mfaEnabled: boolean('mfa_enabled').notNull().default(false),
     mfaSecretEncrypted: text('mfa_secret_encrypted'),
-    failedLoginAttempts: int('failed_login_attempts').notNull().default(0),
-    lockedUntil: datetime('locked_until', { mode: 'date', fsp: 6 }),
-    organizationId: int('organization_id'),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    failedLoginAttempts: integer('failed_login_attempts').notNull().default(0),
+    lockedUntil: timestamp('locked_until', { mode: 'date', precision: 6 }),
+    organizationId: integer('organization_id'),
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 6 })
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`)
+      .defaultNow()
       .$onUpdate(() => new Date()),
-    deletedAt: datetime('deleted_at', { mode: 'date', fsp: 6 }),
+    deletedAt: timestamp('deleted_at', { mode: 'date', precision: 6 }),
   },
   (table) => [
     uniqueIndex('UQ_users_email').on(table.email),
@@ -70,16 +71,16 @@ export const users = mysqlTable(
   ],
 );
 
-export const organizationMembers = mysqlTable(
+export const organizationMembers = pgTable(
   'organization_members',
   {
-    id: int('id').autoincrement().primaryKey(),
-    organizationId: int('organization_id').notNull(),
-    userId: int('user_id').notNull(),
+    id: serial('id').primaryKey(),
+    organizationId: integer('organization_id').notNull(),
+    userId: integer('user_id').notNull(),
     role: varchar('role', { length: 32 }).notNull(),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
+      .defaultNow(),
   },
   (table) => [
     uniqueIndex('UQ_organization_members_org_user').on(
@@ -91,20 +92,20 @@ export const organizationMembers = mysqlTable(
   ],
 );
 
-export const roles = mysqlTable(
+export const roles = pgTable(
   'roles',
   {
-    id: int('id').autoincrement().primaryKey(),
+    id: serial('id').primaryKey(),
     name: varchar('name', { length: 255 }).notNull(),
     description: varchar('description', { length: 255 }),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 6 })
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`)
+      .defaultNow()
       .$onUpdate(() => new Date()),
-    deletedAt: datetime('deleted_at', { mode: 'date', fsp: 6 }),
+    deletedAt: timestamp('deleted_at', { mode: 'date', precision: 6 }),
   },
   (table) => [
     uniqueIndex('UQ_roles_name').on(table.name),
@@ -112,18 +113,18 @@ export const roles = mysqlTable(
   ],
 );
 
-export const permissions = mysqlTable(
+export const permissions = pgTable(
   'permissions',
   {
-    id: int('id').autoincrement().primaryKey(),
+    id: serial('id').primaryKey(),
     code: varchar('code', { length: 255 }).notNull(),
     description: varchar('description', { length: 255 }),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 6 })
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`)
+      .defaultNow()
       .$onUpdate(() => new Date()),
   },
   (table) => [
@@ -132,15 +133,15 @@ export const permissions = mysqlTable(
   ],
 );
 
-export const userRoles = mysqlTable(
+export const userRoles = pgTable(
   'user_roles',
   {
-    id: int('id').autoincrement().primaryKey(),
-    userId: int('user_id').notNull(),
-    roleId: int('role_id').notNull(),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    id: serial('id').primaryKey(),
+    userId: integer('user_id').notNull(),
+    roleId: integer('role_id').notNull(),
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
+      .defaultNow(),
   },
   (table) => [
     uniqueIndex('UQ_user_roles_user_role').on(table.userId, table.roleId),
@@ -149,15 +150,15 @@ export const userRoles = mysqlTable(
   ],
 );
 
-export const rolePermissions = mysqlTable(
+export const rolePermissions = pgTable(
   'role_permissions',
   {
-    id: int('id').autoincrement().primaryKey(),
-    roleId: int('role_id').notNull(),
-    permissionId: int('permission_id').notNull(),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    id: serial('id').primaryKey(),
+    roleId: integer('role_id').notNull(),
+    permissionId: integer('permission_id').notNull(),
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
+      .defaultNow(),
   },
   (table) => [
     uniqueIndex('UQ_role_permissions_role_perm').on(
@@ -167,17 +168,20 @@ export const rolePermissions = mysqlTable(
   ],
 );
 
-export const refreshTokens = mysqlTable(
+export const refreshTokens = pgTable(
   'refresh_tokens',
   {
-    id: int('id').autoincrement().primaryKey(),
-    userId: int('user_id').notNull(),
+    id: serial('id').primaryKey(),
+    userId: integer('user_id').notNull(),
     tokenHash: varchar('token_hash', { length: 255 }).notNull(),
     expiresAt: timestamp('expires_at', { mode: 'date' }).notNull(),
     revokedAt: timestamp('revoked_at', { mode: 'date' }),
-    createdAt: datetime('created_at', { mode: 'date', fsp: 6 })
+    userAgent: varchar('user_agent', { length: 512 }),
+    ipAddress: varchar('ip_address', { length: 45 }),
+    lastSeenAt: timestamp('last_seen_at', { mode: 'date', precision: 6 }),
+    createdAt: timestamp('created_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`),
+      .defaultNow(),
   },
   (table) => [
     index('IDX_refresh_tokens_user_id').on(table.userId),
@@ -185,18 +189,18 @@ export const refreshTokens = mysqlTable(
   ],
 );
 
-export const auditLogs = mysqlTable(
+export const auditLogs = pgTable(
   'audit_logs',
   {
-    id: int('id').autoincrement().primaryKey(),
-    userId: int('user_id'),
-    organizationId: int('organization_id'),
+    id: serial('id').primaryKey(),
+    userId: integer('user_id'),
+    organizationId: integer('organization_id'),
     action: varchar('action', { length: 100 }).notNull(),
     resource: varchar('resource', { length: 100 }).notNull(),
     resourceId: varchar('resource_id', { length: 64 }),
     ipAddress: varchar('ip_address', { length: 45 }),
-    metadata: json('metadata').$type<Record<string, unknown> | null>(),
-    createdAt: datetime('created_at', { mode: 'date' })
+    metadata: jsonb('metadata').$type<Record<string, unknown> | null>(),
+    createdAt: timestamp('created_at', { mode: 'date' })
       .notNull()
       .default(sql`CURRENT_TIMESTAMP`),
   },
@@ -206,23 +210,24 @@ export const auditLogs = mysqlTable(
   ],
 );
 
-export const siteSettings = mysqlTable(
+export const siteSettings = pgTable(
   'site_settings',
   {
-    id: int('id').primaryKey(),
-    organizationId: int('organization_id'),
-    hero: json('hero').$type<SiteSettingsHero>().notNull(),
-    header: json('header').$type<SiteSettingsHeader>().notNull(),
-    footer: json('footer').$type<SiteSettingsFooter>().notNull(),
-    seo: json('seo').$type<SiteSettingsSeo>().notNull(),
-    contactInfo: json('contact_info')
+    id: integer('id').primaryKey(),
+    organizationId: integer('organization_id'),
+    hero: jsonb('hero').$type<SiteSettingsHero>().notNull(),
+    header: jsonb('header').$type<SiteSettingsHeader>().notNull(),
+    footer: jsonb('footer').$type<SiteSettingsFooter>().notNull(),
+    seo: jsonb('seo').$type<SiteSettingsSeo>().notNull(),
+    contactInfo: jsonb('contact_info')
       .$type<SiteSettingsContactInfo>()
       .notNull(),
-    theme: json('theme').$type<SiteSettingsTheme>().notNull(),
-    about: json('about').$type<SiteSettingsAbout>().notNull(),
-    updatedAt: datetime('updated_at', { mode: 'date', fsp: 6 })
+    theme: jsonb('theme').$type<SiteSettingsTheme>().notNull(),
+    about: jsonb('about').$type<SiteSettingsAbout>().notNull(),
+    security: jsonb('security').$type<SiteSettingsSecurity>().notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'date', precision: 6 })
       .notNull()
-      .default(sql`CURRENT_TIMESTAMP(6)`)
+      .defaultNow()
       .$onUpdate(() => new Date()),
   },
   (table) => [

@@ -30,11 +30,14 @@ export class RoleDrizzleRepository implements IRoleRepository {
   constructor(@Inject(DRIZZLE) private readonly db: DrizzleDatabase) {}
 
   async create(data: CreateRoleData): Promise<DomainRole> {
-    const [insertResult] = await this.db.insert(roles).values({
-      name: data.name.toUpperCase(),
-      description: data.description,
-    });
-    const roleId = Number(insertResult.insertId);
+    const [insertResult] = await this.db
+      .insert(roles)
+      .values({
+        name: data.name.toUpperCase(),
+        description: data.description,
+      })
+      .returning({ id: roles.id });
+    const roleId = insertResult.id;
     if (data.permissionIds?.length) {
       await this.syncPermissions(roleId, data.permissionIds);
     }
@@ -110,8 +113,9 @@ export class RoleDrizzleRepository implements IRoleRepository {
   async removeFromUser(userId: number, roleId: number): Promise<void> {
     const deleted = await this.db
       .delete(userRoles)
-      .where(and(eq(userRoles.userId, userId), eq(userRoles.roleId, roleId)));
-    if (deleted[0].affectedRows === 0) throw new Error('USER_ROLE_NOT_FOUND');
+      .where(and(eq(userRoles.userId, userId), eq(userRoles.roleId, roleId)))
+      .returning({ id: userRoles.id });
+    if (deleted.length === 0) throw new Error('USER_ROLE_NOT_FOUND');
   }
 
   async syncPermissions(

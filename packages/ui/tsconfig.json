@@ -2,9 +2,11 @@
   "extends": "@default/tsconfig/react-library.json",
   "compilerOptions": {
     "noEmit": true,
+    "rootDir": "./src",
+    "types": ["node"],
     "paths": {
       "@default/ui/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/primitives/**/*.tsx", "src/lib/**/*.ts", "src/hooks/**/*.ts"]
 }

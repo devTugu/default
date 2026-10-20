@@ -54,17 +54,16 @@ jobs:
     needs: quality
 
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:16-alpine
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: app_db
-          MYSQL_USER: app_user
-          MYSQL_PASSWORD: app_password
+          POSTGRES_DB: app_db
+          POSTGRES_USER: app_user
+          POSTGRES_PASSWORD: app_password
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping -h localhost"
+          --health-cmd="pg_isready -U app_user -d app_db"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
@@ -81,7 +80,7 @@ jobs:
 
     env:
       DB_HOST: 127.0.0.1
-      DB_PORT: 3306
+      DB_PORT: 5432
       DB_USERNAME: app_user
       DB_PASSWORD: app_password
       DB_NAME: app_db
@@ -103,8 +102,8 @@ jobs:
       MFA_ENCRYPTION_KEY: ci_mfa_encryption_key_minimum_32_chars
       MFA_ISSUER: Website Template CI
       MFA_REQUIRED_ROLES: SITE_EDITOR
-      SEED_ADMIN_EMAIL: admin@example.com
-      SEED_ADMIN_PASSWORD: Admin123!
+      SEED_ADMIN_EMAIL: admin@default.mn
+      SEED_ADMIN_PASSWORD: admin123!
 
     steps:
       - uses: actions/checkout@v4
@@ -151,17 +150,16 @@ jobs:
     needs: quality
 
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:16-alpine
         env:
-          MYSQL_ROOT_PASSWORD: rootpassword
-          MYSQL_DATABASE: app_db
-          MYSQL_USER: app_user
-          MYSQL_PASSWORD: app_password
+          POSTGRES_DB: app_db
+          POSTGRES_USER: app_user
+          POSTGRES_PASSWORD: app_password
         ports:
-          - 3306:3306
+          - 5432:5432
         options: >-
-          --health-cmd="mysqladmin ping -h localhost"
+          --health-cmd="pg_isready -U app_user -d app_db"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=10
@@ -179,13 +177,13 @@ jobs:
     env:
       CI: true
       API_INTERNAL_URL: http://localhost:3001/api/v1
-      E2E_ADMIN_EMAIL: admin@example.com
-      E2E_ADMIN_PASSWORD: Admin123!
-      E2E_VIEWER_EMAIL: viewer@example.com
-      E2E_VIEWER_PASSWORD: Viewer123!
+      E2E_ADMIN_EMAIL: admin@default.mn
+      E2E_ADMIN_PASSWORD: admin123!
+      E2E_VIEWER_EMAIL: viewer@default.mn
+      E2E_VIEWER_PASSWORD: viewer123!
       MFA_REQUIRED_ROLES: ''
       DB_HOST: 127.0.0.1
-      DB_PORT: 3306
+      DB_PORT: 5432
       DB_USERNAME: app_user
       DB_PASSWORD: app_password
       DB_NAME: app_db
@@ -205,10 +203,10 @@ jobs:
       LOG_LEVEL: error
       MFA_ENCRYPTION_KEY: ci_mfa_encryption_key_minimum_32_chars
       MFA_ISSUER: Website Template CI
-      SEED_ADMIN_EMAIL: admin@example.com
-      SEED_ADMIN_PASSWORD: Admin123!
-      SEED_VIEWER_EMAIL: viewer@example.com
-      SEED_VIEWER_PASSWORD: Viewer123!
+      SEED_ADMIN_EMAIL: admin@default.mn
+      SEED_ADMIN_PASSWORD: admin123!
+      SEED_VIEWER_EMAIL: viewer@default.mn
+      SEED_VIEWER_PASSWORD: viewer123!
 
     steps:
       - uses: actions/checkout@v4
@@ -229,7 +227,7 @@ jobs:
         run: |
           cat > .env <<'EOF'
           DB_HOST=127.0.0.1
-          DB_PORT=3306
+          DB_PORT=5432
           DB_USERNAME=app_user
           DB_PASSWORD=app_password
           DB_NAME=app_db
@@ -248,10 +246,10 @@ jobs:
           PERMISSION_CACHE_TTL_SEC=60
           OTEL_ENABLED=false
           LOG_LEVEL=error
-          SEED_ADMIN_EMAIL=admin@example.com
-          SEED_ADMIN_PASSWORD=Admin123!
-          SEED_VIEWER_EMAIL=viewer@example.com
-          SEED_VIEWER_PASSWORD=Viewer123!
+          SEED_ADMIN_EMAIL=admin@default.mn
+          SEED_ADMIN_PASSWORD=admin123!
+          SEED_VIEWER_EMAIL=viewer@default.mn
+          SEED_VIEWER_PASSWORD=viewer123!
           MFA_REQUIRED_ROLES=
           MFA_ENCRYPTION_KEY=ci_mfa_encryption_key_minimum_32_chars
           MFA_ISSUER=Website Template CI
@@ -276,10 +274,12 @@ jobs:
       - run: pnpm --filter frontend run build
         env:
           NODE_ENV: production
+          NEXT_SERVER_MODE: prod
           NEXT_PUBLIC_OAUTH_ENABLED: 'true'
 
       - name: Run E2E
         run: API_DIR=backend bash frontend/scripts/ci-e2e.sh
         env:
           NODE_ENV: production
+          NEXT_SERVER_MODE: prod
           NEXT_PUBLIC_OAUTH_ENABLED: 'true'

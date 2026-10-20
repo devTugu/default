@@ -19,26 +19,22 @@ import { MfaEnrollmentStep } from '@/features/auth/ui/mfa-enrollment-step';
 import { MfaVerifyForm } from '@/features/mfa/ui/mfa-verify-form';
 import { ROUTES } from '@/shared/config/routes';
 import { getErrorMessage } from '@/shared/api';
-import { Button } from '@default/ui/primitives/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@default/ui/primitives/form';
-import { Input } from '@default/ui/primitives/input';
 import { FadeIn } from '@/shared/ui/motion';
-import { OAuthSignInButton } from '@/widgets/oauth-sign-in-button';
+import { LoginFormCredentialsFields } from './login-form-credentials-fields';
 
 type SignInStep = 'credentials' | 'mfa-verify' | 'mfa-enroll';
 
 interface LoginFormProps {
   onStepChange?: (step: SignInStep) => void;
+  layout?: 'default' | 'login-04';
+  hideOAuth?: boolean;
 }
 
-export function LoginForm({ onStepChange }: LoginFormProps) {
+export function LoginForm({
+  onStepChange,
+  layout = 'default',
+  hideOAuth = false,
+}: LoginFormProps) {
   const router = useRouter();
   const t = useTranslations('auth');
   const tVal = useTranslations('validation');
@@ -143,57 +139,21 @@ export function LoginForm({ onStepChange }: LoginFormProps) {
     );
   }
 
-  return (
-    <FadeIn>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('email')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="admin@example.com"
-                    autoComplete="email"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t('password')}</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    autoComplete="current-password"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={login.isPending}
-          >
-            {login.isPending ? t('signingIn') : t('signIn')}
-          </Button>
-          <OAuthSignInButton />
-        </form>
-      </Form>
-    </FadeIn>
+  const credentialsForm = (
+    <LoginFormCredentialsFields
+      form={form}
+      layout={layout}
+      hideOAuth={hideOAuth}
+      isPending={login.isPending}
+      onSubmit={onSubmit}
+    />
   );
+
+  if (layout === 'login-04') {
+    return credentialsForm;
+  }
+
+  return <FadeIn>{credentialsForm}</FadeIn>;
 }
 
 export type { SignInStep };

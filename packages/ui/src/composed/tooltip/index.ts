@@ -1,0 +1,9 @@
+export { default as Tooltip09 } from "./tooltip-09";
+export { default as Tooltip08 } from "./tooltip-08";
+export { default as Tooltip07 } from "./tooltip-07";
+export { default as Tooltip06 } from "./tooltip-06";
+export { default as Tooltip05 } from "./tooltip-05";
+export { default as Tooltip04 } from "./tooltip-04";
+export { default as Tooltip03 } from "./tooltip-03";
+export { default as Tooltip02 } from "./tooltip-02";
+export { default as Tooltip01 } from "./tooltip-01";

@@ -21,13 +21,34 @@ function DropdownMenuPortal({
 }
 
 function DropdownMenuTrigger({
+  render,
+  children,
   ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger> & {
+  render?: React.ReactElement
+}) {
+  const child =
+    render ?? (React.isValidElement(children) ? children : undefined)
+
+  if (child) {
+    return (
+      <DropdownMenuPrimitive.Trigger
+        data-slot="dropdown-menu-trigger"
+        asChild
+        {...props}
+      >
+        {child}
+      </DropdownMenuPrimitive.Trigger>
+    )
+  }
+
   return (
     <DropdownMenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
       {...props}
-    />
+    >
+      {children}
+    </DropdownMenuPrimitive.Trigger>
   )
 }
 

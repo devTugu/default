@@ -52,7 +52,7 @@ describe('OAuth use cases', () => {
         mfaEnabled: true,
       }),
     };
-    const refreshTokens = { save: jest.fn() };
+    const recordRefresh = { record: jest.fn() };
     const tokens = {
       issueMfaPendingToken: jest.fn().mockResolvedValue('mfa-token'),
       issueMfaEnrollmentPendingToken: jest
@@ -64,21 +64,24 @@ describe('OAuth use cases', () => {
     const hasher = { hash: jest.fn().mockResolvedValue('hash') };
     const config = {
       get: jest.fn((key: string) => {
-        if (key === 'MFA_REQUIRED_ROLES') return 'SUPER_ADMIN';
         if (key === 'PERMISSION_CACHE_TTL_SEC') return 60;
         return undefined;
       }),
+    };
+    const mfaPolicy = {
+      getRequiredRoles: jest.fn().mockResolvedValue([]),
     };
 
     it('returns MFA step-up when user has MFA enabled', async () => {
       const useCase = new CompleteOAuthLoginUseCase(
         oauth as never,
         users as never,
-        refreshTokens as never,
         tokens as never,
+        recordRefresh as never,
         permissionCache as never,
         hasher as never,
         config as never,
+        mfaPolicy as never,
       );
 
       const result = await useCase.execute('https://cb?code=1');

@@ -1,14 +1,9 @@
 "use client";
 
 import { AdminFormSheet } from "@/shared/ui/admin-form-sheet";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@default/ui/primitives/tabs";
 import { buildUserManageFooter } from "./user-manage-actions";
 import { UserManageDialogs } from "./user-manage-dialogs";
-import {
-  UserManageCreateIdentity,
-  UserManageEditIdentity,
-} from "./user-manage-identity-section";
-import { UserManageRolesSection } from "./user-manage-roles-section";
+import { UserManageSheetContent } from "./user-manage-sheet-content";
 import {
   useUserManageSheet,
   type UserSheetState,
@@ -29,27 +24,11 @@ export function UserManageSheet({ state, onOpenChange }: UserManageSheetProps) {
   const {
     t,
     tCommon,
-    tTable,
     isCreate,
     user,
-    sheetId,
     activeTab,
-    setTabSelection,
-    selectedRoleId,
-    setRoleSelection,
-    formId,
-    createForm,
-    editForm,
-    onCreateSubmit,
-    onEditSubmit,
-    assignableRoles,
-    roleNameToId,
-    canAssign,
-    canUnassign,
-    assignRole,
-    handleAssignRole,
-    setUnassignTarget,
     unassignTarget,
+    setUnassignTarget,
     deleteOpen,
     setDeleteOpen,
     anonymizeOpen,
@@ -60,8 +39,6 @@ export function UserManageSheet({ state, onOpenChange }: UserManageSheetProps) {
     handleUnassignRole,
     handleAnonymize,
   } = model;
-
-  const footer = buildUserManageFooter(model);
 
   return (
     <>
@@ -80,56 +57,9 @@ export function UserManageSheet({ state, onOpenChange }: UserManageSheetProps) {
         }
         size="md"
         showContentLocale={false}
-        footer={footer}>
-        {isCreate ? (
-          <UserManageCreateIdentity
-            form={createForm}
-            formId={formId}
-            onSubmit={onCreateSubmit}
-          />
-        ) : (
-          <Tabs
-            value={activeTab}
-            onValueChange={(value) =>
-              setTabSelection({
-                sheetId,
-                tab: value as "profile" | "roles",
-              })
-            }>
-            <TabsList className="w-full">
-              <TabsTrigger value="profile" className="flex-1">
-                {t("tabProfile")}
-              </TabsTrigger>
-              <TabsTrigger value="roles" className="flex-1">
-                {tTable("roles")}
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="profile" className="mt-4">
-              <UserManageEditIdentity
-                form={editForm}
-                formId={formId}
-                user={user}
-                onSubmit={onEditSubmit}
-              />
-            </TabsContent>
-            <TabsContent value="roles" className="mt-4">
-              <UserManageRolesSection
-                user={user}
-                roleNameToId={roleNameToId}
-                assignableRoles={assignableRoles}
-                selectedRoleId={selectedRoleId}
-                canAssign={canAssign}
-                canUnassign={canUnassign}
-                assignPending={assignRole.isPending}
-                onRoleSelect={(roleId) =>
-                  setRoleSelection({ sheetId, roleId })
-                }
-                onAssign={handleAssignRole}
-                onUnassignRequest={setUnassignTarget}
-              />
-            </TabsContent>
-          </Tabs>
-        )}
+        footer={buildUserManageFooter(model)}
+      >
+        <UserManageSheetContent model={model} />
       </AdminFormSheet>
 
       <UserManageDialogs

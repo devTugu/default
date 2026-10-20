@@ -1,12 +1,12 @@
 'use client';
 
+import { flexRender, type PaginationState } from '@tanstack/react-table';
+import type { RowData } from '@tanstack/table-core';
 import {
-  flexRender,
   getCoreRowModel,
-  useReactTable,
-  type ColumnDef,
-  type PaginationState,
-} from '@tanstack/react-table';
+  useLegacyTable as useReactTable,
+  type LegacyColumnDef as ColumnDef,
+} from '@tanstack/react-table/legacy';
 import {
   Table,
   TableBody,
@@ -18,7 +18,7 @@ import {
 import { DataTablePagination } from './data-table-pagination';
 import { Skeleton } from '@default/ui/primitives/skeleton';
 
-interface DataTableProps<TData> {
+interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<TData, unknown>[];
   data: TData[];
   pageCount: number;
@@ -28,7 +28,7 @@ interface DataTableProps<TData> {
   emptyContent?: React.ReactNode;
 }
 
-export function DataTable<TData>({
+export function DataTable<TData extends RowData>({
   columns,
   data,
   pageCount,
@@ -37,8 +37,6 @@ export function DataTable<TData>({
   isLoading,
   emptyContent,
 }: DataTableProps<TData>) {
-  // TanStack Table returns unstable function references by design.
-  // eslint-disable-next-line react-hooks/incompatible-library -- manual pagination wrapper
   const table = useReactTable({
     data,
     columns,

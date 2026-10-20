@@ -38,10 +38,10 @@ frontend:
       cpu: 500m
       memory: 512Mi
 
-mysql:
+postgres:
   enabled: true
-  host: mysql
-  port: 3306
+  host: postgres
+  port: 5432
   auth:
     database: app_db
     username: app_user

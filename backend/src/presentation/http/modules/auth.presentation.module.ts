@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
+import { AuthSessionsV1Controller } from '../controllers/v1/auth-sessions.controller';
 import { AuthV1Controller } from '../controllers/v1/auth.controller';
 import { LoginUseCase } from '@application/auth/use-cases/login.use-case';
 import { RefreshTokenUseCase } from '@application/auth/use-cases/refresh-token.use-case';
@@ -19,10 +20,17 @@ import {
 import { GetUserUseCase } from '@application/user/use-cases/get-user.use-case';
 import { LoadUserAuthContextUseCase } from '@application/user/use-cases/load-user-auth-context.use-case';
 import { JwtStrategy } from '@infrastructure/auth/jwt.strategy';
+import { MfaPolicyService } from '@application/auth/services/mfa-policy.service';
+import { RecordRefreshTokenService } from '@application/auth/services/record-refresh-token.service';
+import {
+  ListAuthSessionsUseCase,
+  RevokeAuthSessionUseCase,
+  RevokeOtherAuthSessionsUseCase,
+} from '@application/auth/use-cases/sessions.use-cases';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
-  controllers: [AuthV1Controller],
+  controllers: [AuthV1Controller, AuthSessionsV1Controller],
   providers: [
     LoginUseCase,
     VerifyMfaLoginUseCase,
@@ -37,6 +45,11 @@ import { JwtStrategy } from '@infrastructure/auth/jwt.strategy';
     ConfirmMfaEnrollWithEnrollmentTokenUseCase,
     GetOAuthAuthorizationUrlUseCase,
     CompleteOAuthLoginUseCase,
+    MfaPolicyService,
+    RecordRefreshTokenService,
+    ListAuthSessionsUseCase,
+    RevokeAuthSessionUseCase,
+    RevokeOtherAuthSessionsUseCase,
     JwtStrategy,
   ],
 })

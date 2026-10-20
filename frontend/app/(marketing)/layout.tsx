@@ -9,7 +9,8 @@ import {
 import { normalizeHexColor } from '@/shared/lib/normalize-hex-color';
 import type { Locale } from '@/shared/i18n/config';
 import { hasServerSession } from '@/shared/lib/server-session';
-import { SiteFooter, MarketingSiteHeader } from '@/widgets/marketing';
+import { MarketingFooter07 } from '@/widgets/marketing/marketing-footer-07';
+import { MarketingLayoutRoot } from '@/widgets/marketing/marketing-layout-root';
 import { buildMarketingMetadata } from './build-marketing-metadata';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -34,30 +35,24 @@ export default async function MarketingLayout({
     cmsSiteName: settings?.header.siteName,
     header: settings?.header,
   });
-  const footer = settings?.footer ?? {
-    copyright: { en: '', mn: '' },
-    tagline: { en: '', mn: '' },
-    socialLinks: [],
-  };
   const brandColor = normalizeHexColor(settings?.theme?.brandColor);
   const heroPalette = buildBrandHeroPalette(brandColor);
 
+  const meshStyle = toMarketingMeshCssVars(
+    heroPalette,
+    brandColor,
+  ) as React.CSSProperties;
+
   return (
-    <div
-      data-marketing-theme-root
-      className="relative flex min-h-svh flex-col"
-      style={
-        toMarketingMeshCssVars(heroPalette, brandColor) as React.CSSProperties
-      }
+    <MarketingLayoutRoot
+      siteName={brand.siteName}
+      logoUrl={brand.assets.logoUrl}
+      logoDarkUrl={brand.assets.logoDarkUrl}
+      hasSession={hasSession}
+      meshStyle={meshStyle}
+      footer={<MarketingFooter07 />}
     >
-      <MarketingSiteHeader
-        siteName={brand.siteName}
-        logoUrl={brand.assets.logoUrl}
-        logoDarkUrl={brand.assets.logoDarkUrl}
-        hasSession={hasSession}
-      />
-      <main className="relative z-[2] flex-1">{children}</main>
-      <SiteFooter footer={footer} siteName={brand.siteName} />
-    </div>
+      {children}
+    </MarketingLayoutRoot>
   );
 }

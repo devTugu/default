@@ -1,0 +1,20 @@
+[
+  {
+    "id": "03",
+    "fname": "pagination-03.tsx",
+    "title": "Pagination 03 - Interactive Jump",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "pagination-02.tsx",
+    "title": "Pagination 02 - Premium Ribbon",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "pagination-01.tsx",
+    "title": "Pagination 01 - Floating Pill",
+    "isNew": false
+  }
+]

@@ -1,35 +1,62 @@
 'use client';
 
+import { Suspense, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@default/ui/primitives/button';
 import { Form } from '@default/ui/primitives/form';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@default/ui/primitives/tabs';
 import { Skeleton } from '@default/ui/primitives/skeleton';
+import { useAuthPermissions } from '@/features/auth';
 import { AdminContentLocaleProvider } from '@/shared/i18n/admin-content-locale-context';
 import { AdminContentLocaleTabs } from '@/shared/ui/admin-content-locale-tabs';
-import { SiteSettingsAboutSection } from './site-settings-about-section';
-import { SiteSettingsContactSection } from './site-settings-contact-section';
-import { SiteSettingsFooterSection } from './site-settings-footer-section';
-import { SiteSettingsHeaderSection } from './site-settings-header-section';
-import { SiteSettingsHeroSection } from './site-settings-hero-section';
-import { SiteSettingsSeoSection } from './site-settings-seo-section';
-import { SiteSettingsThemeSection } from './site-settings-theme-section';
+import { PERMISSION_CODES } from '@/shared/config/permissions';
+import { SettingsSection } from '@/shared/ui/settings-section';
+import {
+  parseSiteSettingsTab,
+  siteSettingsTabHref,
+} from '../lib/site-settings-tabs';
+import { SiteSettingsAuditSection } from './site-settings-audit-section';
+import { SiteSettingsBaseSection } from './site-settings-base-section';
+import { SiteSettingsBrandThemePreview } from './site-settings-brand-theme-preview';
+import { SiteSettingsSecuritySection } from './site-settings-security-section';
+import { SiteSettingsTabsNav } from './site-settings-tabs-nav';
 import { useSiteSettingsForm } from './use-site-settings-form';
 
-export function SiteSettingsForm() {
+function SiteSettingsFormContent() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = parseSiteSettingsTab(searchParams.get('tab'));
+  const { can } = useAuthPermissions();
+  const canSiteSettings = can(PERMISSION_CODES.SITE_SETTING_READ);
+  const canAudit = can(PERMISSION_CODES.AUDIT_READ);
   const {
     t,
     tCommon,
     canUpdate,
+    isSuperAdmin,
     data,
     isLoading,
     form,
-    socialLinks,
     updateSettings,
     onSubmit,
-  } = useSiteSettingsForm();
+  } = useSiteSettingsForm({ enabled: canSiteSettings });
 
-  if (isLoading || !data) {
+  useEffect(() => {
+    if (canSiteSettings) {
+      return;
+    }
+    if (canAudit && activeTab !== 'audit') {
+      router.replace(siteSettingsTabHref(pathname, 'audit'));
+    }
+  }, [activeTab, canAudit, canSiteSettings, pathname, router]);
+
+  const showBase = isSuperAdmin && activeTab === 'base';
+  const showSecurity =
+    canSiteSettings && (!isSuperAdmin || activeTab === 'security');
+  const showAudit = canAudit && activeTab === 'audit';
+
+  if (showBase && (isLoading || !data)) {
     return (
       <div className="space-y-4">
         <Skeleton className="h-10 w-full max-w-md" />
@@ -39,90 +66,66 @@ export function SiteSettingsForm() {
   }
 
   return (
-    <AdminContentLocaleProvider resetKey={data.updatedAt}>
-      <Form {...form}>
-        <form onSubmit={onSubmit} className="space-y-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-muted-foreground">
-              {t('lastUpdated', {
-                date: new Date(data.updatedAt).toLocaleString(),
-              })}
-            </p>
-            {canUpdate ? (
-              <Button type="submit" disabled={updateSettings.isPending}>
-                {updateSettings.isPending ? (
-                  <Loader2 className="size-4 animate-spin" />
+    <div className="w-full space-y-6">
+      <header className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">{t('pageTitle')}</h1>
+        <p className="text-muted-foreground text-sm">{t('pageDescription')}</p>
+      </header>
+
+      <SiteSettingsTabsNav showBaseTab={isSuperAdmin} />
+
+      {showBase && data ? (
+        <AdminContentLocaleProvider resetKey={data.updatedAt}>
+          <Form {...form}>
+            <form onSubmit={onSubmit} className="space-y-6">
+              <SiteSettingsBrandThemePreview control={form.control} />
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                {canUpdate ? (
+                  <Button type="submit" disabled={updateSettings.isPending}>
+                    {updateSettings.isPending ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : null}
+                    {tCommon('saveChanges')}
+                  </Button>
                 ) : null}
-                {tCommon('saveChanges')}
-              </Button>
-            ) : null}
-          </div>
+              </div>
+              <AdminContentLocaleTabs className="rounded-lg border px-4" />
+              <SettingsSection
+                title={t('baseSectionTitle')}
+                description={t('baseSectionDescription')}
+              >
+                <SiteSettingsBaseSection control={form.control} canUpdate={canUpdate} />
+              </SettingsSection>
+              <p className="text-muted-foreground text-xs">
+                {t('lastUpdated', {
+                  date: new Date(data.updatedAt).toLocaleString(),
+                })}
+              </p>
+            </form>
+          </Form>
+        </AdminContentLocaleProvider>
+      ) : null}
 
-          <AdminContentLocaleTabs className="rounded-lg border px-4" />
+      {showSecurity ? (
+        <SiteSettingsSecuritySection showPlatformPolicy={isSuperAdmin && canUpdate} />
+      ) : null}
 
-          <Tabs defaultValue="hero">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-7">
-              <TabsTrigger value="hero">{t('tabHero')}</TabsTrigger>
-              <TabsTrigger value="about">{t('tabAbout')}</TabsTrigger>
-              <TabsTrigger value="theme">{t('tabTheme')}</TabsTrigger>
-              <TabsTrigger value="header">{t('tabHeader')}</TabsTrigger>
-              <TabsTrigger value="footer">{t('tabFooter')}</TabsTrigger>
-              <TabsTrigger value="seo">{t('tabSeo')}</TabsTrigger>
-              <TabsTrigger value="contact">{t('tabContact')}</TabsTrigger>
-            </TabsList>
+      {showAudit ? <SiteSettingsAuditSection /> : null}
+    </div>
+  );
+}
 
-            <TabsContent value="hero" className="pt-4">
-              <SiteSettingsHeroSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="about" className="pt-4">
-              <SiteSettingsAboutSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="theme" className="pt-4">
-              <SiteSettingsThemeSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="header" className="space-y-4 pt-4">
-              <SiteSettingsHeaderSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="footer" className="space-y-4 pt-4">
-              <SiteSettingsFooterSection
-                control={form.control}
-                canUpdate={canUpdate}
-                socialLinks={socialLinks}
-              />
-            </TabsContent>
-
-            <TabsContent value="seo" className="pt-4">
-              <SiteSettingsSeoSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-
-            <TabsContent value="contact" className="pt-4">
-              <SiteSettingsContactSection
-                control={form.control}
-                canUpdate={canUpdate}
-              />
-            </TabsContent>
-          </Tabs>
-        </form>
-      </Form>
-    </AdminContentLocaleProvider>
+export function SiteSettingsForm() {
+  return (
+    <Suspense
+      fallback={
+        <div className="space-y-4">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-96 w-full" />
+        </div>
+      }
+    >
+      <SiteSettingsFormContent />
+    </Suspense>
   );
 }

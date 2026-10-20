@@ -1,0 +1,14 @@
+[
+  {
+    "id": "02",
+    "fname": "spinning-text-02.tsx",
+    "title": "Spinning Text 02 - With Icon",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "spinning-text-01.tsx",
+    "title": "Spinning Text 01 - Basic",
+    "isNew": false
+  }
+]

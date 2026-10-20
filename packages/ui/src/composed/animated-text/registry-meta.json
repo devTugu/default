@@ -1,0 +1,108 @@
+[
+  {
+    "id": "01",
+    "fname": "animated-text-01.tsx",
+    "title": "Animated Text 01 - Shiny Text",
+    "deps": [],
+    "reg": [],
+    "base": "AnimatedShinyText"
+  },
+  {
+    "id": "02",
+    "fname": "animated-text-02.tsx",
+    "title": "Animated Text 02 - Gradient Text",
+    "deps": [],
+    "reg": [],
+    "base": "AnimatedTextGradientMotion"
+  },
+  {
+    "id": "03",
+    "fname": "animated-text-03.tsx",
+    "title": "Animated Text 03 - Typing",
+    "deps": [],
+    "reg": [],
+    "base": "AnimatedTypingMotion"
+  },
+  {
+    "id": "04",
+    "fname": "animated-text-04.tsx",
+    "title": "Animated Text 04 - Rolling Text",
+    "deps": [],
+    "reg": [],
+    "base": "AnimatedTextRoller"
+  },
+  {
+    "id": "05",
+    "fname": "animated-text-05.tsx",
+    "title": "Animated Text 05 - Shimmer Text",
+    "deps": [],
+    "reg": [],
+    "base": "TextShimmerMotion"
+  },
+  {
+    "id": "06",
+    "fname": "animated-text-06.tsx",
+    "title": "Animated Text 06 - Reveal Text",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "TextRevealMotion"
+  },
+  {
+    "id": "07",
+    "fname": "animated-text-07.tsx",
+    "title": "Animated Text 07 - Morph Text",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "TextMorphMotion"
+  },
+  {
+    "id": "08",
+    "fname": "animated-text-08.tsx",
+    "title": "Animated Text 08 - Marker Highlight",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "MarkerHighlightDemo"
+  },
+  {
+    "id": "09",
+    "fname": "animated-text-09.tsx",
+    "title": "Animated Text 09 - Text Decoder",
+    "deps": [],
+    "reg": [],
+    "base": "TextDecoderDemo"
+  },
+  {
+    "id": "10",
+    "fname": "animated-text-10.tsx",
+    "title": "Animated Text 10 - Scanner",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "TextScannerDemo"
+  },
+  {
+    "id": "11",
+    "fname": "animated-text-11.tsx",
+    "title": "Animated Text 11 - Light Leak",
+    "deps": [
+      "motion"
+    ],
+    "reg": [],
+    "base": "TextLightLeakDemo"
+  },
+  {
+    "id": "12",
+    "fname": "animated-text-12.tsx",
+    "title": "Animated Text 12 - Origami Fold",
+    "deps": [],
+    "reg": [],
+    "base": "OrigamiFoldDemo"
+  }
+]

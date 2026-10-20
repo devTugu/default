@@ -15,11 +15,14 @@ export class PermissionDrizzleRepository implements IPermissionRepository {
   constructor(@Inject(DRIZZLE) private readonly db: DrizzleDatabase) {}
 
   async create(code: string, description?: string): Promise<DomainPermission> {
-    const [result] = await this.db.insert(permissions).values({
-      code,
-      description,
-    });
-    const created = await this.findById(Number(result.insertId));
+    const [inserted] = await this.db
+      .insert(permissions)
+      .values({
+        code,
+        description,
+      })
+      .returning({ id: permissions.id });
+    const created = await this.findById(inserted.id);
     if (!created) throw new Error('PERMISSION_CREATE_FAILED');
     return created;
   }

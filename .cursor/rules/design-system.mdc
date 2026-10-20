@@ -37,3 +37,11 @@ import { cn } from "@default/ui/lib/cn";
 - Feature-only layout stays in `features/<name>/` or `widgets/`. Promote to `@default/ui` when a second consumer needs the same control.
 
 New primitive: `packages/ui/src/primitives/<name>.tsx`, CSS vars + `cva`/`cn`, then package exports.
+
+## `/docs` catalog (frontend)
+
+- Lazy previews: `load: () => import('@default/ui/composed/...')` + `DocsInViewMount` / `DocsLazyPreview` — do not statically import many demos on one page.
+- Tailwind: app shell in `frontend/app/globals.css` (`@source` primitives + `frontend/src/**`); docs-only scan in `frontend/app/docs/docs.css` (`composed/**`, `default-space/**`).
+- Optional heavy packages: `@default/ui-charts`, `@default/ui-code`, `@default/ui-motion-3d` (re-exported from `@default/ui`).
+
+More: [`md/design-system/`](../../md/design-system/).

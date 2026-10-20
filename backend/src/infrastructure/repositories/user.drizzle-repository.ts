@@ -43,15 +43,18 @@ export class UserDrizzleRepository implements IUserRepository {
   async create(data: CreateUserData): Promise<DomainUser> {
     const organizationId =
       data.organizationId ?? (await this.orgContext.getCurrentOrganizationId());
-    const [result] = await this.db.insert(users).values({
-      email: data.email.toLowerCase(),
-      passwordHash: data.passwordHash,
-      isActive: data.isActive,
-      organizationId: organizationId ?? null,
-      oauthProvider: data.oauthProvider ?? null,
-      oauthSubject: data.oauthSubject ?? null,
-    });
-    const created = await this.findById(Number(result.insertId));
+    const [inserted] = await this.db
+      .insert(users)
+      .values({
+        email: data.email.toLowerCase(),
+        passwordHash: data.passwordHash,
+        isActive: data.isActive,
+        organizationId: organizationId ?? null,
+        oauthProvider: data.oauthProvider ?? null,
+        oauthSubject: data.oauthSubject ?? null,
+      })
+      .returning({ id: users.id });
+    const created = await this.findById(inserted.id);
     if (!created) throw new Error('USER_CREATE_FAILED');
     return created;
   }

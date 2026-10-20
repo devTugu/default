@@ -13,7 +13,7 @@ export const envValidationSchema = Joi.object({
     .default('info'),
 
   DB_HOST: Joi.string().hostname().required(),
-  DB_PORT: Joi.number().port().default(3306),
+  DB_PORT: Joi.number().port().default(5432),
   DB_USERNAME: Joi.string().min(1).required(),
   DB_PASSWORD: Joi.string().allow('').default(''),
   DB_NAME: Joi.string().min(1).required(),
@@ -62,7 +62,7 @@ export const envValidationSchema = Joi.object({
   APP_DISPLAY_NAME: Joi.string().default('Website Template'),
   MFA_ISSUER: Joi.string().default('Website Template Admin'),
   MFA_ENCRYPTION_KEY: Joi.string().min(32).optional(),
-  MFA_REQUIRED_ROLES: Joi.string().allow('').default('SUPER_ADMIN'),
+  MFA_REQUIRED_ROLES: Joi.string().allow('').default(''),
 
   JWT_ACCESS_SECRET: Joi.string().min(32).required(),
   JWT_REFRESH_SECRET: Joi.string().min(32).required(),

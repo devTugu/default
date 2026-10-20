@@ -1,0 +1,50 @@
+[
+  {
+    "id": "08",
+    "fname": "number-ticker-08.tsx",
+    "title": "Number Ticker 08 - Segmented LCD",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "number-ticker-07.tsx",
+    "title": "Number Ticker 07 - Trading",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "number-ticker-06.tsx",
+    "title": "Number Ticker 06 - Social Proof",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "number-ticker-05.tsx",
+    "title": "Number Ticker 05 - Real-Time Metrics Counter",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "number-ticker-04.tsx",
+    "title": "Number Ticker 04 - Growth Metrics Counter",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "number-ticker-03.tsx",
+    "title": "Number Ticker 03 - Countdown Counter",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "number-ticker-02.tsx",
+    "title": "Number Ticker 02 - Currency Counter",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "number-ticker-01.tsx",
+    "title": "Number Ticker 01 - Basic",
+    "isNew": false
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "10",
+    "fname": "input-otp-10.tsx",
+    "title": "Input OTP-10 - Interactive Animated Verification",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "09",
+    "fname": "input-otp-09.tsx",
+    "title": "Input OTP 09 - Animated",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "08",
+    "fname": "input-otp-08.tsx",
+    "title": "Input OTP 08 - Alphanumeric",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "input-otp-07.tsx",
+    "title": "Input OTP 07 - Four Digits",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "input-otp-06.tsx",
+    "title": "Input OTP 06 - Invalid",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "input-otp-05.tsx",
+    "title": "Input OTP 05 - Controlled",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "input-otp-04.tsx",
+    "title": "Input OTP 04 - Disabled",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "input-otp-03.tsx",
+    "title": "Input OTP 03 - With Separator",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "input-otp-02.tsx",
+    "title": "Input OTP 02 - Digits Only",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "input-otp-01.tsx",
+    "title": "Input OTP 01 - Default",
+    "isNew": false,
+    "isPro": false
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "10",
+    "fname": "spinner-10.tsx",
+    "title": "Spinner 10 - Liquid Wave",
+    "isNew": false
+  },
+  {
+    "id": "09",
+    "fname": "spinner-09.tsx",
+    "title": "Spinner 09 - Ripple",
+    "isNew": false
+  },
+  {
+    "id": "08",
+    "fname": "spinner-08.tsx",
+    "title": "Spinner 08 - Clock Ring",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "spinner-07.tsx",
+    "title": "Spinner 07 - Orbital Spinner",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "spinner-06.tsx",
+    "title": "Spinner 06 - Bars",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "spinner-05.tsx",
+    "title": "Spinner 05 - Ellipsis",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "spinner-04.tsx",
+    "title": "Spinner 04 - Circle Filled",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "spinner-03.tsx",
+    "title": "Spinner 03 - Pinwheel",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "spinner-02.tsx",
+    "title": "Spinner 02 - Throbber",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "spinner-01.tsx",
+    "title": "Spinner 01 - Default",
+    "isNew": false
+  }
+]

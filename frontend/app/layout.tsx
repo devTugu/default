@@ -4,8 +4,12 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import './globals.css';
 import { Providers } from '@/processes/providers';
+import { ThemeBlockingScript } from '@/shared/ui/theme-blocking-script';
 import { env } from '@/shared/config/env';
+import { getPublicSiteSettings } from '@/entities/public-api';
 import { getMessages as getAppMessages, resolveLocale } from '@/shared/i18n/messages';
+import { buildBrandThemeCssVars } from '@default/utils/color';
+import { normalizeHexColor } from '@/shared/lib/normalize-hex-color';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,15 +35,25 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
-  const messages = getAppMessages(resolveLocale(locale));
+  const [messages, siteSettings] = await Promise.all([
+    Promise.resolve(getAppMessages(resolveLocale(locale))),
+    getPublicSiteSettings(),
+  ]);
+  const brandColor = normalizeHexColor(siteSettings?.theme?.brandColor);
+  const brandThemeStyle = buildBrandThemeCssVars(
+    brandColor,
+  ) as React.CSSProperties;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning style={brandThemeStyle}>
+      <head>
+        <ThemeBlockingScript />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-svh antialiased`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers>{children}</Providers>
+          <Providers brandColor={brandColor}>{children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>

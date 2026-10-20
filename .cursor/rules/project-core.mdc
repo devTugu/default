@@ -7,18 +7,20 @@ alwaysApply: true
 
 Brand-agnostic auth/admin starter. Stack: pnpm workspace (+ Turbo). Package scope: `@default/*`.
 
+Product & fork docs: [`md/README.md`](../../md/README.md) (`md/product.md`, `md/architecture.md`, `md/fork-guide.md`).
+
 ## Layout
 
 | Path | Package | Role |
 |------|---------|------|
-| `backend/` | `backend` | NestJS + Drizzle + MySQL — Clean Architecture |
+| `backend/` | `backend` | NestJS + Drizzle + PostgreSQL — Clean Architecture |
 | `frontend/` | `frontend` | Next.js — FSD + BFF (httpOnly cookies) |
 | `packages/types` | `@default/types` | Zod schemas/enums per domain |
 | `packages/utils` | `@default/utils` | Domain-agnostic pure helpers |
 | `packages/api` | `@default/api` | HTTP client + domain APIs, query-keys |
 | `packages/hooks` | `@default/hooks` | React Query hooks |
 | `packages/design-tokens` | `@default/design-tokens` | tokens.json → CSS + theme |
-| `packages/ui` | `@default/ui` | shadcn primitives/composed — **no data fetch** |
+| `packages/ui` | `@default/ui` | UI primitives/composed — **no data fetch** |
 | `packages/config/tsconfig` | `@default/tsconfig` | Shared TS configs |
 | `packages/config/eslint-config` | `@default/eslint-config` | Shared ESLint (+ clean-code) |
 

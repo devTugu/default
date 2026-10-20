@@ -1,0 +1,72 @@
+[
+  {
+    "id": "10",
+    "fname": "tabs-10.tsx",
+    "title": "Tabs 10 - Assistant Tabs",
+    "isNew": false,
+    "isPro": true
+  },
+  {
+    "id": "09",
+    "fname": "tabs-09.tsx",
+    "title": "Tabs 09 - Seasonal PixelSnow Tabs",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "08",
+    "fname": "tabs-08.tsx",
+    "title": "Tabs 08 - Animated Dashboard Tabs",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "tabs-07.tsx",
+    "title": "Tabs 07 - Icon & Description",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "tabs-06.tsx",
+    "title": "Tabs 06 - Vertical",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "tabs-05.tsx",
+    "title": "Tabs 05 - Underline",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "tabs-04.tsx",
+    "title": "Tabs 04 - With Count",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "tabs-03.tsx",
+    "title": "Tabs 03 - With Icon",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "tabs-02.tsx",
+    "title": "Tabs 02 - Transition",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "tabs-01.tsx",
+    "title": "Tabs 01 - Animated",
+    "isNew": false,
+    "isPro": false
+  }
+]

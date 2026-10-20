@@ -9,7 +9,7 @@ Full-stack **auth and admin starter** for a product site or internal app. Fork i
 | [`packages/types`](packages/types) | `@default/types` — shared Zod schemas |
 | [`packages/api`](packages/api) | `@default/api` — HTTP client + domain APIs |
 | [`packages/hooks`](packages/hooks) | `@default/hooks` — React Query hooks |
-| [`packages/ui`](packages/ui) | `@default/ui` — shadcn primitives |
+| [`packages/ui`](packages/ui) | `@default/ui` — UI primitives |
 | [`packages/design-tokens`](packages/design-tokens) | `@default/design-tokens` — tokens.json → CSS |
 | [`packages/utils`](packages/utils) | `@default/utils` — pure helpers |
 | [`packages/config/*`](packages/config) | shared tsconfig + eslint-config |
@@ -22,7 +22,7 @@ Agent rules: [`.cursor/rules/`](.cursor/rules/), [`CLAUDE.md`](CLAUDE.md).
 
 - Node.js 20+
 - [pnpm](https://pnpm.io/) 9.15+
-- MySQL 8
+- PostgreSQL 16
 - Redis 7 (optional; set `REDIS_ENABLED=false`)
 
 ## Quick start
@@ -39,7 +39,7 @@ pnpm --filter backend run seed
 pnpm dev
 ```
 
-**Seed admin:** `admin@example.com` / `Admin123!`
+**Seed admin:** `admin@default.mn` / `admin123!`
 
 | Resource | URL |
 |----------|-----|
@@ -54,7 +54,7 @@ pnpm dev
 - Public: `/` (hero + about from site-settings)
 - Stack: NestJS Clean Architecture + Drizzle, Next.js FSD + BFF cookies
 
-After fork, add your own entities, pages, and APIs under the same layers. See [backend/docs/FORK-GUIDE.md](backend/docs/FORK-GUIDE.md).
+After fork, add your own entities, pages, and APIs under the same layers. See [md/fork-guide.md](md/fork-guide.md).
 
 ## Scripts
 
@@ -65,12 +65,11 @@ After fork, add your own entities, pages, and APIs under the same layers. See [b
 | `pnpm generate:tokens` | Regenerate `@default/design-tokens` CSS/theme |
 | `pnpm test:e2e:backend` | Nest e2e (needs DB) |
 | `pnpm test:e2e:frontend` | Playwright |
-| `pnpm infra:up` / `infra:down` | Dev MySQL + Redis |
+| `pnpm infra:up` / `infra:down` | Dev PostgreSQL + Redis |
 
 ## Docs
 
-- [Backend docs](backend/docs/) — fork, architecture, API, security, deploy
-- [Frontend docs](frontend/docs/) — fork, architecture, security, deploy
+- [md/](md/) — product overview, fork guide, architecture, API, security, deployment, design-system notes
 - [Helm](backend/deploy/helm/README.md)
 
 ## License

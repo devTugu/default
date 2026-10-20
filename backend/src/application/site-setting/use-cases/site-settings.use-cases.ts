@@ -3,9 +3,16 @@ import { ISiteSettingRepository } from '@domain/site-setting/repositories/site-s
 import { DEFAULT_SITE_SETTINGS } from '@domain/site-setting/entities/site-settings.entity';
 import {
   SiteSettingsOutput,
+  toPublicSiteSettingsOutput,
   toSiteSettingsOutput,
+  type PublicSiteSettingsOutput,
 } from '../dto/site-settings-output.mapper';
 import { SITE_SETTING_REPOSITORY } from '@shared/constants/tokens';
+
+function defaultPublicSettingsOutput(): PublicSiteSettingsOutput {
+  const { security: _security, ...rest } = defaultSettingsOutput();
+  return rest;
+}
 
 function defaultSettingsOutput(): SiteSettingsOutput {
   return {
@@ -27,6 +34,7 @@ function defaultSettingsOutput(): SiteSettingsOutput {
       values: [...DEFAULT_SITE_SETTINGS.about.values],
       stats: [...DEFAULT_SITE_SETTINGS.about.stats],
     },
+    security: { ...DEFAULT_SITE_SETTINGS.security },
     updatedAt: new Date().toISOString(),
   };
 }
@@ -38,12 +46,12 @@ export class GetPublicSiteSettingsUseCase {
     private readonly siteSettings: ISiteSettingRepository,
   ) {}
 
-  async execute(): Promise<SiteSettingsOutput> {
+  async execute(): Promise<PublicSiteSettingsOutput> {
     const settings = await this.siteSettings.get();
     if (!settings) {
-      return defaultSettingsOutput();
+      return defaultPublicSettingsOutput();
     }
-    return toSiteSettingsOutput(settings);
+    return toPublicSiteSettingsOutput(settings);
   }
 }
 
@@ -78,6 +86,7 @@ export class UpdateSiteSettingsUseCase {
     contactInfo?: Partial<SiteSettingsOutput['contactInfo']>;
     theme?: Partial<SiteSettingsOutput['theme']>;
     about?: Partial<SiteSettingsOutput['about']>;
+    security?: Partial<SiteSettingsOutput['security']>;
   }): Promise<SiteSettingsOutput> {
     const settings = await this.siteSettings.upsert(input);
     return toSiteSettingsOutput(settings);

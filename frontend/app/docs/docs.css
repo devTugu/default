@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@import "@default/design-tokens/tokens.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@layer base {
+  .docs-block-preview *,
+  .docs-block-preview *::before,
+  .docs-block-preview *::after {
+    border-color: var(--color-border);
+  }
+}
+
+/* Docs routes: scan composed demos + default-space blocks (not needed on dashboard/marketing app shell). */
+@source "../../../packages/ui/src/composed/**/*.tsx";
+@source "../../../packages/ui/src/default-space/**/*.tsx";
+
+/* Use theme vars (from root globals.css) — this file has its own @import tailwindcss + @source only. */
+.docs-content-surface {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.docs-variant-frame {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.docs-component-preview {
+  background-color: color-mix(in oklch, var(--muted) 30%, transparent);
+  color: var(--foreground);
+}
+
+.dark .docs-component-preview {
+  background-color: color-mix(in oklch, var(--muted) 20%, transparent);
+}
+
+/*
+ * Topbar docs previews: each block lives in its own card — disable sticky/fixed
+ * that would stack headers or pile sidebars on the same viewport edge.
+ */
+.docs-topbar-preview {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.docs-topbar-preview .sticky,
+.docs-topbar-preview header[class*="sticky"] {
+  position: relative !important;
+  top: auto !important;
+}
+
+.docs-topbar-preview [data-slot="sidebar-wrapper"] {
+  position: relative !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow: hidden;
+}
+
+.docs-topbar-preview [data-slot="sidebar-container"] {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.docs-topbar-preview div.hidden.lg\:flex {
+  display: flex !important;
+}
+
+.docs-topbar-preview div.hidden.lg\:block {
+  display: block !important;
+}
+
+.docs-topbar-preview .lg\:hidden {
+  display: none !important;
+}
+
+.docs-topbar-preview [data-slot="navigation-menu-viewport-wrapper"] {
+  z-index: 60;
+}
+
+.docs-topbar-preview header .max-w-7xl {
+  width: 100%;
+}
+
+/*
+ * Marketing navbar previews (see shadcnspace.com/blocks/marketing/navbar-section):
+ * contain fixed/sticky nav + mega menus inside the card viewport.
+ */
+.docs-navbar-preview {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.docs-navbar-preview .fixed,
+.docs-navbar-preview header.fixed,
+.docs-navbar-preview nav.fixed {
+  position: relative !important;
+  inset: auto !important;
+}
+
+.docs-navbar-preview .sticky,
+.docs-navbar-preview header[class*="sticky"] {
+  position: relative !important;
+  top: auto !important;
+}
+
+.docs-navbar-preview div.hidden.lg\:flex {
+  display: flex !important;
+}
+
+.docs-navbar-preview div.hidden.lg\:block {
+  display: block !important;
+}
+
+.docs-navbar-preview .lg\:hidden {
+  display: none !important;
+}
+
+.docs-navbar-preview [data-slot="navigation-menu-viewport-wrapper"] {
+  z-index: 60;
+}

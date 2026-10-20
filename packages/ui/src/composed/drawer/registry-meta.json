@@ -1,0 +1,14 @@
+[
+  {
+    "id": "02",
+    "fname": "drawer-02.tsx",
+    "title": "Drawer 02 - Shopping Cart",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "drawer-01.tsx",
+    "title": "Drawer 01 - Onboarding Checklist",
+    "isNew": false
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "name": "@default/ui-charts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./chart": "./src/chart.tsx"
+  },
+  "scripts": {
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@default/tsconfig": "workspace:*",
+    "@types/react": "^19.1.0",
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

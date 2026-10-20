@@ -13,7 +13,9 @@ interface MarketingSiteHeaderProps {
 
 export function MarketingSiteHeader(props: MarketingSiteHeaderProps) {
   const pathname = usePathname();
-  const hasHero = pathname === PUBLIC_ROUTES.HOME;
+  if (pathname === PUBLIC_ROUTES.HOME) {
+    return null;
+  }
 
-  return <SiteHeader {...props} hasHero={hasHero} />;
+  return <SiteHeader {...props} hasHero={false} />;
 }

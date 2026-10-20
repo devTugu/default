@@ -1,40 +1,41 @@
 import { Inject, Injectable } from '@nestjs/common';
-import * as crypto from 'crypto';
 import { IUserRepository } from '@domain/user/repositories/user.repository.interface';
-import { IRefreshTokenRepository } from '@domain/auth/repositories/refresh-token.repository.interface';
 import { IPasswordHasher } from '@application/ports/password-hasher.port';
 import { ITokenIssuer } from '@application/ports/token-issuer.port';
 import { IPermissionCache } from '@application/ports/permission-cache.port';
 import { AppErrors } from '@application/exceptions/application.exception';
 import { TokenPair } from '@shared/types/pagination';
 import { LoginResult } from '../dto/login-result';
-import {
-  parseMfaRequiredRoles,
-  roleRequiresMfa,
-} from '../lib/mfa-required-roles';
+import { roleRequiresMfa } from '../lib/mfa-required-roles';
+import { MfaPolicyService } from '../services/mfa-policy.service';
 import {
   USER_REPOSITORY,
-  REFRESH_TOKEN_REPOSITORY,
   PASSWORD_HASHER,
   TOKEN_ISSUER,
   PERMISSION_CACHE,
 } from '@shared/constants/tokens';
 import { ConfigService } from '@nestjs/config';
+import type { ClientRequestMeta } from '../dto/client-request-meta';
+import { RecordRefreshTokenService } from '../services/record-refresh-token.service';
 
 @Injectable()
 export class LoginUseCase {
   constructor(
     @Inject(USER_REPOSITORY) private readonly users: IUserRepository,
-    @Inject(REFRESH_TOKEN_REPOSITORY)
-    private readonly refreshTokens: IRefreshTokenRepository,
     @Inject(PASSWORD_HASHER) private readonly hasher: IPasswordHasher,
+    private readonly recordRefresh: RecordRefreshTokenService,
     @Inject(TOKEN_ISSUER) private readonly tokens: ITokenIssuer,
     @Inject(PERMISSION_CACHE)
     private readonly permissionCache: IPermissionCache,
     private readonly config: ConfigService,
+    private readonly mfaPolicy: MfaPolicyService,
   ) {}
 
-  async execute(email: string, password: string): Promise<LoginResult> {
+  async execute(
+    email: string,
+    password: string,
+    meta?: ClientRequestMeta,
+  ): Promise<LoginResult> {
     const lockState = await this.users.getLoginLockState(email);
     if (!lockState || !lockState.passwordHash) {
       throw AppErrors.UNAUTHORIZED('Invalid email or password.');
@@ -72,9 +73,7 @@ export class LoginUseCase {
       throw AppErrors.UNAUTHORIZED('Invalid email or password.');
     }
 
-    const requiredRoles = parseMfaRequiredRoles(
-      this.config.get<string>('MFA_REQUIRED_ROLES'),
-    );
+    const requiredRoles = await this.mfaPolicy.getRequiredRoles();
     const privilegedRole = roleRequiresMfa(user.roleNames, requiredRoles);
 
     if (user.mfaEnabled) {
@@ -94,7 +93,7 @@ export class LoginUseCase {
       user.roleNames,
       user.permissionCodes,
     );
-    return this.issueTokens(user.id, user.email);
+    return this.issueTokens(user.id, user.email, meta);
   }
 
   private async warmPermissionCache(
@@ -106,13 +105,18 @@ export class LoginUseCase {
     await this.permissionCache.set(userId, { roleNames, permissionCodes }, ttl);
   }
 
-  private async issueTokens(userId: number, email: string): Promise<TokenPair> {
+  private async issueTokens(
+    userId: number,
+    email: string,
+    meta?: ClientRequestMeta,
+  ): Promise<TokenPair> {
     const issued = await this.tokens.issuePair(userId, email);
-    const tokenHash = crypto
-      .createHash('sha256')
-      .update(issued.refreshToken)
-      .digest('hex');
-    await this.refreshTokens.save(userId, tokenHash, issued.refreshExpiresAt);
+    await this.recordRefresh.record(
+      userId,
+      issued.refreshToken,
+      issued.refreshExpiresAt,
+      meta,
+    );
     return {
       accessToken: issued.accessToken,
       refreshToken: issued.refreshToken,

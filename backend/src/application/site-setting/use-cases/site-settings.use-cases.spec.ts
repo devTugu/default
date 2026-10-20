@@ -29,6 +29,7 @@ describe('Site settings use cases', () => {
       repo as never,
     ).execute();
     expect(result.id).toBe(1);
+    expect(result).not.toHaveProperty('security');
   });
 
   it('GetSiteSettingsUseCase returns defaults when empty', async () => {

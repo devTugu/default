@@ -1,0 +1,12 @@
+export { default as AnimatedText01 } from "./animated-text-01";
+export { default as AnimatedText02 } from "./animated-text-02";
+export { default as AnimatedText03 } from "./animated-text-03";
+export { default as AnimatedText04 } from "./animated-text-04";
+export { default as AnimatedText05 } from "./animated-text-05";
+export { default as AnimatedText06 } from "./animated-text-06";
+export { default as AnimatedText07 } from "./animated-text-07";
+export { default as AnimatedText08 } from "./animated-text-08";
+export { default as AnimatedText09 } from "./animated-text-09";
+export { default as AnimatedText10 } from "./animated-text-10";
+export { default as AnimatedText11 } from "./animated-text-11";
+export { default as AnimatedText12 } from "./animated-text-12";

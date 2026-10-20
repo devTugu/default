@@ -1,9 +1,14 @@
 import type { AxiosRequestConfig } from "axios";
 import { configureApi, createApiClient } from "@default/api";
-import { configureMeFetcher } from "@default/hooks";
+import { configureAuthSessionsFetcher, configureMeFetcher } from "@default/hooks";
 import { axiosInstance } from "./axiosInstance";
 import type { ApiEnvelope } from "@default/api";
 import { bffMe } from "@/shared/lib/bff-auth";
+import {
+  bffListAuthSessions,
+  bffRevokeAuthSession,
+  bffRevokeOtherAuthSessions,
+} from "@/shared/lib/bff-auth-sessions";
 import type { UserOutput } from "@default/types/user";
 
 async function request<T>(config: {
@@ -31,3 +36,8 @@ async function request<T>(config: {
 
 configureApi(createApiClient(request));
 configureMeFetcher(() => bffMe<UserOutput>());
+configureAuthSessionsFetcher({
+  list: bffListAuthSessions,
+  revoke: bffRevokeAuthSession,
+  revokeOthers: bffRevokeOtherAuthSessions,
+});

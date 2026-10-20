@@ -1,0 +1,26 @@
+[
+  {
+    "id": "04",
+    "fname": "resizable-04.tsx",
+    "title": "Resizable 04 - Nested Panels",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "resizable-03.tsx",
+    "title": "Resizable 03 - Vertical Split",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "resizable-02.tsx",
+    "title": "Resizable 02 - Horizontal Split",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "resizable-01.tsx",
+    "title": "Resizable 01 - Master-Detail Split Pane",
+    "isNew": false
+  }
+]

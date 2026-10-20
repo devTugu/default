@@ -1,0 +1,13 @@
+export { default as Badge01 } from "./badge-01";
+export { default as Badge02 } from "./badge-02";
+export { default as Badge03 } from "./badge-03";
+export { default as Badge04 } from "./badge-04";
+export { default as Badge05 } from "./badge-05";
+export { default as Badge06 } from "./badge-06";
+export { default as Badge07 } from "./badge-07";
+export { default as Badge08 } from "./badge-08";
+export { default as Badge09 } from "./badge-09";
+export { default as Badge10 } from "./badge-10";
+export { default as Badge11 } from "./badge-11";
+export { default as Badge12 } from "./badge-12";
+export { default as Badge13 } from "./badge-13";

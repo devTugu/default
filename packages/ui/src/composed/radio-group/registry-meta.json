@@ -1,0 +1,58 @@
+[
+  {
+    "id": "08",
+    "fname": "radio-group-08.tsx",
+    "title": "Radio Group 08 - Hop Effect",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "07",
+    "fname": "radio-group-07.tsx",
+    "title": "Radio Group 07 - Ripple Effect",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "06",
+    "fname": "radio-group-06.tsx",
+    "title": "Radio Group 06 - Radio Group List Demo",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "05",
+    "fname": "radio-group-05.tsx",
+    "title": "Radio Group 05 - Radio Group Dashed Demo",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "04",
+    "fname": "radio-group-04.tsx",
+    "title": "Radio Group 04 - Radio Group Card Vertical Demo",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "03",
+    "fname": "radio-group-03.tsx",
+    "title": "Radio Group 03 - Radio Group with PlanCards",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "02",
+    "fname": "radio-group-02.tsx",
+    "title": "Radio Group 02 - Radio Group Colors Demo",
+    "isNew": false,
+    "isPro": false
+  },
+  {
+    "id": "01",
+    "fname": "radio-group-01.tsx",
+    "title": "Radio Group 01 - Radio Group Animated Demo",
+    "isNew": false,
+    "isPro": false
+  }
+]

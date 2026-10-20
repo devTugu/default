@@ -1,0 +1,50 @@
+[
+  {
+    "id": "08",
+    "fname": "carousel-08.tsx",
+    "title": "Carousel 08 - Apple Card",
+    "isNew": false
+  },
+  {
+    "id": "07",
+    "fname": "carousel-07.tsx",
+    "title": "Carousel 07 - Stacked Card",
+    "isNew": false
+  },
+  {
+    "id": "06",
+    "fname": "carousel-06.tsx",
+    "title": "Carousel 06 - Cards With Detail",
+    "isNew": false
+  },
+  {
+    "id": "05",
+    "fname": "carousel-05.tsx",
+    "title": "Carousel 05 - Previews",
+    "isNew": false
+  },
+  {
+    "id": "04",
+    "fname": "carousel-04.tsx",
+    "title": "Carousel 04 - Cards",
+    "isNew": false
+  },
+  {
+    "id": "03",
+    "fname": "carousel-03.tsx",
+    "title": "Carousel 03 - Index",
+    "isNew": false
+  },
+  {
+    "id": "02",
+    "fname": "carousel-02.tsx",
+    "title": "Carousel 02 - Custom Navigation",
+    "isNew": false
+  },
+  {
+    "id": "01",
+    "fname": "carousel-01.tsx",
+    "title": "Carousel 01 - Custom Dots",
+    "isNew": false
+  }
+]

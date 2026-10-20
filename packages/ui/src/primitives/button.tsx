@@ -43,10 +43,16 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  nativeButton: _nativeButton,
+  render: _render,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    /** Base UI Button artifact from registry sync — not used with Radix. */
+    nativeButton?: boolean
+    /** Base UI Button artifact from registry sync — use `asChild` instead. */
+    render?: React.ReactElement
   }) {
   const Comp = asChild ? Slot.Root : "button"
 
