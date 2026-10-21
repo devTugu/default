@@ -8,7 +8,11 @@ export function SiteSettingsAuditSection() {
   const t = useTranslations('entities.auditLogs');
 
   return (
-    <SettingsSection title={t('pageTitle')} description={t('pageDescription')}>
+    <SettingsSection
+      title={t('pageTitle')}
+      description={t('pageDescription')}
+      panel={false}
+    >
       <AuditLogsTable />
     </SettingsSection>
   );

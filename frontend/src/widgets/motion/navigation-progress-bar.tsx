@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@/shared/lib/utils';
 import { usePrefersReducedMotion } from '@/shared/hooks/use-prefers-reduced-motion';
 
@@ -36,6 +36,8 @@ export function NavigationProgressBar({
   embedded = false,
 }: NavigationProgressBarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
   const prefersReducedMotion = usePrefersReducedMotion();
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -96,7 +98,7 @@ export function NavigationProgressBar({
       return;
     }
     finishProgress();
-  }, [pathname, finishProgress]);
+  }, [pathname, searchKey, finishProgress]);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {

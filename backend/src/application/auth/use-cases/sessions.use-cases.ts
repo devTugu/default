@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { normalizeClientIpAddress } from '@default/utils/client-ip';
 import { deviceLabelFromUserAgent } from '@default/utils/user-agent';
 import { IRefreshTokenRepository } from '@domain/auth/repositories/refresh-token.repository.interface';
 import { AppErrors } from '@application/exceptions/application.exception';
@@ -41,7 +42,7 @@ export class ListAuthSessionsUseCase {
       items: rows.map((row) => ({
         id: row.id,
         deviceLabel: deviceLabelFromUserAgent(row.userAgent),
-        ipAddress: row.ipAddress ?? null,
+        ipAddress: normalizeClientIpAddress(row.ipAddress ?? null),
         userAgent: row.userAgent ?? null,
         createdAt: row.createdAt.toISOString(),
         lastSeenAt: (row.lastSeenAt ?? row.createdAt).toISOString(),

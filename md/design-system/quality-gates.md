@@ -8,6 +8,8 @@ Monorepo commands must finish with **0 errors, 0 warnings** before merge or rele
 pnpm typecheck   # all workspace packages
 pnpm lint        # ESLint (frontend/backend) + tsc lint scripts in packages
 pnpm test        # backend Jest + frontend Vitest + @default/utils
+pnpm --filter backend test:cov   # application/domain coverage thresholds (CI)
+pnpm audit       # high+ only; exit 0 required (see md/security.md)
 pnpm build       # backend + frontend + @default/ui stamp
 ```
 
@@ -40,3 +42,7 @@ PLAYWRIGHT_SKIP_WEBSERVER=1 pnpm --filter frontend test:e2e e2e/docs.spec.ts
 ## Regression
 
 After touching shared UI or data tables, re-run the full block above. Do not raise ESLint limits to silence violations — split units per `.cursor/rules/clean-code.mdc`.
+
+## Backend Jest + workspace packages
+
+Application code may import `@default/utils/*` and `@default/types/*`. Jest resolves them via `moduleNameMapper` in `backend/package.json` (subpath exports such as `@default/utils/user-agent` map to `packages/utils/src/user-agent/device-label.ts`). When adding a new `@default/utils` export, extend the mapper if the path is not a single `.ts` file under `src/`.

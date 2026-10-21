@@ -640,6 +640,14 @@
       "contactSales": "Contact sales",
       "findWhatsRight": "Find what's right for you"
     },
+    "homeHero": {
+      "getStarted": "Get started",
+      "bookDemo": "Book a demo",
+      "menu": "Menu",
+      "navPrivacy": "Privacy",
+      "navTerms": "Terms",
+      "navDocs": "Docs"
+    },
     "footer": {
       "copyright": "© {year} {siteName}. All rights reserved.",
       "termsLink": "Terms of Service",

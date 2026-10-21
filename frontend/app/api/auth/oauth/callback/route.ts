@@ -10,11 +10,15 @@ export async function POST(request: NextRequest) {
 
   const body = await request.text();
 
-  const upstream = await fetchInternal('/auth/oauth/callback', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
-  });
+  const upstream = await fetchInternal(
+    '/auth/oauth/callback',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    },
+    request,
+  );
 
   const envelope = await parseInternalJson<LoginResult>(upstream);
 

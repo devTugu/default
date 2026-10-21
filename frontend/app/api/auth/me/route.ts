@@ -8,6 +8,7 @@ import {
   fetchAuthMe,
   refreshTokenPair,
 } from '@/shared/lib/bff-auth-server';
+import { catchUpstreamConnection } from '@/shared/lib/bff-upstream';
 
 function unauthorizedResponse(): NextResponse {
   const response = NextResponse.json(
@@ -20,8 +21,11 @@ function unauthorizedResponse(): NextResponse {
   return clearAuthCookies(response);
 }
 
-async function proxyAuthMe(accessToken: string): Promise<NextResponse> {
-  const upstream = await fetchAuthMe(accessToken);
+async function proxyAuthMe(
+  accessToken: string,
+  clientRequest: NextRequest,
+): Promise<NextResponse> {
+  const upstream = await fetchAuthMe(accessToken, clientRequest);
   const body = await upstream.text();
 
   return new NextResponse(body, {
@@ -36,9 +40,10 @@ async function proxyAuthMe(accessToken: string): Promise<NextResponse> {
 async function meWithRefreshRetry(
   accessToken: string | undefined,
   refreshToken: string | undefined,
+  clientRequest: NextRequest,
 ): Promise<NextResponse> {
   if (accessToken) {
-    const response = await proxyAuthMe(accessToken);
+    const response = await proxyAuthMe(accessToken, clientRequest);
     if (response.status !== 401) {
       return response;
     }
@@ -48,12 +53,12 @@ async function meWithRefreshRetry(
     return unauthorizedResponse();
   }
 
-  const pair = await refreshTokenPair(refreshToken);
+  const pair = await refreshTokenPair(refreshToken, clientRequest);
   if (!pair) {
     return unauthorizedResponse();
   }
 
-  const response = await proxyAuthMe(pair.accessToken);
+  const response = await proxyAuthMe(pair.accessToken, clientRequest);
   if (response.status === 401) {
     return clearAuthCookies(response);
   }
@@ -67,5 +72,13 @@ export async function GET(request: NextRequest) {
     AUTH_COOKIE_NAMES.REFRESH_TOKEN,
   )?.value;
 
-  return meWithRefreshRetry(accessToken, refreshToken);
+  try {
+    return await meWithRefreshRetry(accessToken, refreshToken, request);
+  } catch (error) {
+    const upstream = catchUpstreamConnection(error);
+    if (upstream) {
+      return upstream;
+    }
+    throw error;
+  }
 }

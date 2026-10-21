@@ -33,11 +33,15 @@ describe('bff-auth-server', () => {
       const { refreshTokenPair } = await loadServer();
       const result = await refreshTokenPair('refresh');
 
-      expect(fetchInternal).toHaveBeenCalledWith('/auth/refresh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken: 'refresh' }),
-      });
+      expect(fetchInternal).toHaveBeenCalledWith(
+        '/auth/refresh',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken: 'refresh' }),
+        },
+        undefined,
+      );
       expect(result).toEqual(pair);
     });
 
@@ -59,10 +63,14 @@ describe('bff-auth-server', () => {
       const { fetchAuthMe } = await loadServer();
       await fetchAuthMe('access-token');
 
-      expect(fetchInternal).toHaveBeenCalledWith('/auth/me', {
-        method: 'GET',
-        headers: { Authorization: 'Bearer access-token' },
-      });
+      expect(fetchInternal).toHaveBeenCalledWith(
+        '/auth/me',
+        {
+          method: 'GET',
+          headers: { Authorization: 'Bearer access-token' },
+        },
+        undefined,
+      );
     });
   });
 });

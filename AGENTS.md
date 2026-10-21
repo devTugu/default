@@ -4,6 +4,8 @@ Coding rules live in `.cursor/rules/`. Start with `CLAUDE.md` for the rule index
 
 Do not follow outdated TypeORM / mega-`.cursorrules` tutorials — this backend uses **Drizzle** + Clean Architecture; frontend uses **FSD + BFF**.
 
+Backend unit tests: workspace imports (`@default/utils/*`, `@default/types/*`) need explicit Jest `moduleNameMapper` entries — see `md/design-system/quality-gates.md`.
+
 Shared packages use the `@default/*` scope. Client data: `@default/types` → `@default/api` → `@default/hooks` → UI.
 
 <!-- BEGIN:turborepo-agent-rules -->

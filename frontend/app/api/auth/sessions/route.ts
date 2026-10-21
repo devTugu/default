@@ -30,12 +30,16 @@ export async function GET(request: NextRequest) {
 
   let token = accessToken;
   if (!token && refreshToken) {
-    const pair = await refreshTokenPair(refreshToken);
+    const pair = await refreshTokenPair(refreshToken, request);
     if (!pair) {
       return unauthorizedResponse();
     }
     token = pair.accessToken;
-    const upstream = await fetchAuthSessions(token, pair.refreshToken);
+    const upstream = await fetchAuthSessions(
+      token,
+      pair.refreshToken,
+      request,
+    );
     const body = await upstream.text();
     const response = new NextResponse(body, {
       status: upstream.status,
@@ -47,13 +51,21 @@ export async function GET(request: NextRequest) {
     return setAuthCookies(response, pair);
   }
 
-  const upstream = await fetchAuthSessions(token ?? '', refreshToken);
+  const upstream = await fetchAuthSessions(
+    token ?? '',
+    refreshToken,
+    request,
+  );
   if (upstream.status === 401 && refreshToken) {
-    const pair = await refreshTokenPair(refreshToken);
+    const pair = await refreshTokenPair(refreshToken, request);
     if (!pair) {
       return unauthorizedResponse();
     }
-    const retry = await fetchAuthSessions(pair.accessToken, pair.refreshToken);
+    const retry = await fetchAuthSessions(
+      pair.accessToken,
+      pair.refreshToken,
+      request,
+    );
     const body = await retry.text();
     const response = new NextResponse(body, {
       status: retry.status,

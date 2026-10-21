@@ -1,17 +1,9 @@
 import type { Request } from 'express';
 import type { ClientRequestMeta } from '@application/auth/dto/client-request-meta';
-
-function firstForwardedIp(forwarded: string): string | null {
-  const first = forwarded.split(',')[0]?.trim();
-  return first || null;
-}
+import { resolveClientIp } from './resolve-client-ip';
 
 export function extractClientRequestMeta(req: Request): ClientRequestMeta {
-  const forwarded = req.headers['x-forwarded-for'];
-  const ipAddress =
-    typeof forwarded === 'string'
-      ? firstForwardedIp(forwarded)
-      : (req.ip ?? null);
+  const ipAddress = resolveClientIp(req);
   const userAgent =
     typeof req.headers['user-agent'] === 'string'
       ? req.headers['user-agent']

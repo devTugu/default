@@ -1,4 +1,5 @@
 import { AuditLogEntry } from '@application/ports/audit-log.port';
+import { normalizeClientIpAddress } from '@default/utils/client-ip';
 
 export interface AuditLogOutput {
   id: number;
@@ -18,7 +19,7 @@ export function toAuditLogOutput(entry: AuditLogEntry): AuditLogOutput {
     action: entry.action,
     resource: entry.resource,
     resourceId: entry.resourceId,
-    ipAddress: entry.ipAddress,
+    ipAddress: normalizeClientIpAddress(entry.ipAddress),
     metadata: entry.metadata,
     createdAt: entry.createdAt.toISOString(),
   };

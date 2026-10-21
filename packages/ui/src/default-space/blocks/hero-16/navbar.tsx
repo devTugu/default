@@ -20,6 +20,11 @@ interface NavbarProps {
     getStartedHref?: string;
     homeHref?: string;
     logo?: ReactNode;
+    navActions?: ReactNode;
+    getStartedLabel?: string;
+    bookDemoLabel?: string;
+    bookDemoHref?: string;
+    menuLabel?: string;
 }
 
 const NavLink = ({
@@ -65,6 +70,11 @@ const Navbar = ({
     getStartedHref = "#",
     homeHref = "/",
     logo,
+    navActions,
+    getStartedLabel = "Get Started",
+    bookDemoLabel = "Book a Demo",
+    bookDemoHref = "#",
+    menuLabel = "Menu",
 }: NavbarProps) => {
     const [menuOpen, setMenuOpen] = useState(false);
     useEffect(() => {
@@ -99,11 +109,18 @@ const Navbar = ({
                             </NavigationMenu>
                         </div>
                         <div className="max-lg:hidden flex items-center gap-2">
+                            {navActions}
                             <Button asChild variant="outline" className="h-auto px-4 py-2 rounded-full cursor-pointer">
-                                <a href={getStartedHref}>Get Started</a>
+                                <a href={getStartedHref}>{getStartedLabel}</a>
                             </Button>
-                            <Button className="group h-auto px-4 py-2 rounded-full flex items-center gap-1.5 hover:bg-primary/80 cursor-pointer">Book a Demo
-                                <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+                            <Button asChild className="group h-auto px-4 py-2 rounded-full hover:bg-primary/80 cursor-pointer">
+                                <a
+                                    href={bookDemoHref}
+                                    className="flex items-center gap-1.5"
+                                >
+                                    {bookDemoLabel}
+                                    <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+                                </a>
                             </Button>
                         </div>
                     </div>
@@ -122,8 +139,8 @@ const Navbar = ({
                             )}
                         </AnimatePresence>
                         <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-                            <DropdownMenuTrigger className="rounded-full bg-gray-50 hover:bg-gray-50/80 h-auto p-2.5 gap-2 border border-border cursor-pointer">
-                                <Menu className="w-4 h-4 text-gray-950 cursor-pointer" />
+                            <DropdownMenuTrigger className="rounded-full bg-muted hover:bg-muted/80 h-auto p-2.5 gap-2 border border-border cursor-pointer">
+                                <Menu className="w-4 h-4 text-foreground cursor-pointer" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent
                                 align="end"
@@ -134,13 +151,16 @@ const Navbar = ({
                                     {/* Header */}
                                     <div className="flex items-center justify-between">
                                         <p className="text-lg font-medium text-foreground">
-                                            Menu
+                                            {menuLabel}
                                         </p>
                                         <Button variant="outline" onClick={() => setMenuOpen(false)} className="h-auto p-2.5 cursor-pointer rounded-full">
                                             <X size={20} />
                                         </Button>
                                     </div>
                                     <hr className="border-border" />
+                                    {navActions ? (
+                                        <div className="flex items-center gap-2">{navActions}</div>
+                                    ) : null}
                                     {/* Navigation */}
                                     <ul className="flex flex-col gap-3.5">
                                         {navigationData.map((item, index) => (
@@ -153,7 +173,7 @@ const Navbar = ({
                                     </ul>
                                     <Button asChild className="h-auto rounded-full px-5 py-2.5 cursor-pointer hover:bg-primary/80">
                                         <a href={getStartedHref} onClick={() => setMenuOpen(false)}>
-                                            Get Started
+                                            {getStartedLabel}
                                         </a>
                                     </Button>
                                 </div>

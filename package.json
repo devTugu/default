@@ -26,6 +26,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test --filter=backend --filter=frontend --filter=@default/utils",
     "quality": "pnpm typecheck && pnpm lint && pnpm test && pnpm build",
+    "audit": "pnpm audit --audit-level=high",
     "test:e2e:backend": "pnpm --filter backend run test:e2e",
     "test:e2e:frontend": "API_DIR=backend bash frontend/scripts/ci-e2e.sh",
     "generate:tokens": "pnpm --filter @default/design-tokens generate",
@@ -34,5 +35,28 @@
   },
   "devDependencies": {
     "turbo": "^2.5.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@opentelemetry/auto-instrumentations-node": ">=0.77.0",
+      "@opentelemetry/exporter-prometheus": ">=0.217.0",
+      "@opentelemetry/propagator-jaeger": ">=2.9.0",
+      "@opentelemetry/sdk-node": ">=0.217.0",
+      "@xmldom/xmldom": ">=0.9.12",
+      "basic-ftp": ">=6.2.1",
+      "esbuild": ">=0.25.0",
+      "handlebars": ">=4.7.10",
+      "js-yaml": ">=5.4.1",
+      "katex": ">=0.18.2",
+      "markdown-it": ">=14.3.3",
+      "nodemailer": ">=10.0.6",
+      "uuid": ">=11.1.1",
+      "vite": "7.3.7"
+    },
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-vfj7-8cjw-p6xm"
+      ]
+    }
   }
 }

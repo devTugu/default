@@ -122,6 +122,7 @@ export default tseslint.config(
       'max-lines': 'off',
       'max-lines-per-function': 'off',
       complexity: 'off',
+      'no-console': 'off',
     },
   },
 

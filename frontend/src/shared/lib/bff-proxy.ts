@@ -78,11 +78,15 @@ export async function proxyToBackend(
   const body = await readRequestBody(request);
   const upstreamUrl = `${upstreamPath}${request.nextUrl.search}`;
 
-  const upstream = await fetchInternal(upstreamUrl, {
-    method: request.method,
-    headers,
-    body,
-  });
+  const upstream = await fetchInternal(
+    upstreamUrl,
+    {
+      method: request.method,
+      headers,
+      body,
+    },
+    request,
+  );
 
   const responseHeaders = new Headers();
   const contentType = upstream.headers.get('content-type');

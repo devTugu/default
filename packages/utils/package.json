@@ -45,6 +45,12 @@
       "import": "./src/api-error-message.ts",
       "default": "./src/api-error-message.ts"
     },
+    "./client-ip": {
+      "types": "./dist/client-ip.d.ts",
+      "require": "./dist/client-ip.js",
+      "import": "./src/client-ip.ts",
+      "default": "./src/client-ip.ts"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -55,7 +61,8 @@
       "localized": ["./dist/localized.d.ts"],
       "slug": ["./dist/slug.d.ts"],
       "user-agent": ["./dist/user-agent/device-label.d.ts"],
-      "api-error-message": ["./dist/api-error-message.d.ts"]
+      "api-error-message": ["./dist/api-error-message.d.ts"],
+      "client-ip": ["./src/client-ip.ts"]
     }
   },
   "files": ["dist", "src"],
@@ -71,6 +78,7 @@
   "devDependencies": {
     "@default/tsconfig": "workspace:*",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vite": "7.3.7",
+    "vitest": "^5.0.5"
   }
 }

@@ -17,13 +17,12 @@ import {
   users,
 } from '../drizzle/schema';
 import {
-  E2E_VIEWER_PERMISSION_CODES,
-  E2E_VIEWER_ROLE_NAME,
   PERMISSION_CODES,
   SITE_EDITOR_PERMISSION_CODES,
   SITE_EDITOR_ROLE_NAME,
   SUPER_ADMIN_ROLE_NAME,
 } from './permissions.const';
+import { seedE2eViewerUser } from './e2e-viewer.seed';
 
 dotenv.config({ path: '.env' });
 
@@ -198,71 +197,11 @@ async function runSeed(): Promise<void> {
     });
   }
 
-  let viewerRole = await db.query.roles.findFirst({
-    where: eq(roles.name, E2E_VIEWER_ROLE_NAME),
+  await seedE2eViewerUser(db, {
+    organizationId: defaultOrg.id,
+    viewerEmail: VIEWER_EMAIL,
+    viewerPassword: VIEWER_PASSWORD,
   });
-  if (!viewerRole) {
-    const [inserted] = await db
-      .insert(roles)
-      .values({
-        name: E2E_VIEWER_ROLE_NAME,
-        description: 'E2E limited viewer — no dashboard or audit access',
-      })
-      .returning();
-    viewerRole = inserted;
-    console.log('Created E2E_VIEWER role');
-  }
-  if (!viewerRole) throw new Error('E2E_VIEWER_ROLE_MISSING');
-
-  const viewerPerms = allPerms.filter((p) =>
-    (E2E_VIEWER_PERMISSION_CODES as readonly string[]).includes(p.code),
-  );
-  const existingViewerRp = await db
-    .select()
-    .from(rolePermissions)
-    .where(eq(rolePermissions.roleId, viewerRole.id));
-  const existingViewerPermIds = new Set(
-    existingViewerRp.map((rp) => rp.permissionId),
-  );
-  for (const p of viewerPerms) {
-    if (existingViewerPermIds.has(p.id)) continue;
-    await db.insert(rolePermissions).values({
-      roleId: viewerRole.id,
-      permissionId: p.id,
-    });
-  }
-
-  let viewerUser = await db.query.users.findFirst({
-    where: eq(users.email, VIEWER_EMAIL),
-  });
-  if (!viewerUser) {
-    const passwordHash = await bcrypt.hash(VIEWER_PASSWORD, 12);
-    const [inserted] = await db
-      .insert(users)
-      .values({
-        email: VIEWER_EMAIL,
-        passwordHash,
-        isActive: true,
-        organizationId: defaultOrg.id,
-      })
-      .returning();
-    viewerUser = inserted;
-    console.log('Created viewer user:', VIEWER_EMAIL);
-  }
-  if (!viewerUser) throw new Error('VIEWER_USER_MISSING');
-
-  const existingViewerUr = await db.query.userRoles.findFirst({
-    where: and(
-      eq(userRoles.userId, viewerUser.id),
-      eq(userRoles.roleId, viewerRole.id),
-    ),
-  });
-  if (!existingViewerUr) {
-    await db.insert(userRoles).values({
-      userId: viewerUser.id,
-      roleId: viewerRole.id,
-    });
-  }
 
   await db
     .update(users)

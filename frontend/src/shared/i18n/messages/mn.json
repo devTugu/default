@@ -640,6 +640,14 @@
       "contactSales": "Борлуулалттай холбогдох",
       "findWhatsRight": "Танд тохирохыг олох"
     },
+    "homeHero": {
+      "getStarted": "Эхлэх",
+      "bookDemo": "Demo захиалах",
+      "menu": "Цэс",
+      "navPrivacy": "Нууцлал",
+      "navTerms": "Нөхцөл",
+      "navDocs": "Баримт"
+    },
     "footer": {
       "copyright": "© {year} {siteName}. Бүх эрх хамгаалагдсан.",
       "termsLink": "Үйлчилгээний нөхцөл",

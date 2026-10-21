@@ -26,6 +26,7 @@ const ADMIN_LANGUAGES = [
   {
     value: 'mn',
     label: 'Монгол',
+    icon: '/icons/flag-mn.svg',
   },
 ] as const;
 

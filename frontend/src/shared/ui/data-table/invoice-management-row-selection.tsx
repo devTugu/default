@@ -5,7 +5,7 @@ import { Checkbox } from '@default/ui/primitives/checkbox';
 export function InvoiceTableSelectHeader({
   table,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- docs demo table uses dynamic row shape
   table: any;
 }) {
   const checked = table.getIsAllPageRowsSelected()
@@ -27,7 +27,7 @@ export function InvoiceTableSelectHeader({
 export function InvoiceTableSelectCell({
   row,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- docs demo table uses dynamic row shape
   row: any;
 }) {
   return (

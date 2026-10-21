@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AUTH_COOKIE_NAMES, clearAuthCookies } from '@/shared/lib/auth-cookies';
-import { fetchInternal } from '@/shared/lib/internal-api';
+import {
+  fetchInternal,
+  UpstreamConnectionError,
+} from '@/shared/lib/internal-api';
 import { assertCsrf } from '@/shared/lib/bff-csrf';
 
 export async function POST(request: NextRequest) {
@@ -11,14 +14,24 @@ export async function POST(request: NextRequest) {
   const accessToken = request.cookies.get(AUTH_COOKIE_NAMES.ACCESS_TOKEN)?.value;
 
   if (refreshToken) {
-    await fetchInternal('/auth/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
+    try {
+      await fetchInternal(
+        '/auth/logout',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+          },
+          body: JSON.stringify({ refreshToken }),
+        },
+        request,
+      );
+    } catch (error) {
+      if (!(error instanceof UpstreamConnectionError)) {
+        throw error;
+      }
+    }
   }
 
   const response = new NextResponse(null, { status: 204 });

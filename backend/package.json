@@ -82,7 +82,7 @@
     "pg": "^8.16.3",
     "nest-winston": "^1.10.2",
     "nestjs-zod": "^5.5.0",
-    "nodemailer": "^9.0.1",
+    "nodemailer": "^10.1.7",
     "openid-client": "^6.6.2",
     "otplib": "^12.0.1",
     "passport": "^0.7.0",
@@ -98,7 +98,6 @@
     "@default/eslint-config": "workspace:*",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
-    "@marp-team/marp-cli": "^4.4.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -160,7 +159,11 @@
       "^@application/(.*)$": "<rootDir>/application/$1",
       "^@infrastructure/(.*)$": "<rootDir>/infrastructure/$1",
       "^@presentation/(.*)$": "<rootDir>/presentation/$1",
-      "^@shared/(.*)$": "<rootDir>/shared/$1"
+      "^@shared/(.*)$": "<rootDir>/shared/$1",
+      "^@default/utils/client-ip$": "<rootDir>/../../packages/utils/src/client-ip.ts",
+      "^@default/utils/user-agent$": "<rootDir>/../../packages/utils/src/user-agent/device-label.ts",
+      "^@default/utils/(.*)$": "<rootDir>/../../packages/utils/src/$1.ts",
+      "^@default/types/(.*)$": "<rootDir>/../../packages/types/src/$1"
     },
     "collectCoverageFrom": [
       "application/**/*.ts",

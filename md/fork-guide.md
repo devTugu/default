@@ -14,6 +14,7 @@ Fork this monorepo and grow it into your product. Quick start: [../README.md](..
 | `NEXT_PUBLIC_BRAND_NAME` | Fallback brand name |
 | `NEXT_PUBLIC_SITE_URL` | Canonical / OG URL |
 | `API_INTERNAL_URL` | Server-only Nest base (`…/api/v1`) — required in production |
+| `NEXT_SERVER_MODE` | `dev` \| `prod` — docs catalog and debug surfaces (`frontend/src/shared/config/server-mode.ts`) |
 
 **Runtime:** Admin → **Site settings** — logos, hero, about, theme color, SEO, footer (`site_settings`). No redeploy needed.
 
@@ -30,7 +31,7 @@ Frontend resolution: site-settings name → `NEXT_PUBLIC_BRAND_NAME` → fallbac
 | `/dashboard/roles` | Roles |
 | `/dashboard/permissions` | Permissions |
 | `/dashboard/site-settings` | Branding / hero / SEO |
-| `/dashboard/audit-logs` | Audit |
+| `/dashboard/site-settings?tab=audit` | Audit (legacy `/dashboard/audit-logs` redirects) |
 | `/dashboard/security` | MFA |
 
 Constants: `frontend/src/shared/config/routes.ts`. Sidebar: `frontend/src/widgets/app-sidebar/`.

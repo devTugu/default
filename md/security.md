@@ -2,6 +2,16 @@
 
 Auth/admin security for this template. Not a SOC 2 / ISO certification claim.
 
+## Dependency audit (CI)
+
+CI runs `pnpm audit --audit-level=high` (must exit 0). Root `package.json` uses `pnpm.overrides` for patched transitive versions and `pnpm.auditConfig.ignoreGhsas` only where upstream has **no fix** yet:
+
+| Advisory | Package | Mitigation |
+|----------|---------|------------|
+| GHSA-vfj7-8cjw-p6xm | `braces` (via ESLint `micromatch`) | Dev-only; no patched release — tracked ignore, remove when upstream updates |
+
+Run locally: `pnpm audit` (root script alias for `--audit-level=high`).
+
 ## Backend authentication
 
 | Mechanism | Details |

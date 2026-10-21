@@ -1,3 +1,4 @@
+import type { NextRequest } from 'next/server';
 import { fetchInternal, parseInternalJson } from '@/shared/lib/internal-api';
 import type { TokenPair } from '@/shared/api/types';
 
@@ -5,12 +6,17 @@ export const REFRESH_TOKEN_HEADER = 'x-refresh-token';
 
 export async function refreshTokenPair(
   refreshToken: string,
+  clientRequest?: NextRequest,
 ): Promise<TokenPair | null> {
-  const upstream = await fetchInternal('/auth/refresh', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ refreshToken }),
-  });
+  const upstream = await fetchInternal(
+    '/auth/refresh',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    },
+    clientRequest,
+  );
 
   if (!upstream.ok) {
     return null;
@@ -20,11 +26,18 @@ export async function refreshTokenPair(
   return envelope.data;
 }
 
-export async function fetchAuthMe(accessToken: string): Promise<Response> {
-  return fetchInternal('/auth/me', {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+export async function fetchAuthMe(
+  accessToken: string,
+  clientRequest?: NextRequest,
+): Promise<Response> {
+  return fetchInternal(
+    '/auth/me',
+    {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+    clientRequest,
+  );
 }
 
 function authHeaders(
@@ -43,29 +56,44 @@ function authHeaders(
 export async function fetchAuthSessions(
   accessToken: string,
   refreshToken?: string,
+  clientRequest?: NextRequest,
 ): Promise<Response> {
-  return fetchInternal('/auth/sessions', {
-    method: 'GET',
-    headers: authHeaders(accessToken, refreshToken),
-  });
+  return fetchInternal(
+    '/auth/sessions',
+    {
+      method: 'GET',
+      headers: authHeaders(accessToken, refreshToken),
+    },
+    clientRequest,
+  );
 }
 
 export async function fetchRevokeAuthSession(
   accessToken: string,
   sessionId: number,
+  clientRequest?: NextRequest,
 ): Promise<Response> {
-  return fetchInternal(`/auth/sessions/${sessionId}`, {
-    method: 'DELETE',
-    headers: authHeaders(accessToken),
-  });
+  return fetchInternal(
+    `/auth/sessions/${sessionId}`,
+    {
+      method: 'DELETE',
+      headers: authHeaders(accessToken),
+    },
+    clientRequest,
+  );
 }
 
 export async function fetchRevokeOtherAuthSessions(
   accessToken: string,
   refreshToken: string,
+  clientRequest?: NextRequest,
 ): Promise<Response> {
-  return fetchInternal('/auth/sessions/revoke-others', {
-    method: 'POST',
-    headers: authHeaders(accessToken, refreshToken),
-  });
+  return fetchInternal(
+    '/auth/sessions/revoke-others',
+    {
+      method: 'POST',
+      headers: authHeaders(accessToken, refreshToken),
+    },
+    clientRequest,
+  );
 }

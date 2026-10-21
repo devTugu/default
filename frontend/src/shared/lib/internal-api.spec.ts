@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { mergeInternalHeaders } from './internal-api';
+import {
+  isUpstreamConnectionError,
+  mergeInternalHeaders,
+} from './internal-api';
 
 describe('mergeInternalHeaders', () => {
   it('preserves Authorization from a Headers instance', () => {
@@ -21,5 +24,18 @@ describe('mergeInternalHeaders', () => {
 
     expect(merged.get('Authorization')).toBe('Bearer plain-token');
     expect(merged.get('Accept')).toBe('application/json');
+  });
+});
+
+describe('isUpstreamConnectionError', () => {
+  it('detects ECONNREFUSED fetch failures', () => {
+    const error = new TypeError('fetch failed', {
+      cause: Object.assign(new Error('connect'), { code: 'ECONNREFUSED' }),
+    });
+    expect(isUpstreamConnectionError(error)).toBe(true);
+  });
+
+  it('ignores unrelated errors', () => {
+    expect(isUpstreamConnectionError(new Error('nope'))).toBe(false);
   });
 });

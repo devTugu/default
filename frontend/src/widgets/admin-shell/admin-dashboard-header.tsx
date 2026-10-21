@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@default/ui/primitives/button';
@@ -18,7 +18,9 @@ export function AdminDashboardHeader() {
     <>
       <header className="bg-background sticky top-0 z-40 pt-3">
         <div className="bg-card relative flex w-full items-center justify-between overflow-hidden rounded-xl border px-4 py-2 shadow-sm sm:px-6">
-          <NavigationProgressBar embedded />
+          <Suspense fallback={null}>
+            <NavigationProgressBar embedded />
+          </Suspense>
           <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
             <SidebarTrigger className="shrink-0" />
             <Separator

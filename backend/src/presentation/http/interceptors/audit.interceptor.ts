@@ -8,6 +8,7 @@ import {
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import type { Request } from 'express';
 import { RecordAuditLogUseCase } from '@application/audit/use-cases/record-audit-log.use-case';
+import { resolveClientIp } from '@presentation/http/lib/resolve-client-ip';
 import { JwtPayload } from '@shared/types/pagination';
 
 const AUDITED_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
@@ -34,7 +35,7 @@ export class AuditInterceptor implements NestInterceptor {
           action: auditMeta.action,
           resource: auditMeta.resource,
           resourceId: auditMeta.resourceId,
-          ipAddress: this.resolveIp(request),
+          ipAddress: resolveClientIp(request),
           metadata: auditMeta.metadata,
         });
       }),
@@ -62,7 +63,7 @@ export class AuditInterceptor implements NestInterceptor {
         action: 'LOGIN_FAILED',
         resource: 'auth',
         resourceId: null,
-        ipAddress: this.resolveIp(request),
+        ipAddress: resolveClientIp(request),
         metadata: {
           path: request.path,
           method,
@@ -78,7 +79,7 @@ export class AuditInterceptor implements NestInterceptor {
         action: 'FORBIDDEN',
         resource: auditMeta.resource,
         resourceId: auditMeta.resourceId,
-        ipAddress: this.resolveIp(request),
+        ipAddress: resolveClientIp(request),
         metadata: {
           path: request.path,
           method,
@@ -133,13 +134,5 @@ export class AuditInterceptor implements NestInterceptor {
       resourceId,
       metadata: { path, method },
     };
-  }
-
-  private resolveIp(request: Request): string | null {
-    const forwarded = request.headers['x-forwarded-for'];
-    if (typeof forwarded === 'string') {
-      return forwarded.split(',')[0]?.trim() ?? null;
-    }
-    return request.ip ?? null;
   }
 }

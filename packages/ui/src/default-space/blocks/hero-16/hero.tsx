@@ -30,6 +30,10 @@ const HeroSection = ({ getStartedHref = "#" }: HeroSectionProps) => {
             <div className="max-w-7xl mx-auto px-4 lg:px-8 xl:px-16">
                 <div className="border-x border-border">
                     <div className="relative py-10 md:py-20 px-4 lg:px-10 overflow-hidden">
+                        <div
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 -z-[8] bg-[linear-gradient(125deg,hsl(var(--background)/0.94)_0%,hsl(var(--primary)/0.14)_42%,hsl(var(--background)/0.9)_100%)]"
+                        />
                         <video
                             className="absolute w-full h-full object-cover -z-10 opacity-50 sm:opacity-100 left-0 sm:left-auto sm:-right-36 top-0 dark:hidden"
                             autoPlay

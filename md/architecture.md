@@ -82,8 +82,11 @@ sequenceDiagram
 | Marketing | `app/(marketing)/` |
 | Admin | `app/dashboard/` |
 | Auth BFF | `app/api/auth/` |
+| BFF client IP | `src/shared/lib/bff-client-meta.ts` → `X-Forwarded-For` on upstream Nest calls |
 | Proxy allowlist | `src/shared/config/bff-allowlist.ts` |
 | Public fetch | `src/entities/public-api/public-server.ts` |
+
+Nest normalizes stored audit/session IPs via `@default/utils/client-ip` (`resolve-client-ip.ts` in presentation).
 
 ## Shared decisions
 

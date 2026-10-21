@@ -5,6 +5,7 @@ import {
 } from '@/shared/lib/auth-cookies';
 import { refreshTokenPair } from '@/shared/lib/bff-auth-server';
 import { buildTokenPairResponse } from '@/shared/lib/bff-auth-response';
+import { catchUpstreamConnection } from '@/shared/lib/bff-upstream';
 import { assertCsrf } from '@/shared/lib/bff-csrf';
 
 export async function POST(request: NextRequest) {
@@ -26,18 +27,26 @@ export async function POST(request: NextRequest) {
     return clearAuthCookies(response);
   }
 
-  const pair = await refreshTokenPair(refreshToken);
+  try {
+    const pair = await refreshTokenPair(refreshToken, request);
 
-  if (!pair) {
-    const response = NextResponse.json(
-      {
-        success: false,
-        error: { code: 'UNAUTHORIZED', message: 'Refresh failed' },
-      },
-      { status: 401 },
-    );
-    return clearAuthCookies(response);
+    if (!pair) {
+      const response = NextResponse.json(
+        {
+          success: false,
+          error: { code: 'UNAUTHORIZED', message: 'Refresh failed' },
+        },
+        { status: 401 },
+      );
+      return clearAuthCookies(response);
+    }
+
+    return buildTokenPairResponse(pair);
+  } catch (error) {
+    const upstream = catchUpstreamConnection(error);
+    if (upstream) {
+      return upstream;
+    }
+    throw error;
   }
-
-  return buildTokenPairResponse(pair);
 }

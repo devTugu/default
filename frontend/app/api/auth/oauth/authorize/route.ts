@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
   const upstream = await fetchInternal(
     `/auth/oauth/authorize?state=${encodeURIComponent(state)}`,
     { method: 'GET' },
+    request,
   );
 
   const envelope = await parseInternalJson<{ url: string }>(upstream);

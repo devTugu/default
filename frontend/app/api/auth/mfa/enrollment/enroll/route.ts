@@ -9,11 +9,15 @@ export async function POST(request: NextRequest) {
 
   const body = await request.text();
 
-  const upstream = await fetchInternal('/auth/mfa/enrollment/enroll', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
-  });
+  const upstream = await fetchInternal(
+    '/auth/mfa/enrollment/enroll',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    },
+    request,
+  );
 
   const envelope = await parseInternalJson<MfaEnrollmentResponse>(upstream);
   return NextResponse.json(envelope, { status: upstream.status });

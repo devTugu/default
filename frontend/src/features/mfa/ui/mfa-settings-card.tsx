@@ -6,7 +6,6 @@ import type { UserOutput } from '@/entities/user';
 import { Alert, AlertDescription, AlertTitle } from '@default/ui/primitives/alert';
 import { Badge } from '@default/ui/primitives/badge';
 import { Button } from '@default/ui/primitives/button';
-import { Card, CardContent } from '@default/ui/primitives/card';
 import { Switch } from '@default/ui/primitives/switch';
 import { MfaSetupPanel } from './mfa-setup-panel';
 import { MfaSettingsDisableSection } from './mfa-settings-disable-section';
@@ -25,9 +24,7 @@ export function MfaSettingsCard({ user, onSessionUpdate }: MfaSettingsCardProps)
   const toggleOn = mfaEnabled || mfa.otpauthUrl != null;
 
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
           <MfaSettingsCardHeader
             mfaEnabled={mfaEnabled}
             toggleOn={toggleOn}
@@ -81,9 +78,7 @@ export function MfaSettingsCard({ user, onSessionUpdate }: MfaSettingsCardProps)
               </Button>
             </div>
           ) : null}
-        </div>
-      </CardContent>
-    </Card>
+    </div>
   );
 }
 

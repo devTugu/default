@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   let token = accessToken;
   let rotatedPair: Awaited<ReturnType<typeof refreshTokenPair>> | null = null;
   if (!token) {
-    rotatedPair = await refreshTokenPair(refreshToken);
+    rotatedPair = await refreshTokenPair(refreshToken, request);
     if (!rotatedPair) {
       const response = NextResponse.json(
         {
@@ -46,11 +46,15 @@ export async function POST(request: NextRequest) {
     refreshToken = rotatedPair.refreshToken;
   }
 
-  const upstream = await fetchRevokeOtherAuthSessions(token, refreshToken);
+  const upstream = await fetchRevokeOtherAuthSessions(
+    token,
+    refreshToken,
+    request,
+  );
   let response = new NextResponse(null, { status: upstream.status });
 
   if (upstream.status === 401) {
-    rotatedPair = await refreshTokenPair(refreshToken);
+    rotatedPair = await refreshTokenPair(refreshToken, request);
     if (!rotatedPair) {
       const unauthorized = NextResponse.json(
         {
@@ -64,6 +68,7 @@ export async function POST(request: NextRequest) {
     const retry = await fetchRevokeOtherAuthSessions(
       rotatedPair.accessToken,
       rotatedPair.refreshToken,
+      request,
     );
     response = new NextResponse(null, { status: retry.status });
     if (retry.ok) {

@@ -87,3 +87,17 @@ pnpm --filter frontend run start
 ## CI
 
 Root `.github/workflows/ci.yml` — lint, typecheck, unit tests, build, Playwright (`frontend/scripts/ci-e2e.sh`).
+
+### Local E2E (mirrors CI)
+
+1. Start PostgreSQL + Redis (see `backend/local/postgre/docker-compose.yml`).
+2. Copy `backend/.env.example` → `backend/.env`, run `pnpm --filter backend run db:setup`.
+3. Build frontend with production flags:
+
+```bash
+pnpm --filter frontend run build
+NEXT_SERVER_MODE=prod API_INTERNAL_URL=http://localhost:3001/api/v1 \
+  API_DIR=backend bash frontend/scripts/ci-e2e.sh
+```
+
+Requires Chromium (`pnpm --filter frontend exec playwright install chromium`).

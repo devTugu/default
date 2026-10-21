@@ -24,7 +24,7 @@ async function resolveAccessToken(
   if (!refreshToken) {
     return null;
   }
-  const pair = await refreshTokenPair(refreshToken);
+  const pair = await refreshTokenPair(refreshToken, request);
   if (!pair) {
     return null;
   }
@@ -59,7 +59,11 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
     );
   }
 
-  const upstream = await fetchRevokeAuthSession(resolved.accessToken, sessionId);
+  const upstream = await fetchRevokeAuthSession(
+    resolved.accessToken,
+    sessionId,
+    request,
+  );
   const body = await upstream.text();
   let response = new NextResponse(body || null, {
     status: upstream.status,
