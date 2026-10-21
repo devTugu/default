@@ -1,6 +1,11 @@
 import { authenticator } from 'otplib';
-import type { Page } from '@playwright/test';
-import { fetchCsrf, loginAsAdmin } from './auth';
+import { expect, type Page } from '@playwright/test';
+import {
+  adminEmail,
+  adminPassword,
+  fetchCsrf,
+  loginAsAdmin,
+} from './auth';
 
 function extractSecretFromOtpAuthUrl(otpauthUrl: string): string {
   const url = new URL(otpauthUrl);
@@ -34,4 +39,37 @@ export async function enrollAdminMfa(page: Page): Promise<string> {
 
 export function generateTotp(secret: string): string {
   return authenticator.generate(secret);
+}
+
+/** Restores admin to password-only login after MFA E2E (avoids breaking later specs). */
+export async function disableAdminMfa(
+  page: Page,
+  secret: string,
+  email: string = adminEmail,
+  password: string = adminPassword,
+): Promise<void> {
+  await page.goto('/sign-in');
+  const form = page.locator('form').first();
+  await form.getByLabel('Email').fill(email);
+  await form.getByLabel('Password').fill(password);
+  await form.getByRole('button', { name: /^(Sign in|Нэвтрэх)$/, exact: true }).click();
+
+  const mfaPrompt = page.getByText(/Enter the 6-digit code/i);
+  if (await mfaPrompt.isVisible({ timeout: 10_000 }).catch(() => false)) {
+    await page.getByPlaceholder('000000').fill(generateTotp(secret));
+    await page.getByRole('button', { name: 'Verify code' }).click();
+  }
+
+  await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
+
+  const csrf = await fetchCsrf(page);
+  const disableRes = await page.request.post('/api/backend/auth/mfa/disable', {
+    headers: { 'x-csrf-token': csrf, 'Content-Type': 'application/json' },
+    data: { code: generateTotp(secret) },
+  });
+  expect(disableRes.ok()).toBeTruthy();
+
+  await page.request.post('/api/auth/logout', {
+    headers: { 'x-csrf-token': csrf },
+  });
 }

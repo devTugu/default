@@ -28,9 +28,12 @@ test.describe('Public site', () => {
   test('mobile menu opens', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/');
-    await page.getByRole('button', { name: /menu|цэс/i }).click();
+    const menuTrigger = page
+      .locator('header')
+      .getByRole('button', { name: /menu|цэс/i });
+    await menuTrigger.click();
     await expect(
-      page.locator('header').getByRole('link', { name: /get started|эхлэх|dashboard/i }),
+      page.getByRole('link', { name: /get started|эхлэх|dashboard/i }).last(),
     ).toBeVisible();
   });
 

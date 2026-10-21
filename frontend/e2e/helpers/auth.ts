@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 
 const adminEmail = process.env.E2E_ADMIN_EMAIL ?? 'admin@default.mn';
 const adminPassword = process.env.E2E_ADMIN_PASSWORD ?? 'admin123!';
@@ -14,10 +14,27 @@ async function fetchCsrf(page: Page): Promise<string> {
 async function submitSignIn(page: Page, email: string, password: string): Promise<void> {
   await page.goto('/sign-in');
   const form = page.locator('form').first();
+  await expect(form.getByLabel('Email')).toBeVisible();
   await form.getByLabel('Email').fill(email);
   await form.getByLabel('Password').fill(password);
+
+  const loginResponse = page.waitForResponse(
+    (res) =>
+      res.url().includes('/api/auth/login') &&
+      res.request().method() === 'POST',
+  );
   await form.getByRole('button', { name: /^(Sign in|Нэвтрэх)$/, exact: true }).click();
-  await page.waitForURL(/\/dashboard/, { timeout: 30_000 });
+  const loginRes = await loginResponse;
+  expect(loginRes.ok(), `login HTTP ${loginRes.status()}`).toBeTruthy();
+
+  const mfaStep = page.getByText(/Enter the 6-digit code/i);
+  if (await mfaStep.isVisible({ timeout: 3_000 }).catch(() => false)) {
+    throw new Error(
+      'Account requires MFA — ensure mfa.spec teardown ran (disableAdminMfa).',
+    );
+  }
+
+  await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
 }
 
 export async function loginAsAdmin(page: Page): Promise<void> {
@@ -28,26 +45,12 @@ export async function loginAsViewer(page: Page): Promise<void> {
   await submitSignIn(page, viewerEmail, viewerPassword);
 }
 
-/** Users lives under the Access control collapsible in the sidebar. */
-export async function goToUsers(page: Page): Promise<void> {
-  const sidebar = page.locator('[data-sidebar="sidebar"]');
-  const usersLink = sidebar.getByRole('link', { name: 'Users', exact: true });
-  if (!(await usersLink.isVisible())) {
-    await sidebar
-      .getByRole('button', { name: /access control/i })
-      .click();
-  }
-  await usersLink.click();
-  await page.waitForURL(/\/dashboard\/users/, { timeout: 15_000 });
-}
+export { goToRoles, goToSiteSettings, goToUsers } from './dashboard-nav';
 
 export async function logoutAsAdmin(page: Page): Promise<void> {
   await page.getByRole('button', { name: adminEmail }).click();
   await page.getByRole('menuitem', { name: /sign out/i }).click();
-  await page.waitForURL(
-    (url) => new URL(url).pathname === '/',
-    { timeout: 10_000 },
-  );
+  await expect(page).toHaveURL('/', { timeout: 10_000 });
 }
 
 export { fetchCsrf, adminEmail, adminPassword, viewerEmail, viewerPassword };

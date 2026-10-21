@@ -17,9 +17,12 @@ test.describe('Permissions', () => {
   }) => {
     await loginAsViewer(page);
     await page.goto('/dashboard/audit-logs');
+    await expect(page).toHaveURL(/\/dashboard\/site-settings\?tab=audit/);
     await expect(page.getByText('Access denied').first()).toBeVisible({
       timeout: 10_000,
     });
-    await expect(page.getByText('AUDIT_READ')).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: 'Action' })).toHaveCount(
+      0,
+    );
   });
 });

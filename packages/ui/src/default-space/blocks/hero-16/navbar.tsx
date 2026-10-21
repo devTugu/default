@@ -89,9 +89,9 @@ const Navbar = ({
     return (
         <header>
             <nav className="max-w-7xl mx-auto px-4 lg:px-8 xl:px-16">
-                <div className="border-x border-border px-4 lg:px-10 py-4 flex items-center justify-between">
-                    <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-6">
+                <div className="border-x border-border px-4 lg:px-10 py-4">
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="flex min-w-0 items-center gap-6">
                             <a href={homeHref}>{logo ?? <Logo />}</a>
                             <NavigationMenu className="max-lg:hidden bg-muted p-0.5 rounded-full">
                                 <NavigationMenuList className="flex gap-0">
@@ -108,7 +108,7 @@ const Navbar = ({
                                 </NavigationMenuList>
                             </NavigationMenu>
                         </div>
-                        <div className="max-lg:hidden flex items-center gap-2">
+                        <div className="max-lg:hidden flex shrink-0 items-center gap-2">
                             {navActions}
                             <Button asChild variant="outline" className="h-auto px-4 py-2 rounded-full cursor-pointer">
                                 <a href={getStartedHref}>{getStartedLabel}</a>
@@ -123,65 +123,61 @@ const Navbar = ({
                                 </a>
                             </Button>
                         </div>
-                    </div>
-
-                    {/* Mobile Menu */}
-                    <div className="lg:hidden relative">
-                        <AnimatePresence>
-                            {menuOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    onClick={() => setMenuOpen(false)}
-                                    className="fixed inset-0 z-40 backdrop-blur-sm"
-                                />
-                            )}
-                        </AnimatePresence>
-                        <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-                            <DropdownMenuTrigger
-                                aria-label={menuLabel}
-                                className="rounded-full bg-muted hover:bg-muted/80 h-auto p-2.5 gap-2 border border-border cursor-pointer"
-                            >
-                                <Menu className="w-4 h-4 text-foreground cursor-pointer" />
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                align="end"
-                                sideOffset={10}
-                                className="min-w-xs sm:min-w-sm bg-background py-8 px-6 shadow-2xl rounded-3xl border border-border -mt-12 z-50"
-                            >
-                                <div className="flex flex-col gap-6">
-                                    {/* Header */}
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-lg font-medium text-foreground">
-                                            {menuLabel}
-                                        </p>
-                                        <Button variant="outline" onClick={() => setMenuOpen(false)} className="h-auto p-2.5 cursor-pointer rounded-full">
-                                            <X size={20} />
+                        <div className="relative shrink-0 lg:hidden">
+                            <AnimatePresence>
+                                {menuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="fixed inset-0 z-40 backdrop-blur-sm"
+                                    />
+                                )}
+                            </AnimatePresence>
+                            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+                                <DropdownMenuTrigger
+                                    aria-label={menuLabel}
+                                    className="rounded-full bg-muted hover:bg-muted/80 h-auto p-2.5 gap-2 border border-border cursor-pointer"
+                                >
+                                    <Menu className="w-4 h-4 text-foreground cursor-pointer" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                    align="end"
+                                    sideOffset={10}
+                                    className="min-w-xs sm:min-w-sm bg-background py-8 px-6 shadow-2xl rounded-3xl border border-border -mt-12 z-50"
+                                >
+                                    <div className="flex flex-col gap-6">
+                                        <div className="flex items-center justify-between">
+                                            <p className="text-lg font-medium text-foreground">
+                                                {menuLabel}
+                                            </p>
+                                            <Button variant="outline" onClick={() => setMenuOpen(false)} className="h-auto p-2.5 cursor-pointer rounded-full">
+                                                <X size={20} />
+                                            </Button>
+                                        </div>
+                                        <hr className="border-border" />
+                                        {navActions ? (
+                                            <div className="flex items-center gap-2">{navActions}</div>
+                                        ) : null}
+                                        <ul className="flex flex-col gap-3.5">
+                                            {navigationData.map((item, index) => (
+                                                <NavLink
+                                                    key={index}
+                                                    item={item}
+                                                    onClick={() => setMenuOpen(false)}
+                                                />
+                                            ))}
+                                        </ul>
+                                        <Button asChild className="h-auto rounded-full px-5 py-2.5 cursor-pointer hover:bg-primary/80">
+                                            <a href={getStartedHref} onClick={() => setMenuOpen(false)}>
+                                                {getStartedLabel}
+                                            </a>
                                         </Button>
                                     </div>
-                                    <hr className="border-border" />
-                                    {navActions ? (
-                                        <div className="flex items-center gap-2">{navActions}</div>
-                                    ) : null}
-                                    {/* Navigation */}
-                                    <ul className="flex flex-col gap-3.5">
-                                        {navigationData.map((item, index) => (
-                                            <NavLink
-                                                key={index}
-                                                item={item}
-                                                onClick={() => setMenuOpen(false)}
-                                            />
-                                        ))}
-                                    </ul>
-                                    <Button asChild className="h-auto rounded-full px-5 py-2.5 cursor-pointer hover:bg-primary/80">
-                                        <a href={getStartedHref} onClick={() => setMenuOpen(false)}>
-                                            {getStartedLabel}
-                                        </a>
-                                    </Button>
-                                </div>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </div>
                 </div>
 

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { loginAsAdmin } from './helpers/auth';
+import { goToSiteSettings } from './helpers/dashboard-nav';
 
 test.describe('Site settings', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,8 +8,7 @@ test.describe('Site settings', () => {
   });
 
   test('loads site settings form', async ({ page }) => {
-    await page.getByRole('link', { name: 'Site Settings' }).click();
-    await expect(page).toHaveURL(/\/dashboard\/site-settings/);
+    await goToSiteSettings(page);
     await expect(page.getByRole('heading', { name: 'Account & Security' })).toBeVisible({
       timeout: 15_000,
     });
