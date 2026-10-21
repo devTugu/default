@@ -9,6 +9,6 @@ Coding rules: [`.cursor/rules/`](../.cursor/rules/) · Commands: [`CLAUDE.md`](.
 | [deploy.md](deploy.md) | Production env, Docker/Helm, local E2E |
 | [security.md](security.md) | Auth, BFF, secrets |
 | [api.md](api.md) | REST map |
-| [quality.md](quality.md) | CI / local gates before merge |
+| [quality.md](quality.md) | `pnpm verify` (= CI quality job) before push |
 
 Template history: [CHANGELOG.md](../CHANGELOG.md)

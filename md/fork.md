@@ -2,6 +2,28 @@
 
 Platform skeleton (auth, RBAC, admin, marketing) — not a vertical clone (Booking/Shopify/Upwork). Add your domains on the same layers.
 
+## Fork readiness (template complete)
+
+After clone, before product code:
+
+1. `pnpm install` · copy `backend/.env` + `frontend/.env.local`
+2. Optional: `pnpm fork:rename-scope -- --scope @yourorg --apply`
+3. `pnpm infra:up` · migrate · seed · `pnpm dev`
+4. **`pnpm verify`** — same gates as CI `quality` job (lint, typecheck, build, test, cov, audit)
+5. **`pnpm fork:check`** — smoke `/`, `/sign-in`, API health (dev servers running)
+6. First domain: `pnpm generate:domain -- --name <kebab>` → `db:generate` · `migration:run` · `seed`
+
+You bring **product modules** (listings, orders, …). Template brings auth, admin shell, layers, scaffold, and gates.
+
+### Example products (domain only — not in repo)
+
+| Product | Typical first modules | Usually skip |
+|---------|----------------------|--------------|
+| Classified ads | `listings`, `categories`, search UI | Multi-org UI, escrow |
+| Corporate / marketing | site-settings, custom pages | `generate:domain` until CMS grows |
+| Marketplace | `jobs`, `proposals`, … | Until monetization: payments |
+| Merchant | `products`, `orders` | Wallet until checkout exists |
+
 ## Quick commands
 
 ```bash
@@ -82,4 +104,4 @@ Details: [deploy.md](deploy.md), [security.md](security.md).
 1. Watch upstream [CHANGELOG.md](../CHANGELOG.md) and git tags (`v1.x.x`).
 2. Merge **platform** changes: `.github/`, `.cursor/rules/`, `packages/config/`, auth/BFF, CI scripts, shared packages you did not fork heavily.
 3. Keep **product** changes: your `packages/types/src/<product>/`, `frontend/src/features/<product>/`, Drizzle migrations for your tables.
-4. After merge: `pnpm install`, `pnpm quality`, `pnpm test:e2e:backend` (or full CI locally), fix conflicts in `permissions.const.ts` / seed only if both sides added codes.
+4. After merge: `pnpm install`, `pnpm verify`, optional `pnpm test:e2e:backend`, fix conflicts in `permissions.const.ts` / seed only if both sides added codes.

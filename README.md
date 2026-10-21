@@ -73,7 +73,8 @@ After fork: [md/fork.md](md/fork.md).
 | Script | Description |
 |--------|-------------|
 | `pnpm dev` | Backend + frontend (Turbo) |
-| `pnpm quality` | typecheck + lint + test + build (local pre-merge) |
+| `pnpm verify` | Full CI `quality` job locally (use before push) |
+| `pnpm quality` | Alias for `pnpm verify` |
 | `pnpm build` / `lint` / `typecheck` / `test` | Same gates as CI unit job |
 | `pnpm audit` | High+ severity dependency audit (CI) |
 | `pnpm generate:domain -- --name <kebab>` | Full stack scaffold (Drizzle + API + admin route) |

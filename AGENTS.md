@@ -6,7 +6,7 @@ Do not follow outdated TypeORM / mega-`.cursorrules` tutorials — this backend 
 
 Backend Jest (unit + e2e): workspace imports (`@default/utils/*`, `@default/types/*`) need matching `moduleNameMapper` in `backend/package.json` and `backend/test/jest-e2e.json` — see `md/quality.md`.
 
-New domains: `md/fork.md` and `pnpm generate:domain -- --name <kebab-case>`.
+New domains: `md/fork.md` and `pnpm generate:domain -- --name <kebab-case>`. Before push: `pnpm verify`.
 
 Shared packages use the `@default/*` scope. Client data: `@default/types` → `@default/api` → `@default/hooks` → UI.
 

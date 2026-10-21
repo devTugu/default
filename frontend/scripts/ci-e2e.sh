@@ -52,7 +52,7 @@ if [[ -n "${MFA_REQUIRED_ROLES:-}" ]]; then
   echo "MFA_REQUIRED_ROLES=${MFA_REQUIRED_ROLES}" >> "${API_PATH}/.env"
 fi
 
-echo "Building API for E2E..."
+echo "Building API for E2E (includes @default/utils + @default/types dist for node dist/main)..."
 pnpm --filter backend run build
 
 MAIN_ENTRY=""

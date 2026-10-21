@@ -28,6 +28,7 @@
     "starter"
   ],
   "scripts": {
+    "prebuild": "pnpm --filter @default/utils run build && pnpm --filter @default/types run build",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "dev": "nest start --watch",

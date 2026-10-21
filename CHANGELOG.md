@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0] — 2026-10-21
+
+### Added
+
+- `pnpm verify` — local parity with CI quality job (tokens, lint, typecheck, build, test, cov, audit)
+- `@default/api` contract test (`parseWith`)
+- Fork readiness checklist + example product table in `md/fork.md`
+
+### Changed
+
+- `pnpm quality` aliases `verify`
+- Root `test` includes `@default/api`
+
 ## [1.1.0] — 2026-03-24
 
 ### Added
