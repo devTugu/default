@@ -2,8 +2,8 @@ import type { Page } from '@playwright/test';
 
 const adminEmail = process.env.E2E_ADMIN_EMAIL ?? 'admin@default.mn';
 const adminPassword = process.env.E2E_ADMIN_PASSWORD ?? 'admin123!';
-const viewerEmail = process.env.E2E_VIEWER_EMAIL ?? 'viewer@example.com';
-const viewerPassword = process.env.E2E_VIEWER_PASSWORD ?? 'Viewer123!';
+const viewerEmail = process.env.E2E_VIEWER_EMAIL ?? 'viewer@default.mn';
+const viewerPassword = process.env.E2E_VIEWER_PASSWORD ?? 'viewer123!';
 
 async function fetchCsrf(page: Page): Promise<string> {
   const response = await page.request.get('/api/auth/csrf');
@@ -11,29 +11,33 @@ async function fetchCsrf(page: Page): Promise<string> {
   return json.data.token;
 }
 
-export async function loginAsAdmin(page: Page): Promise<void> {
+async function submitSignIn(page: Page, email: string, password: string): Promise<void> {
   await page.goto('/sign-in');
-  await page.getByLabel('Email').fill(adminEmail);
-  await page.getByLabel('Password').fill(adminPassword);
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.waitForURL(/\/dashboard/, { timeout: 15_000 });
+  const form = page.locator('form').first();
+  await form.getByLabel('Email').fill(email);
+  await form.getByLabel('Password').fill(password);
+  await form.getByRole('button', { name: /^(Sign in|Нэвтрэх)$/, exact: true }).click();
+  await page.waitForURL(/\/dashboard/, { timeout: 30_000 });
+}
+
+export async function loginAsAdmin(page: Page): Promise<void> {
+  await submitSignIn(page, adminEmail, adminPassword);
 }
 
 export async function loginAsViewer(page: Page): Promise<void> {
-  await page.goto('/sign-in');
-  await page.getByLabel('Email').fill(viewerEmail);
-  await page.getByLabel('Password').fill(viewerPassword);
-  await page.getByRole('button', { name: 'Sign in' }).click();
-  await page.waitForURL(/\/dashboard/, { timeout: 15_000 });
+  await submitSignIn(page, viewerEmail, viewerPassword);
 }
 
-/** Sidebar nav link — avoids dashboard card / button duplicates. */
+/** Users lives under the Access control collapsible in the sidebar. */
 export async function goToUsers(page: Page): Promise<void> {
-  await page
-    .getByRole('listitem')
-    .filter({ hasText: /^Users$/ })
-    .getByRole('link')
-    .click();
+  const sidebar = page.locator('[data-sidebar="sidebar"]');
+  const usersLink = sidebar.getByRole('link', { name: 'Users', exact: true });
+  if (!(await usersLink.isVisible())) {
+    await sidebar
+      .getByRole('button', { name: /access control/i })
+      .click();
+  }
+  await usersLink.click();
   await page.waitForURL(/\/dashboard\/users/, { timeout: 15_000 });
 }
 

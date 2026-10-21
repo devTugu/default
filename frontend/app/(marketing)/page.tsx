@@ -47,7 +47,9 @@ export default async function HomePage() {
         bookDemoHref={homeHeroBookDemoHref()}
         menuLabel={t('menu')}
       />
-      <AboutUs04 />
+      <section id="about">
+        <AboutUs04 />
+      </section>
       <MarketingFooter07 />
     </>
   );

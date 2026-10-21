@@ -139,7 +139,10 @@ const Navbar = ({
                             )}
                         </AnimatePresence>
                         <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-                            <DropdownMenuTrigger className="rounded-full bg-muted hover:bg-muted/80 h-auto p-2.5 gap-2 border border-border cursor-pointer">
+                            <DropdownMenuTrigger
+                                aria-label={menuLabel}
+                                className="rounded-full bg-muted hover:bg-muted/80 h-auto p-2.5 gap-2 border border-border cursor-pointer"
+                            >
                                 <Menu className="w-4 h-4 text-foreground cursor-pointer" />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent

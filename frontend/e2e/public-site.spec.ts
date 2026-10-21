@@ -28,9 +28,9 @@ test.describe('Public site', () => {
   test('mobile menu opens', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/');
-    await page.getByRole('button', { name: /open menu/i }).click();
+    await page.getByRole('button', { name: /menu|цэс/i }).click();
     await expect(
-      page.locator('header').getByRole('link', { name: /sign in|dashboard/i }),
+      page.locator('header').getByRole('link', { name: /get started|эхлэх|dashboard/i }),
     ).toBeVisible();
   });
 
@@ -39,13 +39,10 @@ test.describe('Public site', () => {
     await expect(page.locator('#about')).toBeVisible();
   });
 
-  test('header is transparent at top and solid after scroll on home', async ({
-    page,
-  }) => {
+  test('home hero shows primary call to action', async ({ page }) => {
     await page.goto('/');
-    const header = page.locator('header').first();
-    await expect(header).toHaveClass(/bg-transparent/);
-    await page.evaluate(() => window.scrollTo(0, 120));
-    await expect(header).toHaveClass(/bg-background/);
+    await expect(
+      page.getByRole('link', { name: /get started|эхлэх/i }).first(),
+    ).toBeVisible();
   });
 });

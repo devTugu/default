@@ -15,9 +15,9 @@ test.describe('i18n', () => {
     ]);
 
     await page.goto('/sign-in');
-    await expect(page.getByRole('heading', { name: 'Нэвтрэх' })).toBeVisible();
+    await expect(page.getByText('Нэвтрэх', { exact: true }).first()).toBeVisible();
     await expect(
-      page.getByRole('button', { name: 'Нэвтрэх', exact: true }),
+      page.locator('form').getByRole('button', { name: 'Нэвтрэх', exact: true }),
     ).toBeVisible();
   });
 
@@ -35,9 +35,9 @@ test.describe('i18n', () => {
     ]);
 
     await page.goto('/sign-in');
-    await expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
+    await expect(page.getByText('Sign in', { exact: true }).first()).toBeVisible();
     await expect(
-      page.getByRole('button', { name: 'Sign in', exact: true }),
+      page.locator('form').getByRole('button', { name: 'Sign in', exact: true }),
     ).toBeVisible();
   });
 
@@ -56,14 +56,14 @@ test.describe('i18n', () => {
 
     await page.goto('/');
     await expect(
-      page.getByText('NestJS Clean Architecture API болон Next.js FSD admin'),
+      page.getByRole('link', { name: 'Эхлэх', exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole('link', { name: /Нэвтрэх/ }),
+      page.getByRole('link', { name: 'Нууцлал', exact: true }),
     ).toBeVisible();
   });
 
-  test('shows CMS hero title in Mongolian when locale cookie is mn', async ({
+  test('shows Mongolian hero nav labels when locale cookie is mn', async ({
     page,
     context,
   }) => {
@@ -78,10 +78,10 @@ test.describe('i18n', () => {
 
     await page.goto('/');
     await expect(
-      page.getByRole('heading', {
-        level: 1,
-        name: /Сайн байна уу, би хөгжүүлэгч/,
-      }),
+      page.getByRole('link', { name: 'Нөхцөл', exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: 'Demo захиалах', exact: true }),
     ).toBeVisible();
   });
 });

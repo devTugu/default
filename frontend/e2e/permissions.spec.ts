@@ -6,7 +6,7 @@ test.describe('Permissions', () => {
     page,
   }) => {
     await loginAsViewer(page);
-    await expect(page.getByText('Access denied')).toBeVisible({
+    await expect(page.getByText('Access denied').first()).toBeVisible({
       timeout: 10_000,
     });
     await expect(page.getByText('DASHBOARD_READ')).toBeVisible();
@@ -17,7 +17,7 @@ test.describe('Permissions', () => {
   }) => {
     await loginAsViewer(page);
     await page.goto('/dashboard/audit-logs');
-    await expect(page.getByText('Access denied')).toBeVisible({
+    await expect(page.getByText('Access denied').first()).toBeVisible({
       timeout: 10_000,
     });
     await expect(page.getByText('AUDIT_READ')).toBeVisible();
