@@ -55,3 +55,31 @@ Local E2E (optional):
 4. `NEXT_SERVER_MODE=prod API_INTERNAL_URL=http://localhost:3001/api/v1 API_DIR=backend bash frontend/scripts/ci-e2e.sh`
 
 Playwright: `pnpm --filter frontend exec playwright install chromium`
+
+## Release CD (git tag)
+
+Workflow: [`.github/workflows/cd.yml`](../.github/workflows/cd.yml) — runs on tags `v*.*.*` (e.g. `v1.2.0`).
+
+| Step | What happens |
+|------|----------------|
+| Docker | Push `website-api` and `website-frontend` to **GHCR** (`ghcr.io/<repo>/…:<tag>`) |
+| Trivy | CRITICAL/HIGH scan on both images (fails CD if found) |
+| Helm | `lint` + `template` only — **chart is not uploaded** to a registry |
+| Cluster | `helm upgrade --install … --dry-run` — **no real deploy** from GitHub |
+
+After CD, you (or your cluster pipeline) install from the repo chart and set image tags:
+
+```bash
+helm upgrade --install website-staging backend/deploy/helm/website-stack \
+  --namespace website-staging --create-namespace \
+  --set api.image.repository=ghcr.io/<owner>/<repo>/website-api \
+  --set api.image.tag=v1.2.0 \
+  --set frontend.image.repository=ghcr.io/<owner>/<repo>/website-frontend \
+  --set frontend.image.tag=v1.2.0
+```
+
+Check `backend/deploy/helm/website-stack/values.yaml` for default image repos.
+
+**Railway:** optional per-app workflows under `backend/.github/workflows/` and `frontend/.github/workflows/` — separate from root CD.
+
+**Create a release:** tag + push → `git tag v1.2.0 && git push origin v1.2.0`

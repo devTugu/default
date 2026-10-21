@@ -87,4 +87,7 @@ for attempt in $(seq 1 60); do
   sleep 2
 done
 
+export API_INTERNAL_URL="${API_INTERNAL_URL:-http://localhost:3001/api/v1}"
+export NODE_ENV=production
+
 pnpm --filter frontend run test:e2e

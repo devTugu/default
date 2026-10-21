@@ -47,4 +47,4 @@ helm template website-test deploy/helm/website-stack \
 
 ## Related
 
-- [Deployment](../../docs/DEPLOYMENT.md)
+- [Deploy (env, CD, E2E)](../../../md/deploy.md)

@@ -26,7 +26,7 @@ pnpm audit
 
 ```bash
 pnpm test:e2e:backend
-pnpm test:e2e:frontend   # needs DB + backend .env; ci-e2e runs backend build (prebuilds workspace packages)
+pnpm test:e2e:frontend   # needs DB + build; Playwright uses `scripts/e2e-web-server.sh` (standalone, not `next start`)
 ```
 
 Production `node dist/main` resolves `@default/utils` / `@default/types` via **`require` → `dist/`** — `backend` `prebuild` compiles those before `nest build`.
