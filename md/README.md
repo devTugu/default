@@ -4,7 +4,7 @@ Coding rules: [`.cursor/rules/`](../.cursor/rules/) · Commands: [`CLAUDE.md`](.
 
 | Doc | When to read |
 |-----|----------------|
-| [fork.md](fork.md) | After fork — brand, routes, add a domain, checklists |
+| [fork.md](fork.md) | After fork — brand, `generate:domain`, upgrade merges |
 | [architecture.md](architecture.md) | Layers, modules, data flow |
 | [deploy.md](deploy.md) | Production env, Docker/Helm, local E2E |
 | [security.md](security.md) | Auth, BFF, secrets |

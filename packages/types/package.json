@@ -6,73 +6,94 @@
     "./user": {
       "types": "./src/user/index.ts",
       "require": "./dist/user/index.js",
-      "import": "./dist/user/index.js",
-      "default": "./dist/user/index.js"
+      "import": "./src/user/index.ts",
+      "default": "./src/user/index.ts"
     },
     "./role": {
       "types": "./src/role/index.ts",
       "require": "./dist/role/index.js",
-      "import": "./dist/role/index.js",
-      "default": "./dist/role/index.js"
+      "import": "./src/role/index.ts",
+      "default": "./src/role/index.ts"
     },
     "./permission": {
       "types": "./src/permission/index.ts",
       "require": "./dist/permission/index.js",
-      "import": "./dist/permission/index.js",
-      "default": "./dist/permission/index.js"
+      "import": "./src/permission/index.ts",
+      "default": "./src/permission/index.ts"
     },
     "./auth": {
       "types": "./src/auth/index.ts",
       "require": "./dist/auth/index.js",
-      "import": "./dist/auth/index.js",
-      "default": "./dist/auth/index.js"
+      "import": "./src/auth/index.ts",
+      "default": "./src/auth/index.ts"
     },
     "./common": {
       "types": "./src/common/index.ts",
       "require": "./dist/common/index.js",
-      "import": "./dist/common/index.js",
-      "default": "./dist/common/index.js"
+      "import": "./src/common/index.ts",
+      "default": "./src/common/index.ts"
     },
     "./site-settings": {
       "types": "./src/site-settings/index.ts",
       "require": "./dist/site-settings/index.js",
-      "import": "./dist/site-settings/index.js",
-      "default": "./dist/site-settings/index.js"
+      "import": "./src/site-settings/index.ts",
+      "default": "./src/site-settings/index.ts"
     },
     "./dashboard": {
       "types": "./src/dashboard/index.ts",
       "require": "./dist/dashboard/index.js",
-      "import": "./dist/dashboard/index.js",
-      "default": "./dist/dashboard/index.js"
+      "import": "./src/dashboard/index.ts",
+      "default": "./src/dashboard/index.ts"
     },
     "./audit-log": {
       "types": "./src/audit-log/index.ts",
       "require": "./dist/audit-log/index.js",
-      "import": "./dist/audit-log/index.js",
-      "default": "./dist/audit-log/index.js"
+      "import": "./src/audit-log/index.ts",
+      "default": "./src/audit-log/index.ts"
     },
     "./media": {
       "types": "./src/media/index.ts",
       "require": "./dist/media/index.js",
-      "import": "./dist/media/index.js",
-      "default": "./dist/media/index.js"
+      "import": "./src/media/index.ts",
+      "default": "./src/media/index.ts"
     },
     "./package.json": "./package.json"
   },
   "typesVersions": {
     "*": {
-      "user": ["./src/user/index.ts"],
-      "role": ["./src/role/index.ts"],
-      "permission": ["./src/permission/index.ts"],
-      "auth": ["./src/auth/index.ts"],
-      "common": ["./src/common/index.ts"],
-      "site-settings": ["./src/site-settings/index.ts"],
-      "dashboard": ["./src/dashboard/index.ts"],
-      "audit-log": ["./src/audit-log/index.ts"],
-      "media": ["./src/media/index.ts"]
+      "user": [
+        "./src/user/index.ts"
+      ],
+      "role": [
+        "./src/role/index.ts"
+      ],
+      "permission": [
+        "./src/permission/index.ts"
+      ],
+      "auth": [
+        "./src/auth/index.ts"
+      ],
+      "common": [
+        "./src/common/index.ts"
+      ],
+      "site-settings": [
+        "./src/site-settings/index.ts"
+      ],
+      "dashboard": [
+        "./src/dashboard/index.ts"
+      ],
+      "audit-log": [
+        "./src/audit-log/index.ts"
+      ],
+      "media": [
+        "./src/media/index.ts"
+      ]
     }
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "lint": "tsc -p tsconfig.json --noEmit",

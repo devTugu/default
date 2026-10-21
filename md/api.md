@@ -34,5 +34,6 @@ Localized fields: `{ "en": "...", "mn": "..." }`.
 | Site settings | `/admin/site-settings` |
 | Dashboard | `/admin/dashboard` |
 | Media | `/admin/media` |
+| Audit logs | `/admin/audit-logs` |
 
 OpenAPI: `/api/docs` when `SWAGGER_ENABLED=true`.

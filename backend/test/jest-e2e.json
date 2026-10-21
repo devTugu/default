@@ -28,7 +28,11 @@
     "^@application/(.*)$": "<rootDir>/../src/application/$1",
     "^@infrastructure/(.*)$": "<rootDir>/../src/infrastructure/$1",
     "^@presentation/(.*)$": "<rootDir>/../src/presentation/$1",
-    "^@shared/(.*)$": "<rootDir>/../src/shared/$1"
+    "^@shared/(.*)$": "<rootDir>/../src/shared/$1",
+    "^@default/utils/client-ip$": "<rootDir>/../../packages/utils/src/client-ip.ts",
+    "^@default/utils/user-agent$": "<rootDir>/../../packages/utils/src/user-agent/device-label.ts",
+    "^@default/utils/(.*)$": "<rootDir>/../../packages/utils/src/$1.ts",
+    "^@default/types/(.*)$": "<rootDir>/../../packages/types/src/$1"
   },
   "transformIgnorePatterns": [
     "node_modules/.pnpm/(?!(uuid@|openid-client@|oauth4webapi@))",

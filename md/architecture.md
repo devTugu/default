@@ -26,6 +26,7 @@ domain/ → application/ → presentation/
 | SiteSetting | Singleton CMS-style settings |
 | Media | S3-compatible upload |
 | Dashboard | Admin stats |
+| Audit | HTTP audit trail + admin list |
 
 Drizzle: `backend/src/infrastructure/database/drizzle/`, migrations in `drizzle/migrations/`.
 

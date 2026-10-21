@@ -4,9 +4,10 @@
 
 ### Added
 
-- Golden template tooling: `pnpm generate:domain`, `pnpm fork:check`, `pnpm fork:rename-scope`
+- Golden template tooling: `pnpm generate:domain` (Drizzle + repository + admin route), `pnpm fork:check`, `pnpm fork:rename-scope`
 - Consolidated docs under `md/` (fork, deploy, quality)
 - CI: required `pnpm audit --audit-level=high`
+- Root `pnpm quality` script aligned with local pre-merge gates
 
 ### Changed
 

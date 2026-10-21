@@ -1,6 +1,14 @@
 # Quality gates
 
-Run before merge or release (matches CI `quality` job):
+Run before merge or release.
+
+**One command (unit gates, no e2e):**
+
+```bash
+pnpm quality
+```
+
+**Same as CI `quality` job:**
 
 ```bash
 pnpm generate:tokens   # if tokens changed
@@ -11,6 +19,8 @@ pnpm test
 pnpm --filter backend test:cov
 pnpm audit
 ```
+
+CI also runs backend + Playwright e2e and Helm lint — see `.github/workflows/ci.yml`.
 
 Backend Jest: workspace packages need `moduleNameMapper` in `backend/package.json` for `@default/utils/*` and `@default/types/*`.
 

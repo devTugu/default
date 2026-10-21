@@ -31,23 +31,19 @@ pnpm fork:rename-scope -- --scope @acme --apply  # rename @default → @acme
 |------|---------|
 | `/` | Marketing home |
 | `/sign-in` | Login (BFF cookies) |
-| `/dashboard/*` | Admin (users, roles, permissions, site-settings, security) |
+| `/dashboard/*` | Admin (users, roles, permissions, site-settings, security, audit) |
 
 Constants: `frontend/src/shared/config/routes.ts`.
 
-## Add a domain (8 steps)
+## Add a domain
 
-0. **Scaffold (optional):** `pnpm generate:domain -- --name <kebab-case>` → types, api, hooks stub.
-1. **Name** — kebab-case folders; permission in `permissions.const.ts`.
-2. **Contract** — `packages/types/src/<domain>/` → `@default/types/<domain>`.
-3. **Client** — `packages/api`, `packages/hooks` (React Query only in hooks).
-4. **Backend domain/application** — entities + use cases.
-5. **Backend infra + HTTP** — Drizzle repo, controller, shared Zod DTOs.
-6. **Wire** — Nest module, permissions, seed.
-7. **UI** — `frontend/src/features/<domain>/`, thin `app/dashboard/.../page.tsx`, sidebar.
-8. **Gate** — `pnpm lint && pnpm typecheck && pnpm test && pnpm audit`.
+0. **Scaffold:** `pnpm generate:domain -- --name <kebab-case>` — types → api → hooks → Drizzle table + repository → Nest `GET /admin/<name>` → BFF + `/dashboard/<name>` + `${NAME}_READ` + sidebar/i18n.
+1. **Migrate:** `pnpm --filter backend run db:generate` → `migration:run` → `seed`.
+2. **Product logic** — extend table/port/use cases; domain entities when rules grow.
+3. **UI** — data table, forms in `frontend/src/features/<domain>/`.
+4. **Gate** — `pnpm quality && pnpm audit`.
 
-**Copy pattern:** existing module e.g. users or site-settings (same layer layout).
+**Copy pattern:** users, site-settings, or audit-logs (list + permissions).
 
 ### Vertical module ideas (you build these)
 
@@ -70,7 +66,7 @@ Constants: `frontend/src/shared/config/routes.ts`.
 
 Data flow: `@default/types` → `@default/api` → `@default/hooks` → UI. No raw Nest `fetch` in features.
 
-**Included:** auth, MFA/OIDC, users/roles/permissions, site-settings, media, dashboard.  
+**Included:** auth, MFA/OIDC, users/roles/permissions, site-settings, media, dashboard, audit log read.  
 **Not included:** billing, multi-org UI, feature flags, full CMS.
 
 ## Production checklist
@@ -83,4 +79,7 @@ Details: [deploy.md](deploy.md), [security.md](security.md).
 
 ## Syncing template updates
 
-Tag releases on upstream (`CHANGELOG.md`). Merge platform files (auth, CI, shared packages); keep your `packages/types/src/<product>/` and features. Run full [quality.md](quality.md) after merge.
+1. Watch upstream [CHANGELOG.md](../CHANGELOG.md) and git tags (`v1.x.x`).
+2. Merge **platform** changes: `.github/`, `.cursor/rules/`, `packages/config/`, auth/BFF, CI scripts, shared packages you did not fork heavily.
+3. Keep **product** changes: your `packages/types/src/<product>/`, `frontend/src/features/<product>/`, Drizzle migrations for your tables.
+4. After merge: `pnpm install`, `pnpm quality`, `pnpm test:e2e:backend` (or full CI locally), fix conflicts in `permissions.const.ts` / seed only if both sides added codes.

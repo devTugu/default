@@ -1,10 +1,10 @@
 # Website Template
 
-Full-stack **golden template** — regulated-enterprise-grade **platform skeleton** (auth, RBAC, audit, BFF, CI gates). Fork it, then add vertical domains (marketplace, booking, merchant). Not a Booking/Shopify/Upwork clone out of the box.
+Full-stack **golden template** — production-shaped **platform skeleton** (auth, RBAC, BFF, CI gates). Fork it, then add vertical domains (marketplace, booking, merchant). Not a Booking/Shopify/Upwork clone out of the box.
 
 | Package | Role |
 |---------|------|
-| [`backend/`](backend/) | NestJS API — auth, RBAC, site-settings, media, dashboard, audit |
+| [`backend/`](backend/) | NestJS API — auth, RBAC, site-settings, media, dashboard, audit logs |
 | [`frontend/`](frontend/) | Next.js — public home + admin dashboard (FSD + BFF) |
 | [`packages/types`](packages/types) | `@default/types` — shared Zod schemas |
 | [`packages/api`](packages/api) | `@default/api` — HTTP client + domain APIs |
@@ -16,7 +16,19 @@ Full-stack **golden template** — regulated-enterprise-grade **platform skeleto
 
 Agent rules: [`.cursor/rules/`](.cursor/rules/), [`CLAUDE.md`](CLAUDE.md).
 
-**Who it is for:** a solo developer (or small team) who wants a production-shaped starting point — JWT auth, permissions, admin UI, and a marketing home — without shipping a full CMS.
+**Who it is for:** a solo developer (or small team) who wants JWT auth, permissions, admin UI, and a marketing home — without shipping a full CMS.
+
+## Included vs not
+
+| Included | Not included (you add) |
+|----------|-------------------------|
+| Auth, MFA/OIDC, sessions | Billing / payments |
+| Users, roles, permissions | Multi-org admin UI |
+| Site settings, media upload | Feature flags |
+| Dashboard stats, audit log read | Full CMS / vertical modules |
+| Marketing home, i18n shell | |
+
+Details: [md/fork.md](md/fork.md).
 
 ## Requirements
 
@@ -50,7 +62,7 @@ pnpm dev
 ## What you get
 
 - Auth: JWT + refresh, optional MFA / OIDC
-- Admin: users, roles, permissions, site-settings, audit, security
+- Admin: users, roles, permissions, site-settings, security, audit logs
 - Public: `/` (hero + about from site-settings)
 - Stack: NestJS Clean Architecture + Drizzle, Next.js FSD + BFF cookies
 
@@ -61,9 +73,10 @@ After fork: [md/fork.md](md/fork.md).
 | Script | Description |
 |--------|-------------|
 | `pnpm dev` | Backend + frontend (Turbo) |
-| `pnpm build` / `lint` / `typecheck` / `test` | Quality gates (`^build` via Turbo) |
+| `pnpm quality` | typecheck + lint + test + build (local pre-merge) |
+| `pnpm build` / `lint` / `typecheck` / `test` | Same gates as CI unit job |
 | `pnpm audit` | High+ severity dependency audit (CI) |
-| `pnpm generate:domain -- --name <kebab>` | Scaffold types → api → hooks |
+| `pnpm generate:domain -- --name <kebab>` | Full stack scaffold (Drizzle + API + admin route) |
 | `pnpm fork:check` | Fork/staging readiness smoke |
 | `pnpm fork:rename-scope -- --scope @acme` | Dry-run rename `@default` (add `--apply`) |
 | `pnpm generate:tokens` | Regenerate `@default/design-tokens` CSS/theme |
