@@ -7,7 +7,7 @@ alwaysApply: true
 
 Brand-agnostic auth/admin starter. Stack: pnpm workspace (+ Turbo). Package scope: `@default/*`.
 
-Product & fork docs: [`md/README.md`](../../md/README.md) (`md/product.md`, `md/architecture.md`, `md/fork-guide.md`).
+Product & fork docs: [`md/README.md`](../../md/README.md) (`md/fork.md`, `md/architecture.md`).
 
 ## Layout
 

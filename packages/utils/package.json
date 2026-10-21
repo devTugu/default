@@ -4,49 +4,49 @@
   "private": true,
   "exports": {
     "./dates": {
-      "types": "./dist/dates.d.ts",
+      "types": "./src/dates.ts",
       "require": "./dist/dates.js",
       "import": "./src/dates.ts",
       "default": "./src/dates.ts"
     },
     "./reading-time": {
-      "types": "./dist/reading-time.d.ts",
+      "types": "./src/reading-time.ts",
       "require": "./dist/reading-time.js",
       "import": "./src/reading-time.ts",
       "default": "./src/reading-time.ts"
     },
     "./color": {
-      "types": "./dist/color.d.ts",
+      "types": "./src/color.ts",
       "require": "./dist/color.js",
       "import": "./src/color.ts",
       "default": "./src/color.ts"
     },
     "./localized": {
-      "types": "./dist/localized.d.ts",
+      "types": "./src/localized.ts",
       "require": "./dist/localized.js",
       "import": "./src/localized.ts",
       "default": "./src/localized.ts"
     },
     "./slug": {
-      "types": "./dist/slug.d.ts",
+      "types": "./src/slug.ts",
       "require": "./dist/slug.js",
       "import": "./src/slug.ts",
       "default": "./src/slug.ts"
     },
     "./user-agent": {
-      "types": "./dist/user-agent/device-label.d.ts",
+      "types": "./src/user-agent/device-label.ts",
       "require": "./dist/user-agent/device-label.js",
       "import": "./src/user-agent/device-label.ts",
       "default": "./src/user-agent/device-label.ts"
     },
     "./api-error-message": {
-      "types": "./dist/api-error-message.d.ts",
+      "types": "./src/api-error-message.ts",
       "require": "./dist/api-error-message.js",
       "import": "./src/api-error-message.ts",
       "default": "./src/api-error-message.ts"
     },
     "./client-ip": {
-      "types": "./dist/client-ip.d.ts",
+      "types": "./src/client-ip.ts",
       "require": "./dist/client-ip.js",
       "import": "./src/client-ip.ts",
       "default": "./src/client-ip.ts"
@@ -55,13 +55,13 @@
   },
   "typesVersions": {
     "*": {
-      "dates": ["./dist/dates.d.ts"],
-      "reading-time": ["./dist/reading-time.d.ts"],
-      "color": ["./dist/color.d.ts"],
-      "localized": ["./dist/localized.d.ts"],
-      "slug": ["./dist/slug.d.ts"],
-      "user-agent": ["./dist/user-agent/device-label.d.ts"],
-      "api-error-message": ["./dist/api-error-message.d.ts"],
+      "dates": ["./src/dates.ts"],
+      "reading-time": ["./src/reading-time.ts"],
+      "color": ["./src/color.ts"],
+      "localized": ["./src/localized.ts"],
+      "slug": ["./src/slug.ts"],
+      "user-agent": ["./src/user-agent/device-label.ts"],
+      "api-error-message": ["./src/api-error-message.ts"],
       "client-ip": ["./src/client-ip.ts"]
     }
   },

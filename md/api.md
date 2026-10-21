@@ -1,51 +1,38 @@
-# API reference
+# API
 
-Base URL: `/api/v1`
+Base: `/api/v1`
 
 ## Envelope
 
 ```json
-{
-  "success": true,
-  "data": {},
-  "timestamp": "2026-10-06T12:00:00.000Z",
-  "path": "/api/v1/site-settings",
-  "requestId": "uuid"
-}
+{ "success": true, "data": {}, "timestamp": "...", "path": "...", "requestId": "..." }
 ```
 
-Localized fields use `{ "en": "...", "mn": "..." }` where applicable.
+Localized fields: `{ "en": "...", "mn": "..." }`.
 
 ## Public
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/health/live` | Liveness |
-| GET | `/health/ready` | Readiness |
-| GET | `/site-settings` | Hero, header, footer, SEO, theme, about |
+| Method | Path |
+|--------|------|
+| GET | `/health/live`, `/health/ready` |
+| GET | `/site-settings` |
 
 ## Auth
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/auth/login` | Email/password → tokens |
-| POST | `/auth/refresh` | Rotate tokens |
-| POST | `/auth/logout` | Revoke refresh |
-| GET | `/auth/me` | Current user + permissions |
-| * | `/auth/mfa/*`, `/auth/oauth/*` | Optional MFA / OIDC |
+| Method | Path |
+|--------|------|
+| POST | `/auth/login`, `/auth/refresh`, `/auth/logout` |
+| GET | `/auth/me` |
+| * | `/auth/mfa/*`, `/auth/oauth/*` |
 
-## Admin
-
-Require `Authorization: Bearer <accessToken>` and permissions.
+## Admin (Bearer + permissions)
 
 | Area | Paths |
 |------|-------|
-| Users | `/users` (+ `/export`, `/anonymize`) |
-| Roles | `/roles` |
-| Permissions | `/permissions` |
+| Users | `/users` (+ export/anonymize) |
+| Roles / permissions | `/roles`, `/permissions` |
 | Site settings | `/admin/site-settings` |
 | Dashboard | `/admin/dashboard` |
-| Audit | `/admin/audit-logs` |
 | Media | `/admin/media` |
 
 OpenAPI: `/api/docs` when `SWAGGER_ENABLED=true`.

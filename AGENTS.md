@@ -4,7 +4,9 @@ Coding rules live in `.cursor/rules/`. Start with `CLAUDE.md` for the rule index
 
 Do not follow outdated TypeORM / mega-`.cursorrules` tutorials — this backend uses **Drizzle** + Clean Architecture; frontend uses **FSD + BFF**.
 
-Backend unit tests: workspace imports (`@default/utils/*`, `@default/types/*`) need explicit Jest `moduleNameMapper` entries — see `md/design-system/quality-gates.md`.
+Backend unit tests: workspace imports (`@default/utils/*`, `@default/types/*`) need explicit Jest `moduleNameMapper` entries — see `md/quality.md`.
+
+New domains: `md/fork.md` and `pnpm generate:domain -- --name <kebab-case>`.
 
 Shared packages use the `@default/*` scope. Client data: `@default/types` → `@default/api` → `@default/hooks` → UI.
 

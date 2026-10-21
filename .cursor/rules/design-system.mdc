@@ -44,4 +44,4 @@ New primitive: `packages/ui/src/primitives/<name>.tsx`, CSS vars + `cva`/`cn`, t
 - Tailwind: app shell in `frontend/app/globals.css` (`@source` primitives + `frontend/src/**`); docs-only scan in `frontend/app/docs/docs.css` (`composed/**`, `default-space/**`).
 - Optional heavy packages: `@default/ui-charts`, `@default/ui-code`, `@default/ui-motion-3d` (re-exported from `@default/ui`).
 
-More: [`md/design-system/`](../../md/design-system/).
+Quality gates: [`md/quality.md`](../../md/quality.md).

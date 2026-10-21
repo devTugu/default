@@ -1,75 +1,45 @@
 # Security
 
-Auth/admin security for this template. Not a SOC 2 / ISO certification claim.
+Template security notes — not a certification claim.
 
-## Dependency audit (CI)
-
-CI runs `pnpm audit --audit-level=high` (must exit 0). Root `package.json` uses `pnpm.overrides` for patched transitive versions and `pnpm.auditConfig.ignoreGhsas` only where upstream has **no fix** yet:
-
-| Advisory | Package | Mitigation |
-|----------|---------|------------|
-| GHSA-vfj7-8cjw-p6xm | `braces` (via ESLint `micromatch`) | Dev-only; no patched release — tracked ignore, remove when upstream updates |
-
-Run locally: `pnpm audit` (root script alias for `--audit-level=high`).
-
-## Backend authentication
+## Backend auth
 
 | Mechanism | Details |
 |-----------|---------|
 | JWT access | `JWT_ACCESS_EXPIRES_IN` (default `15m`) |
 | Refresh | Rotated; Redis blacklist on logout |
-| Login throttle | `LOGIN_THROTTLE_TTL` / `LOGIN_THROTTLE_LIMIT` |
-| Account lockout | `LOGIN_MAX_FAILED_ATTEMPTS` / `LOGIN_LOCKOUT_MINUTES` |
-| Password | bcrypt; min 8 + upper + lower + digit |
+| Throttle / lockout | `LOGIN_THROTTLE_*`, `LOGIN_MAX_FAILED_ATTEMPTS` |
+| Password | bcrypt; policy in shared types |
 
-Secrets: `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET` (min 32 chars).
+Secrets: `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET` (min 32 chars), `MFA_ENCRYPTION_KEY`.
 
 ## MFA / OIDC
 
-| Env | Purpose |
-|-----|---------|
-| `MFA_ENCRYPTION_KEY` | Encrypt TOTP secrets |
-| `MFA_ISSUER` | Authenticator label |
-| `MFA_REQUIRED_ROLES` | Roles that must enroll MFA |
-| `OAUTH_*` | Optional OIDC (`OAUTH_ENABLED=true`) |
+`MFA_ISSUER`, `MFA_REQUIRED_ROLES`, `OAUTH_*` when `OAUTH_ENABLED=true`.
 
 ## Authorization
 
-Permission codes on admin routes (`PermissionsGuard`). Cached in Redis when enabled.
+Permission codes on admin routes (`PermissionsGuard`); Redis cache when enabled.
 
-## Audit & GDPR
+## BFF (frontend)
 
-- Mutating admin actions → `audit_logs`
-- Retention: `AUDIT_PURGE_ENABLED`, `AUDIT_RETENTION_DAYS`
-- `GET /users/:id/export` (`USER_READ`) — profile, roles, OAuth metadata, MFA flag, audit events
-- `POST /users/:id/anonymize` (`USER_DELETE`) — clear PII/secrets/tokens; soft-delete
-- Admin-gated only (no end-user DSR portal)
+- httpOnly cookies for tokens — not `localStorage`
+- `/api/backend/*` proxy with JWT from cookie
+- CSRF on state-changing BFF routes (`GET /api/auth/csrf`)
+- Path allowlist: `frontend/src/shared/config/bff-allowlist.ts`
+- Dashboard guard: `frontend/src/processes/proxy.ts`
 
-## Frontend session (BFF)
+| Variable | Scope |
+|----------|--------|
+| `API_INTERNAL_URL` | Server only — required in prod |
+| `NEXT_PUBLIC_*` | Display only — no secrets |
 
-1. `/sign-in` → `POST /api/auth/login` → Nest login
-2. BFF sets httpOnly cookies (access + refresh + session hint)
-3. Admin API via `/api/backend/*` — BFF attaches JWT from cookie
-4. `POST /api/auth/refresh` rotates tokens; MFA inline on sign-in
+Client IP for upstream: `frontend/src/shared/lib/bff-client-meta.ts`.
 
-Tokens are **never** in `localStorage`.
+## Dependencies
 
-**Allowlist & CSRF**
+CI: `pnpm audit` (`--audit-level=high`, exit 0). Overrides in root `package.json` → `pnpm.overrides`.
 
-- Proxy paths: `frontend/src/shared/config/bff-allowlist.ts` (unknown paths → 403)
-- State-changing BFF calls need `X-CSRF-Token` from `GET /api/auth/csrf`
+## Operator (your infra)
 
-**Session guard:** `frontend/src/processes/proxy.ts` guards `/dashboard/*` (redirect to `/sign-in` when unauthenticated).
-
-| Variable | Scope | Purpose |
-|----------|-------|---------|
-| `API_INTERNAL_URL` | Server | Nest base — required in production |
-| `NEXT_PUBLIC_*` | Client | Display names only — no secrets |
-
-Optional OIDC: `/api/auth/oauth/*`, `/oauth/callback`.
-
-## Compliance scaffold
-
-In-app: RBAC, JWT/MFA/OIDC, BFF cookies, lockout, audit, GDPR stubs, throttle, validation, health, optional Sentry/OTEL.
-
-Operator (your infra): TLS termination, WAF, pen-test, SIEM, residency, backup encryption, legal hold.
+TLS, WAF, backups, SIEM, key rotation, legal/privacy policy — outside this repo.

@@ -66,7 +66,7 @@ fi
 
 echo ""
 if [[ "$failures" -gt 0 ]]; then
-  echo "$failures check(s) failed. See md/fork-guide.md."
+  echo "$failures check(s) failed. See md/fork.md."
   exit 1
 fi
 

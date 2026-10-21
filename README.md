@@ -1,6 +1,6 @@
 # Website Template
 
-Full-stack **auth and admin starter** for a product site or internal app. Fork it, then add your domain modules on top (billing and multi-org UI are not included).
+Full-stack **golden template** — regulated-enterprise-grade **platform skeleton** (auth, RBAC, audit, BFF, CI gates). Fork it, then add vertical domains (marketplace, booking, merchant). Not a Booking/Shopify/Upwork clone out of the box.
 
 | Package | Role |
 |---------|------|
@@ -54,7 +54,7 @@ pnpm dev
 - Public: `/` (hero + about from site-settings)
 - Stack: NestJS Clean Architecture + Drizzle, Next.js FSD + BFF cookies
 
-After fork, add your own entities, pages, and APIs under the same layers. See [md/fork-guide.md](md/fork-guide.md).
+After fork: [md/fork.md](md/fork.md).
 
 ## Scripts
 
@@ -62,6 +62,10 @@ After fork, add your own entities, pages, and APIs under the same layers. See [m
 |--------|-------------|
 | `pnpm dev` | Backend + frontend (Turbo) |
 | `pnpm build` / `lint` / `typecheck` / `test` | Quality gates (`^build` via Turbo) |
+| `pnpm audit` | High+ severity dependency audit (CI) |
+| `pnpm generate:domain -- --name <kebab>` | Scaffold types → api → hooks |
+| `pnpm fork:check` | Fork/staging readiness smoke |
+| `pnpm fork:rename-scope -- --scope @acme` | Dry-run rename `@default` (add `--apply`) |
 | `pnpm generate:tokens` | Regenerate `@default/design-tokens` CSS/theme |
 | `pnpm test:e2e:backend` | Nest e2e (needs DB) |
 | `pnpm test:e2e:frontend` | Playwright |
@@ -69,7 +73,7 @@ After fork, add your own entities, pages, and APIs under the same layers. See [m
 
 ## Docs
 
-- [md/](md/) — product overview, fork guide, architecture, API, security, deployment, design-system notes
+- [md/](md/) — fork, architecture, deploy, security, [CHANGELOG](CHANGELOG.md)
 - [Helm](backend/deploy/helm/README.md)
 
 ## License
