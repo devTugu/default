@@ -41,15 +41,38 @@ export function generateTotp(secret: string): string {
   return authenticator.generate(secret);
 }
 
-/** Restores admin to password-only login after MFA E2E (avoids breaking later specs). */
-export async function disableAdminMfa(
+async function disableMfaWithActiveSession(
   page: Page,
   secret: string,
-  email: string = adminEmail,
-  password: string = adminPassword,
+): Promise<boolean> {
+  try {
+    const csrf = await fetchCsrf(page);
+    const disableRes = await page.request.post('/api/backend/auth/mfa/disable', {
+      headers: { 'x-csrf-token': csrf, 'Content-Type': 'application/json' },
+      data: { code: generateTotp(secret) },
+    });
+    if (!disableRes.ok()) {
+      return false;
+    }
+    await page.request.post('/api/auth/logout', {
+      headers: { 'x-csrf-token': csrf },
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function signInThroughMfaIfNeeded(
+  page: Page,
+  secret: string,
+  email: string,
+  password: string,
 ): Promise<void> {
+  await page.context().clearCookies();
   await page.goto('/sign-in');
   const form = page.locator('form').first();
+  await expect(form.getByLabel('Email')).toBeVisible();
   await form.getByLabel('Email').fill(email);
   await form.getByLabel('Password').fill(password);
   await form.getByRole('button', { name: /^(Sign in|Нэвтрэх)$/, exact: true }).click();
@@ -61,15 +84,22 @@ export async function disableAdminMfa(
   }
 
   await expect(page).toHaveURL(/\/dashboard/, { timeout: 30_000 });
+}
 
-  const csrf = await fetchCsrf(page);
-  const disableRes = await page.request.post('/api/backend/auth/mfa/disable', {
-    headers: { 'x-csrf-token': csrf, 'Content-Type': 'application/json' },
-    data: { code: generateTotp(secret) },
-  });
-  expect(disableRes.ok()).toBeTruthy();
+/** Restores admin to password-only login after MFA E2E (avoids breaking later specs). */
+export async function disableAdminMfa(
+  page: Page,
+  secret: string,
+  email: string = adminEmail,
+  password: string = adminPassword,
+): Promise<void> {
+  if (page.url().includes('/dashboard')) {
+    if (await disableMfaWithActiveSession(page, secret)) {
+      return;
+    }
+  }
 
-  await page.request.post('/api/auth/logout', {
-    headers: { 'x-csrf-token': csrf },
-  });
+  await signInThroughMfaIfNeeded(page, secret, email, password);
+  const disabled = await disableMfaWithActiveSession(page, secret);
+  expect(disabled).toBeTruthy();
 }

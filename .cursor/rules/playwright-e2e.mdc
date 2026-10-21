@@ -24,7 +24,8 @@ pnpm --filter frontend test:e2e
 - Dashboard sidebar: **Users / Roles / Permissions** sit under **Access control** — use `e2e/helpers/dashboard-nav.ts`
 - GDPR export JSON shape: `{ exportedAt, user: { email, … }, auditEvents }`; anonymize soft-deletes — assert toast + row gone, not `@anonymized.local` in grid
 - `/dashboard/audit-logs` redirects to `/dashboard/site-settings?tab=audit`; viewer without site-settings/audit perms sees generic access denied (no `AUDIT_READ` label)
-- `mfa.spec` must call `disableAdminMfa` in `finally` — enrollment persists on the shared admin user
+- MFA E2E lives in `e2e/zz-mfa.spec.ts` (runs last); `finally` must call `disableAdminMfa` — enrollment persists on the shared admin user
+- Logout via `[data-sidebar="footer"] [data-slot="dropdown-menu-trigger"]`, not `getByRole('button', { email })` (users table duplicates)
 - Keep tests independent; no shared mutable state
 - After changing UI flows, update/add matching e2e specs and **run** them
 

@@ -28,9 +28,11 @@ test.describe('Public site', () => {
   test('mobile menu opens', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto('/');
-    const menuTrigger = page
-      .locator('header')
-      .getByRole('button', { name: /menu|цэс/i });
+    const header = page.locator('header');
+    const menuTrigger = header
+      .getByRole('button', { name: /menu|цэс/i })
+      .or(header.locator('[data-slot="dropdown-menu-trigger"]').first());
+    await expect(menuTrigger).toBeVisible();
     await menuTrigger.click();
     await expect(
       page.getByRole('link', { name: /get started|эхлэх|dashboard/i }).last(),

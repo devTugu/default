@@ -48,7 +48,8 @@ export async function loginAsViewer(page: Page): Promise<void> {
 export { goToRoles, goToSiteSettings, goToUsers } from './dashboard-nav';
 
 export async function logoutAsAdmin(page: Page): Promise<void> {
-  await page.getByRole('button', { name: adminEmail }).click();
+  const footer = page.locator('[data-sidebar="footer"]');
+  await footer.locator('[data-slot="dropdown-menu-trigger"]').click();
   await page.getByRole('menuitem', { name: /sign out/i }).click();
   await expect(page).toHaveURL('/', { timeout: 10_000 });
 }
